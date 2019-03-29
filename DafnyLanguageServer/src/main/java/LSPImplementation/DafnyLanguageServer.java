@@ -13,7 +13,7 @@ public class DafnyLanguageServer implements LanguageServer, LanguageClientAware 
 
 
     public DafnyLanguageServer() {
-        dafnyTextDokumentService = new DafnyTextDokumentService();
+        dafnyTextDokumentService = new DafnyTextDokumentService(this);
         dafnyWorkspaceService = new DafnyWorkspaceService();
     }
 
@@ -22,7 +22,7 @@ public class DafnyLanguageServer implements LanguageServer, LanguageClientAware 
         InitializeResult result = new InitializeResult(new ServerCapabilities());
         result.getCapabilities().setCodeActionProvider(Boolean.FALSE);
         result.getCapabilities().setDefinitionProvider(Boolean.FALSE);
-        result.getCapabilities().setHoverProvider(Boolean.FALSE);
+        result.getCapabilities().setHoverProvider(Boolean.TRUE);
         result.getCapabilities().setReferencesProvider(Boolean.FALSE);
         result.getCapabilities().setTextDocumentSync(TextDocumentSyncKind.Full);
         return CompletableFuture.supplyAsync(() -> result);

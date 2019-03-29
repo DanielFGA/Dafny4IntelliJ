@@ -12,6 +12,6 @@ public class DafnyPreloadingActivity extends PreloadingActivity {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File("C:\\Users\\Daniel Figia\\IdeaProjects\\DafnyPlugin4Intellij\\Server.jar");
         System.out.println(file.exists());
-        IntellijLanguageClient.addServerDefinition(new RawCommandServerDefinition("dfy", new String[]{"java", "-jar", "C:\\Users\\Daniel Figia\\IdeaProjects\\DafnyPlugin4Intellij\\Server3.jar"}));
+        IntellijLanguageClient.addServerDefinition(new RawCommandServerDefinition("dfy", new String[]{"java", "-jar", "C:\\Users\\Daniel Figia\\IdeaProjects\\DafnyPlugin4Intellij\\Server4.jar"}));
     }
 }
