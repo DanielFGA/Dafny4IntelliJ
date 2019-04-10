@@ -26,6 +26,11 @@
                                 id="LSPInspectionProvider"/>
     </extensions>
 
+    <!--DafnyLanguage -->
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="DafnyLanguage.DafnyFileTypeFactory"/>
+    </extensions>
+
     <actions>
         <!-- Add your actions here -->
     </actions>

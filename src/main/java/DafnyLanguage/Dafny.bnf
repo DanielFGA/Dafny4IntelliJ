@@ -1,0 +1,827 @@
+{
+  parserClass="com.simpleplugin.parser.DafnyParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Dafny"
+  psiImplClassSuffix="Impl"
+  psiPackage="DafnyLanguage.psi"
+  psiImplPackage="DafnyLanguage.psi.impl"
+
+  elementTypeHolderClass="DafnyLanguage.psi.DafnyType"
+  elementTypeClass="DafnyLanguage.psi.DafnyElementType"
+  tokenTypeClass="DafnyLanguage.psi.DafnyTokenType"
+
+  tokens = [
+
+    ident =  "regexp:[a-zA-Z'_?\"][a-zA-Z'_?\"0-9]*"
+    digits =  "regexp:[0-9]+"
+    string = "regexp:\"[a-zA-Z0-9 `~!@#$%^&*()-_=+[{]}|;:',<.>/?\\]*\""
+
+  ]
+
+}
+
+
+Dafny
+::=
+ ( "module"
+   ( Attribute )*    Ident
+   ( "imports" Idents )?
+    "{"
+     ( ClassDecl
+      | DatatypeDecl
+      )*
+    "}"
+  | ClassDecl
+  | DatatypeDecl
+  | ClassMemberDecl
+  )*
+  EOF
+
+
+ClassDecl
+::=
+  "class"
+ ( Attribute )*  Ident
+ ( GenericParameters )?( "refines" Ident
+  )? "{"
+ ( ClassMemberDecl
+  )*  "}"
+
+
+
+ClassMemberDecl
+::=
+ ( "ghost"
+  | "static"
+  | "unlimited"
+  )*  ( FieldDecl
+  | FunctionDecl
+  | MethodDecl
+  | CouplingInvDecl
+  )
+
+
+DatatypeDecl
+::=
+  "datatype"
+ ( Attribute )*  Ident
+ ( GenericParameters )? "{"
+ ( DatatypeMemberDecl
+  )*  "}"
+
+
+DatatypeMemberDecl
+::=
+ ( Attribute )*  Ident
+ ( GenericParameters )?
+ ( FormalsOptionalIds )?
+  ";"
+
+
+FieldDecl
+::=
+  "var"
+
+ ( Attribute )*  IdentType
+ ( "," IdentType
+  )*  ";"
+
+
+CouplingInvDecl
+::=
+  "replaces"
+
+ ( Attribute )*
+  Ident
+ ( "," Ident
+  )*  "by"
+  Expression
+  ";"
+
+
+
+
+GIdentType
+/* isGhost always returns as false if allowGhost is false */
+::=
+ ( "ghost"
+  )? IdentType
+
+
+IdentType
+::= Ident
+  ":"
+  Type
+
+
+IdentTypeOptional
+::=
+  Ident
+ ( ":" Type
+  )?
+
+
+TypeIdentOptional
+::=
+ ( "ghost"
+  )? TypeAndToken
+ ( ":"
+
+    Type
+  )?
+
+
+/*------------------------------------------------------------------------*/
+
+GenericParameters
+::=
+  "<"
+  Ident
+ ( "," Ident
+  )*  ">"
+
+
+/*------------------------------------------------------------------------*/
+
+MethodDecl
+::=
+  ( "method"
+  | "refines"
+  )
+
+ ( Attribute )*  Ident
+ ( GenericParameters )?
+  Formals
+ ( "returns"
+    Formals
+  )? ( ";"( MethodSpec )*  |( MethodSpec )*BlockStmt
+  )
+
+
+
+
+MethodSpec
+::=
+  ( "modifies"( FrameExpression
+                ( "," FrameExpression
+                 )*               )?";"
+  |( "free"
+    )?   ( "requires" Expression ";"
+    | "ensures" Expression ";"
+    )
+  | "decreases" Expressions ";"
+  )
+
+
+Formals
+::=
+  "("
+ (
+    GIdentType
+   ( "," GIdentType
+    )*  )? ")"
+
+
+FormalsOptionalIds
+::=
+  "("
+ (
+    TypeIdentOptional
+   ( "," TypeIdentOptional
+    )*  )? ")"
+
+
+/*------------------------------------------------------------------------*/
+
+Type
+::=
+  TypeAndToken
+
+
+TypeAndToken
+::=
+  ( "bool"
+  | "int"
+  | "set"
+    GenericInstantiation
+
+  | "seq"
+    GenericInstantiation
+  | ReferenceType
+  )
+
+
+ReferenceType
+::=
+  ( "object"
+  | "array"
+    GenericInstantiation
+  | Ident
+   ( GenericInstantiation )?
+  )
+
+
+GenericInstantiation
+::=
+  "<"
+    Type
+   ( "," Type
+    )*  ">"
+
+
+/*------------------------------------------------------------------------*/
+
+FunctionDecl
+::=
+  "function"
+ ( "method"
+  )?
+ ( Attribute )*  Ident
+ ( GenericParameters )?
+  Formals
+  ":"
+  Type
+  ( ";"
+   ( FunctionSpec )*  |( FunctionSpec )*    FunctionBody
+  )
+
+
+
+FunctionSpec
+::=
+  ( "requires" Expression ";"
+  | "reads"( PossiblyWildFrameExpression
+             ( "," PossiblyWildFrameExpression
+              )*	        )?";"
+  | "decreases" Expressions ";"
+  )
+
+
+PossiblyWildExpression
+::=
+  /* A decreases clause on a loop asks that no termination check be performed
+   * Use of this feature is sound only with respect to partial correctness
+   */
+  ( "*"
+  | Expression
+  )
+
+
+PossiblyWildFrameExpression
+::=
+  /* A reads clause can list a wildcard, which allows the enclosing function to
+   * read anything  In many cases, and in particular in all cases where
+   * the function is defined recursively, this makes it next to impossible to make
+   * any use of the function  Nevertheless, as an experimental feature, the
+   * language allows it (and it is sound)
+   */
+  ( "*"
+  | FrameExpression
+  )
+
+
+FrameExpression
+::=
+  Expression
+ ( "`" Ident
+  )?
+
+
+FunctionBody
+::=
+  "{"
+  ( MatchExpression
+  | Expression
+  )
+  "}"
+
+
+MatchExpression
+::=
+  "match"
+  Expression
+ ( CaseExpression
+  )*
+
+
+CaseExpression
+::=
+  "case"
+  Ident
+ ( "("
+    Ident
+   ( "," Ident
+    )*  ")" )? "::=>"
+  Expression
+
+
+/*------------------------------------------------------------------------*/
+
+BlockStmt
+::=
+
+  "{"
+ ( Stmt
+  )*  "}"
+
+
+
+Stmt
+::=
+  /* By first reading a sequence of block statements, we avoid problems in the generated parser, despite
+     the ambiguity in the grammar  See Note in ConstAtomExpression production
+  */
+ ( BlockStmt
+  )*  ( OneStmt
+  | VarDeclStmts
+  )
+
+
+OneStmt
+::=
+  /* This list does not contain BlockStmt, see comment above in Stmt production */
+  ( AssertStmt
+  | AssumeStmt
+  | UseStmt
+  | PrintStmt
+  | AssignStmt
+  | HavocStmt
+  | CallStmt
+  | IfStmt
+  | WhileStmt
+  | MatchStmt
+  | ForeachStmt
+  | "label"
+    Ident ":"
+  | "break"
+   ( Ident
+    )?";"
+  | "return"
+    ";"
+  )
+
+
+AssignStmt
+::=
+  LhsExpr
+  ":::="
+  AssignRhs
+  ";"
+
+
+AssignRhs
+/* ensures e !::= null || ty !::= null; */
+::=
+  ( "new" TypeAndToken
+   ( "[" Expression "]"
+    )? | Expression
+  )
+
+
+HavocStmt
+::=
+  "havoc"
+  LhsExpr ";"
+
+
+LhsExpr
+::= SelectExpression
+
+
+VarDeclStmts
+::=
+ ( "ghost"
+  )? "var"
+  IdentTypeRhs
+ ( "," IdentTypeRhs
+  )*  ";"
+
+
+IdentTypeRhs
+::=
+  Ident
+ ( ":" Type
+  )?( ":::="
+    AssignRhs
+  )?
+
+
+IfStmt
+::=
+  "if"
+  Guard
+  BlockStmt
+ ( "else"
+    ( IfStmt
+    | BlockStmt
+    )
+  )?
+
+
+WhileStmt
+::=
+  "while"
+  Guard
+ (
+    ( "free"
+     )?    "invariant"
+     Expression
+     ";"
+   | "decreases"
+     PossiblyWildExpression
+    ( "," PossiblyWildExpression
+     )*     ";"
+  )*  BlockStmt
+
+
+Guard   /* null represents demonic-choice */
+::=
+  "("
+  ( "*"
+  | Expression
+  )
+  ")"
+
+
+MatchStmt
+::=
+  "match"
+  Expression
+  "{"
+ ( CaseStatement
+  )*  "}"
+
+
+
+CaseStatement
+::=
+  "case"
+  Ident
+ ( "("
+    Ident
+   ( "," Ident
+    )*  ")" )? "::=>"
+
+   ( Stmt )*
+
+
+
+
+CallStmt
+::=
+  "call"
+  CallStmtSubExpr
+
+ ( ","                        /* call a,b,c, :::=  */
+
+    Ident
+   ( "," Ident
+    )*    ":::="
+    CallStmtSubExpr
+
+  | ":::="                       /* call a :::=  */
+
+    CallStmtSubExpr
+  )? ";"
+
+  /* "e" has now been parsed as one of: IdentifierExpr, FunctionCallExpr, FieldSelectExpr
+     It denotes the RHS, so to be legal it must be a FunctionCallExpr  */
+
+
+
+/*------------------------------------------------------------------------*/
+
+ForeachStmt
+::=
+
+  "foreach"
+  "(" Ident
+     ( ":" Type )?     "in" Expression
+
+     ( "|" Expression )? ")"
+  "{"
+   ( AssertStmt
+    | AssumeStmt
+    | UseStmt
+    )*    ( AssignStmt
+    | HavocStmt
+    )
+  "}"
+
+
+
+AssertStmt
+::=
+  "assert"
+  Expression ";"
+
+
+AssumeStmt
+::=
+  "assume"
+  Expression ";"
+
+
+UseStmt
+::=
+  "use"
+  Expression ";"
+
+
+PrintStmt
+::=
+  "print"
+  AttributeArg
+ ( "," AttributeArg
+  )*  ";"
+
+
+/*------------------------------------------------------------------------*/
+Expression
+::=
+  ( "if"
+    Expression
+    "then" Expression
+    "else" Expression
+  | EquivExpression
+  )
+
+
+/*------------------------------------------------------------------------*/
+EquivExpression
+::=
+  ImpliesExpression
+ ( EquivOp
+    ImpliesExpression
+  )*
+
+EquivOp ::= "" | '\u21d4'
+
+/*------------------------------------------------------------------------*/
+ImpliesExpression
+::=
+  LogicalExpression
+ ( ImpliesOp
+    ImpliesExpression
+  )?
+
+ImpliesOp ::= "::=::=>" | '\u21d2'
+
+/*------------------------------------------------------------------------*/
+LogicalExpression
+::=
+  RelationalExpression
+ ( AndOp
+    RelationalExpression
+   ( AndOp
+      RelationalExpression
+    )*  | OrOp
+    RelationalExpression
+   ( OrOp
+      RelationalExpression
+    )*  )?
+
+AndOp ::= "&&" | '\u2227'
+OrOp ::= "||" | '\u2228'
+
+/*------------------------------------------------------------------------*/
+RelationalExpression
+::=
+  Term
+ ( RelOp
+    Term
+  )?
+
+RelOp
+::=
+  ( "::=::="
+  | "<"
+  | ">"
+  | "<::="
+  | ">::="
+  | "!::="
+  | "!!"
+  | "in"
+  | "!in"
+  | '\u2260'
+  | '\u2264'
+  | '\u2265'
+  )
+
+
+/*------------------------------------------------------------------------*/
+Term
+::=
+  Factor
+ ( AddOp
+    Factor
+  )*
+
+AddOp
+::=
+  ( "+"
+  | "-"
+  )
+
+
+/*------------------------------------------------------------------------*/
+Factor
+::=
+  UnaryExpression
+ ( MulOp
+    UnaryExpression
+  )*
+
+MulOp
+::=
+  ( "*"
+  | "/"
+  | "%"
+  )
+
+
+/*------------------------------------------------------------------------*/
+UnaryExpression
+::=
+  ( "-"
+    UnaryExpression
+  | NegOp
+    UnaryExpression
+  | SelectExpression
+  | ConstAtomExpression
+  )
+
+
+NegOp ::= "!" | '\u00ac'
+
+ConstAtomExpression
+::=
+  ( "false"
+  | "true"
+  | "null"
+  | Nat
+  | "#"
+    Ident
+    ""
+    Ident
+   ( "("
+     ( Expressions )?   ")" )?
+  | "fresh"
+    "(" Expression ")"
+  | "|"
+      Expression
+    "|"
+  | "{"
+     ( Expressions )?
+    "}"
+  | "["
+     ( Expressions )?
+    "]"
+  )
+
+
+/*------------------------------------------------------------------------*/
+
+/* returns one of:
+   -- IdentifierExpr
+   -- FunctionCallExpr
+   -- FieldSelectExpr
+*/
+CallStmtSubExpr
+::=
+  ( IdentOrFuncExpression
+  | ObjectExpression
+    SelectOrCallSuffix
+  )
+ ( SelectOrCallSuffix )*
+
+SelectExpression
+::=
+  ( IdentOrFuncExpression
+  | ObjectExpression
+  )
+ ( SelectOrCallSuffix )*
+
+IdentOrFuncExpression
+::=
+  Ident
+ ( "("
+     ( Expressions )?   ")"
+  )?
+
+
+SelectOrCallSuffix
+::=
+  ( ""
+    Ident
+   ( "("
+       ( Expressions )?     ")"
+    )?
+
+  | "["
+      ( Expression
+       ( ""
+         ( Expression
+          )?       | ":::="
+          Expression
+        )?     | "" Expression
+      )
+    "]"
+  )
+
+
+/* ObjectExpression represents those expressions E that could possibly be used in Ef
+   or E, except Ident  Since the lookahead is just 1, quantifier expressions are also
+   parsed here  The expression returned is never an lvalue
+*/
+ObjectExpression
+::=
+  ( "this"
+  | "old"
+    "("
+      Expression
+    ")"
+  | "(" ( QuantifierGuts
+        | Expression
+        )
+    ")"
+  )
+
+
+/*------------------------------------------------------------------------*/
+
+QuantifierGuts
+::=
+  ( Forall
+  | Exists
+  )
+
+  IdentTypeOptional
+ ( ","
+    IdentTypeOptional
+  )* ( AttributeOrTrigger )*  QSep
+  Expression
+
+
+
+Forall ::= "forall" | '\u2200'
+Exists ::= "exists" | '\u2203'
+QSep ::= "::" | '\u2022'
+
+Expressions
+::=
+  Expression
+ ( "," Expression
+  )*
+
+/*------------------------------------------------------------------------*/
+
+Attribute
+::= "{"
+    AttributeBody
+  "}"
+
+
+AttributeBody
+::=
+  ":" ident
+ ( AttributeArg
+   ( "," AttributeArg
+    )*  )?
+
+
+AttributeArg
+::=
+  ( string
+  | Expression
+  )
+
+
+AttributeOrTrigger
+::=
+  "{"
+    ( AttributeBody
+    |
+      Expressions
+    )
+  "}"
+
+
+/*------------------------------------------------------------------------*/
+
+Idents
+::=
+  Ident
+ ( "," Ident
+  )*
+
+Ident
+::=
+  ident
+
+
+Nat
+::=
+  digits
