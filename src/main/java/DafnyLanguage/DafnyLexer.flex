@@ -1,5 +1,6 @@
 package DafnyLanguage;
 
+import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
@@ -9,13 +10,13 @@ import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 %%
 
 %{
-  public DafnyLexer() {
+  public _DafnyLexer() {
     this((java.io.Reader)null);
   }
 %}
 
 %public
-%class DafnyLexer
+%class _DafnyLexer
 %implements FlexLexer
 %function advance
 %type IElementType
@@ -27,7 +28,7 @@ WHITE_SPACE=\s+
 BOOL=bool
 CHAR=char
 INT=int
-NAT=nat
+NATTOKEN=nat
 REAL=real
 ORDINAL=ORDINAL
 OBJECT=object
@@ -70,7 +71,7 @@ STATIC=static
 PROTECTED=protected
 IMPORT=import
 EXPORT=export
-CLASS=class
+CLASSTOKEN=class
 TRAIT=trait
 DATATYPE=datatype
 CODATATYPE=codatatype
@@ -112,22 +113,19 @@ ARRAYTOKEN=array([1-9])(([0-9])*)?
 ARRAYTOKEN_Q=array([1-9])(([0-9])*)?[?]
 BVTOKEN=bv(0|([1-9])([0-9])* )
 IDENTDEF=([A-Zb-z?])([A-zZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*
-COMMENT=\\\\.*\n|\\\*[\s\S]*?\*\\
+COMMENT=(\/\/.*)|(\/\*[\s\S]*?\*\/)
 WHITE_SPACE=[ \t\n\x0B\f\r]+
-
-%state WAITING_VALUE
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}              { return WHITE_SPACE; }
 
-  "EOF"                      { return EOF; }
   "verticalbarExpression"    { return VERTICALBAREXPRESSION; }
 
   {BOOL}                     { return BOOL; }
   {CHAR}                     { return CHAR; }
   {INT}                      { return INT; }
-  {NAT}                      { return NATTOKEN; }
+  {NATTOKEN}                 { return NATTOKEN; }
   {REAL}                     { return REAL; }
   {ORDINAL}                  { return ORDINAL; }
   {OBJECT}                   { return OBJECT; }
@@ -170,7 +168,7 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   {PROTECTED}                { return PROTECTED; }
   {IMPORT}                   { return IMPORT; }
   {EXPORT}                   { return EXPORT; }
-  {CLASS}                    { return CLASSTOKEN; }
+  {CLASSTOKEN}               { return CLASSTOKEN; }
   {TRAIT}                    { return TRAIT; }
   {DATATYPE}                 { return DATATYPE; }
   {CODATATYPE}               { return CODATATYPE; }
@@ -214,8 +212,7 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   {IDENTDEF}                 { return IDENTDEF; }
   {COMMENT}                  { return COMMENT; }
   {WHITE_SPACE}              { /* ignore */}
-
-  <<EOF>>                    {return END_OF_FILE}
+  <<EOF>>                     { return EOF; }
 
 }
 
