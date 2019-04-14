@@ -7,10 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyFunctionBody extends PsiElement {
 
-  @Nullable
+  @NotNull
   DafnyExpression getExpression();
 
-  @Nullable
-  DafnyMatchExpression getMatchExpression();
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
 
 }

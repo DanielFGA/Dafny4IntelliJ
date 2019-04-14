@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface DafnyPrintStmt extends PsiElement {
 
   @NotNull
-  List<DafnyAttributeArg> getAttributeArgList();
+  List<DafnyExpression> getExpressionList();
+
+  @NotNull
+  PsiElement getSemi();
 
 }

@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -27,15 +27,15 @@ public class DafnyRelationalExpressionImpl extends ASTWrapperPsiElement implemen
   }
 
   @Override
-  @Nullable
-  public DafnyRelOp getRelOp() {
-    return findChildByClass(DafnyRelOp.class);
+  @NotNull
+  public List<DafnyRelOp> getRelOpList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyRelOp.class);
   }
 
   @Override
   @NotNull
-  public List<DafnyTerm> getTermList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyTerm.class);
+  public List<DafnyShiftTerm> getShiftTermList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyShiftTerm.class);
   }
 
 }

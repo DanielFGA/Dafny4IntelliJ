@@ -11,12 +11,42 @@ public interface DafnyUnaryExpression extends PsiElement {
   DafnyConstAtomExpression getConstAtomExpression();
 
   @Nullable
-  DafnyNegOp getNegOp();
+  DafnyDisplayExpr getDisplayExpr();
 
   @Nullable
-  DafnySelectExpression getSelectExpression();
+  DafnyEndlessExpression getEndlessExpression();
+
+  @Nullable
+  DafnyISetDisplayExpr getISetDisplayExpr();
+
+  @Nullable
+  DafnyLambdaExpression getLambdaExpression();
+
+  @Nullable
+  DafnyMapDisplayExpr getMapDisplayExpr();
+
+  @Nullable
+  DafnyMultiSetExpr getMultiSetExpr();
+
+  @Nullable
+  DafnyNameSegment getNameSegment();
+
+  @Nullable
+  DafnyNegOp getNegOp();
+
+  @NotNull
+  List<DafnySuffix> getSuffixList();
 
   @Nullable
   DafnyUnaryExpression getUnaryExpression();
+
+  @Nullable
+  PsiElement getImap();
+
+  @Nullable
+  PsiElement getIset();
+
+  @Nullable
+  PsiElement getMap();
 
 }

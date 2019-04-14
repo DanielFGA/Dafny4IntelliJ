@@ -10,4 +10,10 @@ public interface DafnyFormals extends PsiElement {
   @NotNull
   List<DafnyGIdentType> getGIdentTypeList();
 
+  @NotNull
+  PsiElement getCloseparen();
+
+  @NotNull
+  PsiElement getOpenparen();
+
 }

@@ -10,4 +10,7 @@ public interface DafnyPossiblyWildFrameExpression extends PsiElement {
   @Nullable
   DafnyFrameExpression getFrameExpression();
 
+  @Nullable
+  PsiElement getStar();
+
 }

@@ -7,10 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyExpression extends PsiElement {
 
-  @Nullable
+  @NotNull
   DafnyEquivExpression getEquivExpression();
 
-  @NotNull
-  List<DafnyExpression> getExpressionList();
+  @Nullable
+  DafnyExpression getExpression();
+
+  @Nullable
+  PsiElement getSemi();
 
 }

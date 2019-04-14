@@ -11,19 +11,23 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAlternativeBlock(@NotNull DafnyAlternativeBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitAlternativeBlockCase(@NotNull DafnyAlternativeBlockCase o) {
+    visitPsiElement(o);
+  }
+
   public void visitAndOp(@NotNull DafnyAndOp o) {
     visitPsiElement(o);
   }
 
+  public void visitAsExpression(@NotNull DafnyAsExpression o) {
+    visitPsiElement(o);
+  }
+
   public void visitAssertStmt(@NotNull DafnyAssertStmt o) {
-    visitPsiElement(o);
-  }
-
-  public void visitAssignRhs(@NotNull DafnyAssignRhs o) {
-    visitPsiElement(o);
-  }
-
-  public void visitAssignStmt(@NotNull DafnyAssignStmt o) {
     visitPsiElement(o);
   }
 
@@ -35,15 +39,7 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAttributeArg(@NotNull DafnyAttributeArg o) {
-    visitPsiElement(o);
-  }
-
-  public void visitAttributeBody(@NotNull DafnyAttributeBody o) {
-    visitPsiElement(o);
-  }
-
-  public void visitAttributeOrTrigger(@NotNull DafnyAttributeOrTrigger o) {
+  public void visitBitvectorFactor(@NotNull DafnyBitvectorFactor o) {
     visitPsiElement(o);
   }
 
@@ -51,15 +47,27 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCallStmt(@NotNull DafnyCallStmt o) {
+  public void visitCIdentType(@NotNull DafnyCIdentType o) {
     visitPsiElement(o);
   }
 
-  public void visitCallStmtSubExpr(@NotNull DafnyCallStmtSubExpr o) {
+  public void visitCalcOp(@NotNull DafnyCalcOp o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCalcStmt(@NotNull DafnyCalcStmt o) {
     visitPsiElement(o);
   }
 
   public void visitCaseExpression(@NotNull DafnyCaseExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCasePattern(@NotNull DafnyCasePattern o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCasePatternLocal(@NotNull DafnyCasePatternLocal o) {
     visitPsiElement(o);
   }
 
@@ -79,7 +87,7 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCouplingInvDecl(@NotNull DafnyCouplingInvDecl o) {
+  public void visitConstantFieldDecl(@NotNull DafnyConstantFieldDecl o) {
     visitPsiElement(o);
   }
 
@@ -91,6 +99,34 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitDec(@NotNull DafnyDec o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDeclModifier(@NotNull DafnyDeclModifier o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDecreasesList(@NotNull DafnyDecreasesList o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDisplayExpr(@NotNull DafnyDisplayExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDividedBlockStmt(@NotNull DafnyDividedBlockStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDotSuffix(@NotNull DafnyDotSuffix o) {
+    visitPsiElement(o);
+  }
+
+  public void visitEndlessExpression(@NotNull DafnyEndlessExpression o) {
+    visitPsiElement(o);
+  }
+
   public void visitEquivExpression(@NotNull DafnyEquivExpression o) {
     visitPsiElement(o);
   }
@@ -99,7 +135,15 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitExistentialGuard(@NotNull DafnyExistentialGuard o) {
+    visitPsiElement(o);
+  }
+
   public void visitExists(@NotNull DafnyExists o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExpliesOp(@NotNull DafnyExpliesOp o) {
     visitPsiElement(o);
   }
 
@@ -108,6 +152,10 @@ public class DafnyVisitor extends PsiElementVisitor {
   }
 
   public void visitExpressions(@NotNull DafnyExpressions o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFIdentType(@NotNull DafnyFIdentType o) {
     visitPsiElement(o);
   }
 
@@ -123,7 +171,7 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitForeachStmt(@NotNull DafnyForeachStmt o) {
+  public void visitForallStmt(@NotNull DafnyForallStmt o) {
     visitPsiElement(o);
   }
 
@@ -136,6 +184,10 @@ public class DafnyVisitor extends PsiElementVisitor {
   }
 
   public void visitFrameExpression(@NotNull DafnyFrameExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFuMeIdent(@NotNull DafnyFuMeIdent o) {
     visitPsiElement(o);
   }
 
@@ -167,15 +219,15 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitHavocStmt(@NotNull DafnyHavocStmt o) {
+  public void visitHashCall(@NotNull DafnyHashCall o) {
+    visitPsiElement(o);
+  }
+
+  public void visitISetDisplayExpr(@NotNull DafnyISetDisplayExpr o) {
     visitPsiElement(o);
   }
 
   public void visitIdent(@NotNull DafnyIdent o) {
-    visitPsiElement(o);
-  }
-
-  public void visitIdentOrFuncExpression(@NotNull DafnyIdentOrFuncExpression o) {
     visitPsiElement(o);
   }
 
@@ -187,15 +239,11 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitIdentTypeRhs(@NotNull DafnyIdentTypeRhs o) {
-    visitPsiElement(o);
-  }
-
-  public void visitIdents(@NotNull DafnyIdents o) {
-    visitPsiElement(o);
-  }
-
   public void visitIfStmt(@NotNull DafnyIfStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitImpliesExpliesExpression(@NotNull DafnyImpliesExpliesExpression o) {
     visitPsiElement(o);
   }
 
@@ -207,11 +255,59 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLhsExpr(@NotNull DafnyLhsExpr o) {
+  public void visitIteratorDecl(@NotNull DafnyIteratorDecl o) {
+    visitPsiElement(o);
+  }
+
+  public void visitIteratorSpec(@NotNull DafnyIteratorSpec o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKType(@NotNull DafnyKType o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLabelIdent(@NotNull DafnyLabelIdent o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLambdaArrow(@NotNull DafnyLambdaArrow o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLambdaExpression(@NotNull DafnyLambdaExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLetExpr(@NotNull DafnyLetExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLhs(@NotNull DafnyLhs o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLocalIdentTypeOptional(@NotNull DafnyLocalIdentTypeOptional o) {
     visitPsiElement(o);
   }
 
   public void visitLogicalExpression(@NotNull DafnyLogicalExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLoopSpec(@NotNull DafnyLoopSpec o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMapComprehensionExpr(@NotNull DafnyMapComprehensionExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMapDisplayExpr(@NotNull DafnyMapDisplayExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMapLiteralExpressions(@NotNull DafnyMapLiteralExpressions o) {
     visitPsiElement(o);
   }
 
@@ -223,6 +319,10 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMemberBindingUpdate(@NotNull DafnyMemberBindingUpdate o) {
+    visitPsiElement(o);
+  }
+
   public void visitMethodDecl(@NotNull DafnyMethodDecl o) {
     visitPsiElement(o);
   }
@@ -231,7 +331,39 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitModifyStmt(@NotNull DafnyModifyStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitModuleExport(@NotNull DafnyModuleExport o) {
+    visitPsiElement(o);
+  }
+
+  public void visitModuleExportSignature(@NotNull DafnyModuleExportSignature o) {
+    visitPsiElement(o);
+  }
+
+  public void visitModuleName(@NotNull DafnyModuleName o) {
+    visitPsiElement(o);
+  }
+
   public void visitMulOp(@NotNull DafnyMulOp o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMultiSetExpr(@NotNull DafnyMultiSetExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNameSegment(@NotNull DafnyNameSegment o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNameSegmentForTypeName(@NotNull DafnyNameSegmentForTypeName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNamedExpr(@NotNull DafnyNamedExpr o) {
     visitPsiElement(o);
   }
 
@@ -243,7 +375,19 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitObjectExpression(@NotNull DafnyObjectExpression o) {
+  public void visitNewArray(@NotNull DafnyNewArray o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNewtypeDecl(@NotNull DafnyNewtypeDecl o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNoUSIdent(@NotNull DafnyNoUSIdent o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOldSemi(@NotNull DafnyOldSemi o) {
     visitPsiElement(o);
   }
 
@@ -251,7 +395,19 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitOptGenericInstantiation(@NotNull DafnyOptGenericInstantiation o) {
+    visitPsiElement(o);
+  }
+
   public void visitOrOp(@NotNull DafnyOrOp o) {
+    visitPsiElement(o);
+  }
+
+  public void visitOtherTypeDecl(@NotNull DafnyOtherTypeDecl o) {
+    visitPsiElement(o);
+  }
+
+  public void visitParensExpression(@NotNull DafnyParensExpression o) {
     visitPsiElement(o);
   }
 
@@ -271,11 +427,19 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitQuantifierGuts(@NotNull DafnyQuantifierGuts o) {
+  public void visitQualifiedModuleExport(@NotNull DafnyQualifiedModuleExport o) {
     visitPsiElement(o);
   }
 
-  public void visitReferenceType(@NotNull DafnyReferenceType o) {
+  public void visitQualifiedModuleExportSuffix(@NotNull DafnyQualifiedModuleExportSuffix o) {
+    visitPsiElement(o);
+  }
+
+  public void visitQuantifierDomain(@NotNull DafnyQuantifierDomain o) {
+    visitPsiElement(o);
+  }
+
+  public void visitQuantifierGuts(@NotNull DafnyQuantifierGuts o) {
     visitPsiElement(o);
   }
 
@@ -287,11 +451,27 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitSelectExpression(@NotNull DafnySelectExpression o) {
+  public void visitReturnStmt(@NotNull DafnyReturnStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitSelectOrCallSuffix(@NotNull DafnySelectOrCallSuffix o) {
+  public void visitRevealStmt(@NotNull DafnyRevealStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRhs(@NotNull DafnyRhs o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSetComprehensionExpr(@NotNull DafnySetComprehensionExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitShiftTerm(@NotNull DafnyShiftTerm o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSkeletonStmt(@NotNull DafnySkeletonStmt o) {
     visitPsiElement(o);
   }
 
@@ -299,11 +479,31 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitStmtInExpr(@NotNull DafnyStmtInExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSubModuleDecl(@NotNull DafnySubModuleDecl o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSuffix(@NotNull DafnySuffix o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTPCharOption(@NotNull DafnyTPCharOption o) {
+    visitPsiElement(o);
+  }
+
   public void visitTerm(@NotNull DafnyTerm o) {
     visitPsiElement(o);
   }
 
-  public void visitType(@NotNull DafnyType o) {
+  public void visitTopDecl(@NotNull DafnyTopDecl o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTraitDecl(@NotNull DafnyTraitDecl o) {
     visitPsiElement(o);
   }
 
@@ -315,19 +515,35 @@ public class DafnyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitTypeNameOrCtorSuffix(@NotNull DafnyTypeNameOrCtorSuffix o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTypeParameterCharacteristics(@NotNull DafnyTypeParameterCharacteristics o) {
+    visitPsiElement(o);
+  }
+
   public void visitUnaryExpression(@NotNull DafnyUnaryExpression o) {
     visitPsiElement(o);
   }
 
-  public void visitUseStmt(@NotNull DafnyUseStmt o) {
+  public void visitUpdateStmt(@NotNull DafnyUpdateStmt o) {
     visitPsiElement(o);
   }
 
-  public void visitVarDeclStmts(@NotNull DafnyVarDeclStmts o) {
+  public void visitVarDeclStatement(@NotNull DafnyVarDeclStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVariance(@NotNull DafnyVariance o) {
     visitPsiElement(o);
   }
 
   public void visitWhileStmt(@NotNull DafnyWhileStmt o) {
+    visitPsiElement(o);
+  }
+
+  public void visitWildIdent(@NotNull DafnyWildIdent o) {
     visitPsiElement(o);
   }
 

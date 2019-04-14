@@ -7,13 +7,25 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyIfStmt extends PsiElement {
 
+  @Nullable
+  DafnyAlternativeBlock getAlternativeBlock();
+
   @NotNull
   List<DafnyBlockStmt> getBlockStmtList();
 
-  @NotNull
+  @Nullable
+  DafnyExistentialGuard getExistentialGuard();
+
+  @Nullable
   DafnyGuard getGuard();
 
   @Nullable
   DafnyIfStmt getIfStmt();
+
+  @Nullable
+  PsiElement getEllipsis();
+
+  @Nullable
+  PsiElement getElse();
 
 }

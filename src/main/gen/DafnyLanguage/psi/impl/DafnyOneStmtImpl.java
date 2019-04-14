@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -34,38 +34,26 @@ public class DafnyOneStmtImpl extends ASTWrapperPsiElement implements DafnyOneSt
 
   @Override
   @Nullable
-  public DafnyAssignStmt getAssignStmt() {
-    return findChildByClass(DafnyAssignStmt.class);
-  }
-
-  @Override
-  @Nullable
   public DafnyAssumeStmt getAssumeStmt() {
     return findChildByClass(DafnyAssumeStmt.class);
   }
 
   @Override
   @Nullable
-  public DafnyCallStmt getCallStmt() {
-    return findChildByClass(DafnyCallStmt.class);
+  public DafnyBlockStmt getBlockStmt() {
+    return findChildByClass(DafnyBlockStmt.class);
   }
 
   @Override
   @Nullable
-  public DafnyForeachStmt getForeachStmt() {
-    return findChildByClass(DafnyForeachStmt.class);
+  public DafnyCalcStmt getCalcStmt() {
+    return findChildByClass(DafnyCalcStmt.class);
   }
 
   @Override
   @Nullable
-  public DafnyHavocStmt getHavocStmt() {
-    return findChildByClass(DafnyHavocStmt.class);
-  }
-
-  @Override
-  @Nullable
-  public DafnyIdent getIdent() {
-    return findChildByClass(DafnyIdent.class);
+  public DafnyForallStmt getForallStmt() {
+    return findChildByClass(DafnyForallStmt.class);
   }
 
   @Override
@@ -76,8 +64,26 @@ public class DafnyOneStmtImpl extends ASTWrapperPsiElement implements DafnyOneSt
 
   @Override
   @Nullable
+  public DafnyLabelIdent getLabelIdent() {
+    return findChildByClass(DafnyLabelIdent.class);
+  }
+
+  @Override
+  @Nullable
   public DafnyMatchStmt getMatchStmt() {
     return findChildByClass(DafnyMatchStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyModifyStmt getModifyStmt() {
+    return findChildByClass(DafnyModifyStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyOneStmt getOneStmt() {
+    return findChildByClass(DafnyOneStmt.class);
   }
 
   @Override
@@ -88,14 +94,50 @@ public class DafnyOneStmtImpl extends ASTWrapperPsiElement implements DafnyOneSt
 
   @Override
   @Nullable
-  public DafnyUseStmt getUseStmt() {
-    return findChildByClass(DafnyUseStmt.class);
+  public DafnyReturnStmt getReturnStmt() {
+    return findChildByClass(DafnyReturnStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyRevealStmt getRevealStmt() {
+    return findChildByClass(DafnyRevealStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnySkeletonStmt getSkeletonStmt() {
+    return findChildByClass(DafnySkeletonStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyUpdateStmt getUpdateStmt() {
+    return findChildByClass(DafnyUpdateStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyVarDeclStatement getVarDeclStatement() {
+    return findChildByClass(DafnyVarDeclStatement.class);
   }
 
   @Override
   @Nullable
   public DafnyWhileStmt getWhileStmt() {
     return findChildByClass(DafnyWhileStmt.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getColon() {
+    return findChildByType(COLON);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSemi() {
+    return findChildByType(SEMI);
   }
 
 }

@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -28,8 +28,14 @@ public class DafnyPrintStmtImpl extends ASTWrapperPsiElement implements DafnyPri
 
   @Override
   @NotNull
-  public List<DafnyAttributeArg> getAttributeArgList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyAttributeArg.class);
+  public List<DafnyExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyExpression.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getSemi() {
+    return findNotNullChildByType(SEMI);
   }
 
 }

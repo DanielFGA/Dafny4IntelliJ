@@ -10,4 +10,13 @@ public interface DafnyGuard extends PsiElement {
   @Nullable
   DafnyExpression getExpression();
 
+  @Nullable
+  PsiElement getCloseparen();
+
+  @Nullable
+  PsiElement getOpenparen();
+
+  @Nullable
+  PsiElement getStar();
+
 }

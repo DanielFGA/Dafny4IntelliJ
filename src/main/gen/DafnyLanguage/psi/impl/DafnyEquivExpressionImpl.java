@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -34,8 +34,8 @@ public class DafnyEquivExpressionImpl extends ASTWrapperPsiElement implements Da
 
   @Override
   @NotNull
-  public List<DafnyImpliesExpression> getImpliesExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyImpliesExpression.class);
+  public List<DafnyImpliesExpliesExpression> getImpliesExpliesExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyImpliesExpliesExpression.class);
   }
 
 }

@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyQSep extends PsiElement {
 
+  @Nullable
+  PsiElement getDoublecolon();
+
 }

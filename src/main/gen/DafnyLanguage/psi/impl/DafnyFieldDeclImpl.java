@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -34,8 +34,20 @@ public class DafnyFieldDeclImpl extends ASTWrapperPsiElement implements DafnyFie
 
   @Override
   @NotNull
-  public List<DafnyIdentType> getIdentTypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyIdentType.class);
+  public List<DafnyFIdentType> getFIdentTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyFIdentType.class);
+  }
+
+  @Override
+  @NotNull
+  public DafnyOldSemi getOldSemi() {
+    return findNotNullChildByClass(DafnyOldSemi.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getVar() {
+    return findNotNullChildByType(VAR);
   }
 
 }

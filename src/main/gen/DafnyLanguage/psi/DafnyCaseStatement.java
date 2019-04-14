@@ -8,9 +8,24 @@ import com.intellij.psi.PsiElement;
 public interface DafnyCaseStatement extends PsiElement {
 
   @NotNull
-  List<DafnyIdent> getIdentList();
+  List<DafnyCasePattern> getCasePatternList();
+
+  @Nullable
+  DafnyIdent getIdent();
 
   @NotNull
   List<DafnyStmt> getStmtList();
+
+  @NotNull
+  PsiElement getCase();
+
+  @Nullable
+  PsiElement getCloseparen();
+
+  @NotNull
+  PsiElement getDarrow();
+
+  @Nullable
+  PsiElement getOpenparen();
 
 }

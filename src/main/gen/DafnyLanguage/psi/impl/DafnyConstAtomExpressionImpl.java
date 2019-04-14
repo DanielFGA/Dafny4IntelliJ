@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -28,26 +28,74 @@ public class DafnyConstAtomExpressionImpl extends ASTWrapperPsiElement implement
 
   @Override
   @Nullable
+  public DafnyDec getDec() {
+    return findChildByClass(DafnyDec.class);
+  }
+
+  @Override
+  @Nullable
   public DafnyExpression getExpression() {
     return findChildByClass(DafnyExpression.class);
   }
 
   @Override
-  @Nullable
-  public DafnyExpressions getExpressions() {
-    return findChildByClass(DafnyExpressions.class);
+  @NotNull
+  public List<DafnyFrameExpression> getFrameExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyFrameExpression.class);
   }
 
   @Override
-  @NotNull
-  public List<DafnyIdent> getIdentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyIdent.class);
+  @Nullable
+  public DafnyLabelIdent getLabelIdent() {
+    return findChildByClass(DafnyLabelIdent.class);
   }
 
   @Override
   @Nullable
   public DafnyNat getNat() {
     return findChildByClass(DafnyNat.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyParensExpression getParensExpression() {
+    return findChildByClass(DafnyParensExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getCharToken() {
+    return findChildByType(CHARTOKEN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getCloseparen() {
+    return findChildByType(CLOSEPAREN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getInt() {
+    return findChildByType(INT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOpenparen() {
+    return findChildByType(OPENPAREN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getReal() {
+    return findChildByType(REAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getStringToken() {
+    return findChildByType(STRINGTOKEN);
   }
 
 }

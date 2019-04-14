@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -24,12 +24,6 @@ public class DafnyQuantifierGutsImpl extends ASTWrapperPsiElement implements Daf
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof DafnyVisitor) accept((DafnyVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<DafnyAttributeOrTrigger> getAttributeOrTriggerList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyAttributeOrTrigger.class);
   }
 
   @Override
@@ -52,14 +46,14 @@ public class DafnyQuantifierGutsImpl extends ASTWrapperPsiElement implements Daf
 
   @Override
   @NotNull
-  public List<DafnyIdentTypeOptional> getIdentTypeOptionalList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyIdentTypeOptional.class);
+  public DafnyQSep getQSep() {
+    return findNotNullChildByClass(DafnyQSep.class);
   }
 
   @Override
   @NotNull
-  public DafnyQSep getQSep() {
-    return findNotNullChildByClass(DafnyQSep.class);
+  public DafnyQuantifierDomain getQuantifierDomain() {
+    return findNotNullChildByClass(DafnyQuantifierDomain.class);
   }
 
 }

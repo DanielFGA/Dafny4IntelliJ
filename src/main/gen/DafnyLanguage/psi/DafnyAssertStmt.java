@@ -8,6 +8,27 @@ import com.intellij.psi.PsiElement;
 public interface DafnyAssertStmt extends PsiElement {
 
   @NotNull
+  List<DafnyAttribute> getAttributeList();
+
+  @Nullable
+  DafnyBlockStmt getBlockStmt();
+
+  @Nullable
   DafnyExpression getExpression();
+
+  @Nullable
+  DafnyLabelIdent getLabelIdent();
+
+  @Nullable
+  PsiElement getBy();
+
+  @Nullable
+  PsiElement getColon();
+
+  @Nullable
+  PsiElement getEllipsis();
+
+  @Nullable
+  PsiElement getSemi();
 
 }

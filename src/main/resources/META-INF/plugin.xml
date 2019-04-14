@@ -29,7 +29,11 @@
     <!--DafnyLanguage -->
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="DafnyLanguage.DafnyFileTypeFactory"/>
+        <lang.syntaxHighlighterFactory language="Dafny" implementationClass="DafnyLanguage.DafnySyntaxHighlighterFactory"/>
+        <lang.parserDefinition language="Dafny" implementationClass="DafnyLanguage.DafnyParserDefinition"/>
     </extensions>
+
+
 
     <actions>
         <!-- Add your actions here -->

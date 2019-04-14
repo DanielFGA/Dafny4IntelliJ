@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -28,8 +28,8 @@ public class DafnyClassMemberDeclImpl extends ASTWrapperPsiElement implements Da
 
   @Override
   @Nullable
-  public DafnyCouplingInvDecl getCouplingInvDecl() {
-    return findChildByClass(DafnyCouplingInvDecl.class);
+  public DafnyConstantFieldDecl getConstantFieldDecl() {
+    return findChildByClass(DafnyConstantFieldDecl.class);
   }
 
   @Override

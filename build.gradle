@@ -20,6 +20,15 @@ dependencies {
     compile 'com.github.ballerina-platform:lsp4intellij:0.8.0'
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'src/main/gen'
+        }
+    }
+}
+
 intellij {
     version '2018.3.5'
 }

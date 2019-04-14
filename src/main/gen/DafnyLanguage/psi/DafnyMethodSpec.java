@@ -7,13 +7,37 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyMethodSpec extends PsiElement {
 
+  @NotNull
+  List<DafnyAttribute> getAttributeList();
+
+  @Nullable
+  DafnyDecreasesList getDecreasesList();
+
   @Nullable
   DafnyExpression getExpression();
 
-  @Nullable
-  DafnyExpressions getExpressions();
-
   @NotNull
   List<DafnyFrameExpression> getFrameExpressionList();
+
+  @Nullable
+  DafnyLabelIdent getLabelIdent();
+
+  @NotNull
+  DafnyOldSemi getOldSemi();
+
+  @Nullable
+  PsiElement getColon();
+
+  @Nullable
+  PsiElement getDecreases();
+
+  @Nullable
+  PsiElement getEnsures();
+
+  @Nullable
+  PsiElement getModifies();
+
+  @Nullable
+  PsiElement getRequires();
 
 }

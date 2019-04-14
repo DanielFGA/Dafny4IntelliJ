@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -27,9 +27,15 @@ public class DafnyNatImpl extends ASTWrapperPsiElement implements DafnyNat {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getDigits() {
-    return findNotNullChildByType(DIGITS);
+    return findChildByType(DIGITS);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getHexdigits() {
+    return findChildByType(HEXDIGITS);
   }
 
 }

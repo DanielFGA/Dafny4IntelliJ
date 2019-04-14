@@ -7,10 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyFrameExpression extends PsiElement {
 
-  @NotNull
+  @Nullable
   DafnyExpression getExpression();
 
   @Nullable
   DafnyIdent getIdent();
+
+  @Nullable
+  PsiElement getBacktick();
 
 }

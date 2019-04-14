@@ -8,6 +8,18 @@ import com.intellij.psi.PsiElement;
 public interface DafnyGenericParameters extends PsiElement {
 
   @NotNull
-  List<DafnyIdent> getIdentList();
+  List<DafnyNoUSIdent> getNoUSIdentList();
+
+  @NotNull
+  List<DafnyTypeParameterCharacteristics> getTypeParameterCharacteristicsList();
+
+  @NotNull
+  List<DafnyVariance> getVarianceList();
+
+  @NotNull
+  PsiElement getCloseAngleBracket();
+
+  @NotNull
+  PsiElement getOpenAngleBracket();
 
 }

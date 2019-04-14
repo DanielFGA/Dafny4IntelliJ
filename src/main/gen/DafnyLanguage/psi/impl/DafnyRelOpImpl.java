@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -24,6 +24,60 @@ public class DafnyRelOpImpl extends ASTWrapperPsiElement implements DafnyRelOp {
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof DafnyVisitor) accept((DafnyVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public DafnyExpression getExpression() {
+    return findChildByClass(DafnyExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getCloseAngleBracket() {
+    return findChildByType(CLOSEANGLEBRACKET);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getEq() {
+    return findChildByType(EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIn() {
+    return findChildByType(IN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLbracket() {
+    return findChildByType(LBRACKET);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNeq() {
+    return findChildByType(NEQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNotIn() {
+    return findChildByType(NOTIN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOpenAngleBracket() {
+    return findChildByType(OPENANGLEBRACKET);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRbracket() {
+    return findChildByType(RBRACKET);
   }
 
 }

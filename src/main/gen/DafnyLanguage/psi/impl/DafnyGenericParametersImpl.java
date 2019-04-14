@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -28,8 +28,32 @@ public class DafnyGenericParametersImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public List<DafnyIdent> getIdentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyIdent.class);
+  public List<DafnyNoUSIdent> getNoUSIdentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyNoUSIdent.class);
+  }
+
+  @Override
+  @NotNull
+  public List<DafnyTypeParameterCharacteristics> getTypeParameterCharacteristicsList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyTypeParameterCharacteristics.class);
+  }
+
+  @Override
+  @NotNull
+  public List<DafnyVariance> getVarianceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyVariance.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getCloseAngleBracket() {
+    return findNotNullChildByType(CLOSEANGLEBRACKET);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getOpenAngleBracket() {
+    return findNotNullChildByType(OPENANGLEBRACKET);
   }
 
 }

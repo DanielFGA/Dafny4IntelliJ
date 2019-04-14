@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -46,8 +46,26 @@ public class DafnyDatatypeDeclImpl extends ASTWrapperPsiElement implements Dafny
 
   @Override
   @NotNull
-  public DafnyIdent getIdent() {
-    return findNotNullChildByClass(DafnyIdent.class);
+  public DafnyNoUSIdent getNoUSIdent() {
+    return findNotNullChildByClass(DafnyNoUSIdent.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getCodatatype() {
+    return findChildByType(CODATATYPE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDatatype() {
+    return findChildByType(DATATYPE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSemi() {
+    return findChildByType(SEMI);
   }
 
 }

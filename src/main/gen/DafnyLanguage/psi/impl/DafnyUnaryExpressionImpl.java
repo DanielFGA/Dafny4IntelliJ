@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -34,20 +34,80 @@ public class DafnyUnaryExpressionImpl extends ASTWrapperPsiElement implements Da
 
   @Override
   @Nullable
+  public DafnyDisplayExpr getDisplayExpr() {
+    return findChildByClass(DafnyDisplayExpr.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyEndlessExpression getEndlessExpression() {
+    return findChildByClass(DafnyEndlessExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyISetDisplayExpr getISetDisplayExpr() {
+    return findChildByClass(DafnyISetDisplayExpr.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyLambdaExpression getLambdaExpression() {
+    return findChildByClass(DafnyLambdaExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyMapDisplayExpr getMapDisplayExpr() {
+    return findChildByClass(DafnyMapDisplayExpr.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyMultiSetExpr getMultiSetExpr() {
+    return findChildByClass(DafnyMultiSetExpr.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyNameSegment getNameSegment() {
+    return findChildByClass(DafnyNameSegment.class);
+  }
+
+  @Override
+  @Nullable
   public DafnyNegOp getNegOp() {
     return findChildByClass(DafnyNegOp.class);
   }
 
   @Override
-  @Nullable
-  public DafnySelectExpression getSelectExpression() {
-    return findChildByClass(DafnySelectExpression.class);
+  @NotNull
+  public List<DafnySuffix> getSuffixList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnySuffix.class);
   }
 
   @Override
   @Nullable
   public DafnyUnaryExpression getUnaryExpression() {
     return findChildByClass(DafnyUnaryExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getImap() {
+    return findChildByType(IMAP);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIset() {
+    return findChildByType(ISET);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getMap() {
+    return findChildByType(MAP);
   }
 
 }

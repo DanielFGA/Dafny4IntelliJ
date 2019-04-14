@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface DafnyFactor extends PsiElement {
 
   @NotNull
-  List<DafnyMulOp> getMulOpList();
+  List<DafnyBitvectorFactor> getBitvectorFactorList();
 
   @NotNull
-  List<DafnyUnaryExpression> getUnaryExpressionList();
+  List<DafnyMulOp> getMulOpList();
 
 }

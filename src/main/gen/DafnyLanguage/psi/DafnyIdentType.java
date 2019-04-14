@@ -8,9 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface DafnyIdentType extends PsiElement {
 
   @NotNull
-  DafnyIdent getIdent();
+  DafnyTypeAndToken getTypeAndToken();
 
   @NotNull
-  DafnyType getType();
+  DafnyWildIdent getWildIdent();
+
+  @NotNull
+  PsiElement getColon();
 
 }

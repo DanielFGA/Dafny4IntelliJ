@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -39,6 +39,12 @@ public class DafnyClassDeclImpl extends ASTWrapperPsiElement implements DafnyCla
   }
 
   @Override
+  @NotNull
+  public List<DafnyDeclModifier> getDeclModifierList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyDeclModifier.class);
+  }
+
+  @Override
   @Nullable
   public DafnyGenericParameters getGenericParameters() {
     return findChildByClass(DafnyGenericParameters.class);
@@ -46,8 +52,32 @@ public class DafnyClassDeclImpl extends ASTWrapperPsiElement implements DafnyCla
 
   @Override
   @NotNull
-  public List<DafnyIdent> getIdentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyIdent.class);
+  public DafnyNoUSIdent getNoUSIdent() {
+    return findNotNullChildByClass(DafnyNoUSIdent.class);
+  }
+
+  @Override
+  @NotNull
+  public List<DafnyTypeAndToken> getTypeAndTokenList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyTypeAndToken.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getClassToken() {
+    return findNotNullChildByType(CLASSTOKEN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getLbrace() {
+    return findNotNullChildByType(LBRACE);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrace() {
+    return findNotNullChildByType(RBRACE);
   }
 
 }

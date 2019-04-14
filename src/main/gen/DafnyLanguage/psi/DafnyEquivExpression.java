@@ -11,6 +11,6 @@ public interface DafnyEquivExpression extends PsiElement {
   List<DafnyEquivOp> getEquivOpList();
 
   @NotNull
-  List<DafnyImpliesExpression> getImpliesExpressionList();
+  List<DafnyImpliesExpliesExpression> getImpliesExpliesExpressionList();
 
 }

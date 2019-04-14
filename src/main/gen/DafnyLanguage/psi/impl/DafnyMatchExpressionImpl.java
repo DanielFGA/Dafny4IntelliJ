@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -36,6 +36,18 @@ public class DafnyMatchExpressionImpl extends ASTWrapperPsiElement implements Da
   @NotNull
   public DafnyExpression getExpression() {
     return findNotNullChildByClass(DafnyExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getLbrace() {
+    return findChildByType(LBRACE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRbrace() {
+    return findChildByType(RBRACE);
   }
 
 }

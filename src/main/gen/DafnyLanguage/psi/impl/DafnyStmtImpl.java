@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -28,20 +28,8 @@ public class DafnyStmtImpl extends ASTWrapperPsiElement implements DafnyStmt {
 
   @Override
   @NotNull
-  public List<DafnyBlockStmt> getBlockStmtList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyBlockStmt.class);
-  }
-
-  @Override
-  @Nullable
   public DafnyOneStmt getOneStmt() {
-    return findChildByClass(DafnyOneStmt.class);
-  }
-
-  @Override
-  @Nullable
-  public DafnyVarDeclStmts getVarDeclStmts() {
-    return findChildByClass(DafnyVarDeclStmts.class);
+    return findNotNullChildByClass(DafnyOneStmt.class);
   }
 
 }

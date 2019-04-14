@@ -17,6 +17,15 @@ public interface DafnyDatatypeDecl extends PsiElement {
   DafnyGenericParameters getGenericParameters();
 
   @NotNull
-  DafnyIdent getIdent();
+  DafnyNoUSIdent getNoUSIdent();
+
+  @Nullable
+  PsiElement getCodatatype();
+
+  @Nullable
+  PsiElement getDatatype();
+
+  @Nullable
+  PsiElement getSemi();
 
 }

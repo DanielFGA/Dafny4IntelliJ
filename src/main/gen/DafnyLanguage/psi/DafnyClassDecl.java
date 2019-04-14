@@ -13,10 +13,25 @@ public interface DafnyClassDecl extends PsiElement {
   @NotNull
   List<DafnyClassMemberDecl> getClassMemberDeclList();
 
+  @NotNull
+  List<DafnyDeclModifier> getDeclModifierList();
+
   @Nullable
   DafnyGenericParameters getGenericParameters();
 
   @NotNull
-  List<DafnyIdent> getIdentList();
+  DafnyNoUSIdent getNoUSIdent();
+
+  @NotNull
+  List<DafnyTypeAndToken> getTypeAndTokenList();
+
+  @NotNull
+  PsiElement getClassToken();
+
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
 
 }

@@ -11,36 +11,57 @@ public interface DafnyOneStmt extends PsiElement {
   DafnyAssertStmt getAssertStmt();
 
   @Nullable
-  DafnyAssignStmt getAssignStmt();
-
-  @Nullable
   DafnyAssumeStmt getAssumeStmt();
 
   @Nullable
-  DafnyCallStmt getCallStmt();
+  DafnyBlockStmt getBlockStmt();
 
   @Nullable
-  DafnyForeachStmt getForeachStmt();
+  DafnyCalcStmt getCalcStmt();
 
   @Nullable
-  DafnyHavocStmt getHavocStmt();
-
-  @Nullable
-  DafnyIdent getIdent();
+  DafnyForallStmt getForallStmt();
 
   @Nullable
   DafnyIfStmt getIfStmt();
 
   @Nullable
+  DafnyLabelIdent getLabelIdent();
+
+  @Nullable
   DafnyMatchStmt getMatchStmt();
+
+  @Nullable
+  DafnyModifyStmt getModifyStmt();
+
+  @Nullable
+  DafnyOneStmt getOneStmt();
 
   @Nullable
   DafnyPrintStmt getPrintStmt();
 
   @Nullable
-  DafnyUseStmt getUseStmt();
+  DafnyReturnStmt getReturnStmt();
+
+  @Nullable
+  DafnyRevealStmt getRevealStmt();
+
+  @Nullable
+  DafnySkeletonStmt getSkeletonStmt();
+
+  @Nullable
+  DafnyUpdateStmt getUpdateStmt();
+
+  @Nullable
+  DafnyVarDeclStatement getVarDeclStatement();
 
   @Nullable
   DafnyWhileStmt getWhileStmt();
+
+  @Nullable
+  PsiElement getColon();
+
+  @Nullable
+  PsiElement getSemi();
 
 }

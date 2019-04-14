@@ -10,4 +10,10 @@ public interface DafnyFormalsOptionalIds extends PsiElement {
   @NotNull
   List<DafnyTypeIdentOptional> getTypeIdentOptionalList();
 
+  @NotNull
+  PsiElement getCloseparen();
+
+  @NotNull
+  PsiElement getOpenparen();
+
 }

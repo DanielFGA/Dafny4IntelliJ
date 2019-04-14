@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface DafnyIdent extends PsiElement {
 
   @NotNull
-  PsiElement getIdent();
+  PsiElement getIdentdef();
 
 }

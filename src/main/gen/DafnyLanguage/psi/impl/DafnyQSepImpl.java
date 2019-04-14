@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -24,6 +24,12 @@ public class DafnyQSepImpl extends ASTWrapperPsiElement implements DafnyQSep {
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof DafnyVisitor) accept((DafnyVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDoublecolon() {
+    return findChildByType(DOUBLECOLON);
   }
 
 }

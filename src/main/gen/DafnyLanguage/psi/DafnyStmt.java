@@ -8,12 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface DafnyStmt extends PsiElement {
 
   @NotNull
-  List<DafnyBlockStmt> getBlockStmtList();
-
-  @Nullable
   DafnyOneStmt getOneStmt();
-
-  @Nullable
-  DafnyVarDeclStmts getVarDeclStmts();
 
 }

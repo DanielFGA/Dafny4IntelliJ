@@ -10,4 +10,7 @@ public interface DafnyPossiblyWildExpression extends PsiElement {
   @Nullable
   DafnyExpression getExpression();
 
+  @Nullable
+  PsiElement getStar();
+
 }

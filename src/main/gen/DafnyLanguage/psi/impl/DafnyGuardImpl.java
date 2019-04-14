@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -30,6 +30,24 @@ public class DafnyGuardImpl extends ASTWrapperPsiElement implements DafnyGuard {
   @Nullable
   public DafnyExpression getExpression() {
     return findChildByClass(DafnyExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getCloseparen() {
+    return findChildByType(CLOSEPAREN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOpenparen() {
+    return findChildByType(OPENPAREN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getStar() {
+    return findChildByType(STAR);
   }
 
 }

@@ -7,7 +7,19 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyAttribute extends PsiElement {
 
+  @Nullable
+  DafnyExpressions getExpressions();
+
   @NotNull
-  DafnyAttributeBody getAttributeBody();
+  DafnyNoUSIdent getNoUSIdent();
+
+  @NotNull
+  PsiElement getColon();
+
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
 
 }

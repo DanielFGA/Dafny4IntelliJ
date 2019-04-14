@@ -13,16 +13,43 @@ public interface DafnyMethodDecl extends PsiElement {
   @Nullable
   DafnyBlockStmt getBlockStmt();
 
+  @Nullable
+  DafnyDividedBlockStmt getDividedBlockStmt();
+
   @NotNull
   List<DafnyFormals> getFormalsList();
 
   @Nullable
+  DafnyFuMeIdent getFuMeIdent();
+
+  @Nullable
   DafnyGenericParameters getGenericParameters();
 
-  @NotNull
-  DafnyIdent getIdent();
+  @Nullable
+  DafnyKType getKType();
 
   @NotNull
   List<DafnyMethodSpec> getMethodSpecList();
+
+  @Nullable
+  PsiElement getColemma();
+
+  @Nullable
+  PsiElement getConstructor();
+
+  @Nullable
+  PsiElement getEllipsis();
+
+  @Nullable
+  PsiElement getInductive();
+
+  @Nullable
+  PsiElement getLemma();
+
+  @Nullable
+  PsiElement getMethod();
+
+  @Nullable
+  PsiElement getTwostate();
 
 }

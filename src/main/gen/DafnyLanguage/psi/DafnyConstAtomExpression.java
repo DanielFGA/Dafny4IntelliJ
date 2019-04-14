@@ -8,15 +8,39 @@ import com.intellij.psi.PsiElement;
 public interface DafnyConstAtomExpression extends PsiElement {
 
   @Nullable
-  DafnyExpression getExpression();
+  DafnyDec getDec();
 
   @Nullable
-  DafnyExpressions getExpressions();
+  DafnyExpression getExpression();
 
   @NotNull
-  List<DafnyIdent> getIdentList();
+  List<DafnyFrameExpression> getFrameExpressionList();
+
+  @Nullable
+  DafnyLabelIdent getLabelIdent();
 
   @Nullable
   DafnyNat getNat();
+
+  @Nullable
+  DafnyParensExpression getParensExpression();
+
+  @Nullable
+  PsiElement getCharToken();
+
+  @Nullable
+  PsiElement getCloseparen();
+
+  @Nullable
+  PsiElement getInt();
+
+  @Nullable
+  PsiElement getOpenparen();
+
+  @Nullable
+  PsiElement getReal();
+
+  @Nullable
+  PsiElement getStringToken();
 
 }

@@ -7,10 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyTypeIdentOptional extends PsiElement {
 
-  @Nullable
-  DafnyType getType();
-
   @NotNull
-  DafnyTypeAndToken getTypeAndToken();
+  List<DafnyTypeAndToken> getTypeAndTokenList();
+
+  @Nullable
+  PsiElement getColon();
+
+  @Nullable
+  PsiElement getDigits();
+
+  @Nullable
+  PsiElement getGhost();
 
 }

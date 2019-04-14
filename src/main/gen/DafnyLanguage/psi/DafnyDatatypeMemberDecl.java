@@ -13,10 +13,7 @@ public interface DafnyDatatypeMemberDecl extends PsiElement {
   @Nullable
   DafnyFormalsOptionalIds getFormalsOptionalIds();
 
-  @Nullable
-  DafnyGenericParameters getGenericParameters();
-
   @NotNull
-  DafnyIdent getIdent();
+  DafnyNoUSIdent getNoUSIdent();
 
 }

@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface DafnyClassMemberDecl extends PsiElement {
 
   @Nullable
-  DafnyCouplingInvDecl getCouplingInvDecl();
+  DafnyConstantFieldDecl getConstantFieldDecl();
 
   @Nullable
   DafnyFieldDecl getFieldDecl();

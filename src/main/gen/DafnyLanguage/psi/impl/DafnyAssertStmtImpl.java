@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -28,8 +28,50 @@ public class DafnyAssertStmtImpl extends ASTWrapperPsiElement implements DafnyAs
 
   @Override
   @NotNull
+  public List<DafnyAttribute> getAttributeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyAttribute.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyBlockStmt getBlockStmt() {
+    return findChildByClass(DafnyBlockStmt.class);
+  }
+
+  @Override
+  @Nullable
   public DafnyExpression getExpression() {
-    return findNotNullChildByClass(DafnyExpression.class);
+    return findChildByClass(DafnyExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyLabelIdent getLabelIdent() {
+    return findChildByClass(DafnyLabelIdent.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBy() {
+    return findChildByType(BY);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getColon() {
+    return findChildByType(COLON);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getEllipsis() {
+    return findChildByType(ELLIPSIS);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSemi() {
+    return findChildByType(SEMI);
   }
 
 }

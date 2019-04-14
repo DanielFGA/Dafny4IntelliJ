@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -28,14 +28,44 @@ public class DafnyCaseExpressionImpl extends ASTWrapperPsiElement implements Daf
 
   @Override
   @NotNull
+  public List<DafnyCasePattern> getCasePatternList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyCasePattern.class);
+  }
+
+  @Override
+  @NotNull
   public DafnyExpression getExpression() {
     return findNotNullChildByClass(DafnyExpression.class);
   }
 
   @Override
+  @Nullable
+  public DafnyIdent getIdent() {
+    return findChildByClass(DafnyIdent.class);
+  }
+
+  @Override
   @NotNull
-  public List<DafnyIdent> getIdentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyIdent.class);
+  public PsiElement getCase() {
+    return findNotNullChildByType(CASE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getCloseparen() {
+    return findChildByType(CLOSEPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getDarrow() {
+    return findNotNullChildByType(DARROW);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOpenparen() {
+    return findChildByType(OPENPAREN);
   }
 
 }

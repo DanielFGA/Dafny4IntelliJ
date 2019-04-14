@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyQuantifierGuts extends PsiElement {
 
-  @NotNull
-  List<DafnyAttributeOrTrigger> getAttributeOrTriggerList();
-
   @Nullable
   DafnyExists getExists();
 
@@ -20,9 +17,9 @@ public interface DafnyQuantifierGuts extends PsiElement {
   DafnyForall getForall();
 
   @NotNull
-  List<DafnyIdentTypeOptional> getIdentTypeOptionalList();
+  DafnyQSep getQSep();
 
   @NotNull
-  DafnyQSep getQSep();
+  DafnyQuantifierDomain getQuantifierDomain();
 
 }

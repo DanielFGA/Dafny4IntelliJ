@@ -7,16 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyWhileStmt extends PsiElement {
 
-  @NotNull
+  @Nullable
+  DafnyAlternativeBlock getAlternativeBlock();
+
+  @Nullable
   DafnyBlockStmt getBlockStmt();
 
-  @NotNull
-  List<DafnyExpression> getExpressionList();
-
-  @NotNull
+  @Nullable
   DafnyGuard getGuard();
 
   @NotNull
-  List<DafnyPossiblyWildExpression> getPossiblyWildExpressionList();
+  List<DafnyLoopSpec> getLoopSpecList();
 
 }

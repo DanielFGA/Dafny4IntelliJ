@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -28,14 +28,14 @@ public class DafnyFactorImpl extends ASTWrapperPsiElement implements DafnyFactor
 
   @Override
   @NotNull
-  public List<DafnyMulOp> getMulOpList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyMulOp.class);
+  public List<DafnyBitvectorFactor> getBitvectorFactorList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyBitvectorFactor.class);
   }
 
   @Override
   @NotNull
-  public List<DafnyUnaryExpression> getUnaryExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyUnaryExpression.class);
+  public List<DafnyMulOp> getMulOpList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyMulOp.class);
   }
 
 }

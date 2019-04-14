@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -30,6 +30,18 @@ public class DafnyFormalsOptionalIdsImpl extends ASTWrapperPsiElement implements
   @NotNull
   public List<DafnyTypeIdentOptional> getTypeIdentOptionalList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyTypeIdentOptional.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getCloseparen() {
+    return findNotNullChildByType(CLOSEPAREN);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getOpenparen() {
+    return findNotNullChildByType(OPENPAREN);
   }
 
 }

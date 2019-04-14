@@ -10,4 +10,10 @@ public interface DafnyBlockStmt extends PsiElement {
   @NotNull
   List<DafnyStmt> getStmtList();
 
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
+
 }

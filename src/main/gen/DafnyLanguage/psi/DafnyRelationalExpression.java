@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyRelationalExpression extends PsiElement {
 
-  @Nullable
-  DafnyRelOp getRelOp();
+  @NotNull
+  List<DafnyRelOp> getRelOpList();
 
   @NotNull
-  List<DafnyTerm> getTermList();
+  List<DafnyShiftTerm> getShiftTermList();
 
 }

@@ -11,6 +11,12 @@ public interface DafnyFieldDecl extends PsiElement {
   List<DafnyAttribute> getAttributeList();
 
   @NotNull
-  List<DafnyIdentType> getIdentTypeList();
+  List<DafnyFIdentType> getFIdentTypeList();
+
+  @NotNull
+  DafnyOldSemi getOldSemi();
+
+  @NotNull
+  PsiElement getVar();
 
 }

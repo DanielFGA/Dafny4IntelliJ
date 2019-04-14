@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -30,6 +30,12 @@ public class DafnyPossiblyWildFrameExpressionImpl extends ASTWrapperPsiElement i
   @Nullable
   public DafnyFrameExpression getFrameExpression() {
     return findChildByClass(DafnyFrameExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getStar() {
+    return findChildByType(STAR);
   }
 
 }

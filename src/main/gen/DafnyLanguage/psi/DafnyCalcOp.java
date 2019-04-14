@@ -1,0 +1,34 @@
+// This is a generated file. Not intended for manual editing.
+package DafnyLanguage.psi;
+
+import java.util.List;
+import org.jetbrains.annotations.*;
+import com.intellij.psi.PsiElement;
+
+public interface DafnyCalcOp extends PsiElement {
+
+  @Nullable
+  DafnyEquivOp getEquivOp();
+
+  @Nullable
+  DafnyExpliesOp getExpliesOp();
+
+  @Nullable
+  DafnyExpression getExpression();
+
+  @Nullable
+  DafnyImpliesOp getImpliesOp();
+
+  @Nullable
+  PsiElement getEq();
+
+  @Nullable
+  PsiElement getLbracket();
+
+  @Nullable
+  PsiElement getNeq();
+
+  @Nullable
+  PsiElement getRbracket();
+
+}

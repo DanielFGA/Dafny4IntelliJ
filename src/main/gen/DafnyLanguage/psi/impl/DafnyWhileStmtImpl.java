@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -27,27 +27,27 @@ public class DafnyWhileStmtImpl extends ASTWrapperPsiElement implements DafnyWhi
   }
 
   @Override
-  @NotNull
+  @Nullable
+  public DafnyAlternativeBlock getAlternativeBlock() {
+    return findChildByClass(DafnyAlternativeBlock.class);
+  }
+
+  @Override
+  @Nullable
   public DafnyBlockStmt getBlockStmt() {
-    return findNotNullChildByClass(DafnyBlockStmt.class);
+    return findChildByClass(DafnyBlockStmt.class);
   }
 
   @Override
-  @NotNull
-  public List<DafnyExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyExpression.class);
-  }
-
-  @Override
-  @NotNull
+  @Nullable
   public DafnyGuard getGuard() {
-    return findNotNullChildByClass(DafnyGuard.class);
+    return findChildByClass(DafnyGuard.class);
   }
 
   @Override
   @NotNull
-  public List<DafnyPossiblyWildExpression> getPossiblyWildExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyPossiblyWildExpression.class);
+  public List<DafnyLoopSpec> getLoopSpecList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyLoopSpec.class);
   }
 
 }

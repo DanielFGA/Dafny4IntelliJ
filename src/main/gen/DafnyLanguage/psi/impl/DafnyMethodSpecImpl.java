@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import static DafnyLanguage.psi.DafnyType.*;
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import DafnyLanguage.psi.*;
 
@@ -27,21 +27,69 @@ public class DafnyMethodSpecImpl extends ASTWrapperPsiElement implements DafnyMe
   }
 
   @Override
+  @NotNull
+  public List<DafnyAttribute> getAttributeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyAttribute.class);
+  }
+
+  @Override
+  @Nullable
+  public DafnyDecreasesList getDecreasesList() {
+    return findChildByClass(DafnyDecreasesList.class);
+  }
+
+  @Override
   @Nullable
   public DafnyExpression getExpression() {
     return findChildByClass(DafnyExpression.class);
   }
 
   @Override
+  @NotNull
+  public List<DafnyFrameExpression> getFrameExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyFrameExpression.class);
+  }
+
+  @Override
   @Nullable
-  public DafnyExpressions getExpressions() {
-    return findChildByClass(DafnyExpressions.class);
+  public DafnyLabelIdent getLabelIdent() {
+    return findChildByClass(DafnyLabelIdent.class);
   }
 
   @Override
   @NotNull
-  public List<DafnyFrameExpression> getFrameExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyFrameExpression.class);
+  public DafnyOldSemi getOldSemi() {
+    return findNotNullChildByClass(DafnyOldSemi.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getColon() {
+    return findChildByType(COLON);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDecreases() {
+    return findChildByType(DECREASES);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getEnsures() {
+    return findChildByType(ENSURES);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getModifies() {
+    return findChildByType(MODIFIES);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRequires() {
+    return findChildByType(REQUIRES);
   }
 
 }

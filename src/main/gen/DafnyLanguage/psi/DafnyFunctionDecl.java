@@ -10,8 +10,11 @@ public interface DafnyFunctionDecl extends PsiElement {
   @NotNull
   List<DafnyAttribute> getAttributeList();
 
-  @NotNull
+  @Nullable
   DafnyFormals getFormals();
+
+  @Nullable
+  DafnyFuMeIdent getFuMeIdent();
 
   @Nullable
   DafnyFunctionBody getFunctionBody();
@@ -20,12 +23,48 @@ public interface DafnyFunctionDecl extends PsiElement {
   List<DafnyFunctionSpec> getFunctionSpecList();
 
   @Nullable
+  DafnyGIdentType getGIdentType();
+
+  @Nullable
   DafnyGenericParameters getGenericParameters();
 
-  @NotNull
-  DafnyIdent getIdent();
+  @Nullable
+  DafnyKType getKType();
 
-  @NotNull
-  DafnyType getType();
+  @Nullable
+  DafnyNoUSIdent getNoUSIdent();
+
+  @Nullable
+  DafnyTypeAndToken getTypeAndToken();
+
+  @Nullable
+  PsiElement getCloseparen();
+
+  @Nullable
+  PsiElement getColon();
+
+  @Nullable
+  PsiElement getCopredicate();
+
+  @Nullable
+  PsiElement getEllipsis();
+
+  @Nullable
+  PsiElement getFunction();
+
+  @Nullable
+  PsiElement getInductive();
+
+  @Nullable
+  PsiElement getMethod();
+
+  @Nullable
+  PsiElement getOpenparen();
+
+  @Nullable
+  PsiElement getPredicate();
+
+  @Nullable
+  PsiElement getTwostate();
 
 }

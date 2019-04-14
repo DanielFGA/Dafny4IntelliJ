@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyMulOp extends PsiElement {
 
+  @Nullable
+  PsiElement getStar();
+
 }

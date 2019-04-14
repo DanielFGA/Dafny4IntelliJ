@@ -7,7 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyNat extends PsiElement {
 
-  @NotNull
+  @Nullable
   PsiElement getDigits();
+
+  @Nullable
+  PsiElement getHexdigits();
 
 }
