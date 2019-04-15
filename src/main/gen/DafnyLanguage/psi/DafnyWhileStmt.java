@@ -19,4 +19,7 @@ public interface DafnyWhileStmt extends PsiElement {
   @NotNull
   List<DafnyLoopSpec> getLoopSpecList();
 
+  @NotNull
+  PsiElement getWhile();
+
 }

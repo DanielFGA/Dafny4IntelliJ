@@ -35,6 +35,9 @@ public interface DafnyMethodSpec extends PsiElement {
   PsiElement getEnsures();
 
   @Nullable
+  PsiElement getFree();
+
+  @Nullable
   PsiElement getModifies();
 
   @Nullable

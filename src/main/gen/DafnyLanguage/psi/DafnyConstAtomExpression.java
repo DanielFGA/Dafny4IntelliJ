@@ -26,13 +26,31 @@ public interface DafnyConstAtomExpression extends PsiElement {
   DafnyParensExpression getParensExpression();
 
   @Nullable
+  PsiElement getAllocated();
+
+  @Nullable
+  PsiElement getAt();
+
+  @Nullable
   PsiElement getCharToken();
 
   @Nullable
   PsiElement getCloseparen();
 
   @Nullable
+  PsiElement getFalse();
+
+  @Nullable
+  PsiElement getFresh();
+
+  @Nullable
   PsiElement getInt();
+
+  @Nullable
+  PsiElement getNull();
+
+  @Nullable
+  PsiElement getOld();
 
   @Nullable
   PsiElement getOpenparen();
@@ -42,5 +60,14 @@ public interface DafnyConstAtomExpression extends PsiElement {
 
   @Nullable
   PsiElement getStringToken();
+
+  @Nullable
+  PsiElement getThis();
+
+  @Nullable
+  PsiElement getTrue();
+
+  @Nullable
+  PsiElement getUnchanged();
 
 }

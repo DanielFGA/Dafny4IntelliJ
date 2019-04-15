@@ -31,4 +31,10 @@ public interface DafnyIteratorDecl extends PsiElement {
   @NotNull
   PsiElement getIterator();
 
+  @Nullable
+  PsiElement getReturns();
+
+  @Nullable
+  PsiElement getYields();
+
 }

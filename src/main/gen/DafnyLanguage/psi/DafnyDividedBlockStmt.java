@@ -13,6 +13,9 @@ public interface DafnyDividedBlockStmt extends PsiElement {
   @NotNull
   PsiElement getLbrace();
 
+  @Nullable
+  PsiElement getNew();
+
   @NotNull
   PsiElement getRbrace();
 

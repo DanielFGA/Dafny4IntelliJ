@@ -20,6 +20,9 @@ public interface DafnyHashCall extends PsiElement {
   PsiElement getCloseparen();
 
   @NotNull
+  PsiElement getHashtag();
+
+  @NotNull
   PsiElement getLbracket();
 
   @NotNull

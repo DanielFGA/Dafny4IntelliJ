@@ -34,6 +34,12 @@ public class DafnyPrintStmtImpl extends ASTWrapperPsiElement implements DafnyPri
 
   @Override
   @NotNull
+  public PsiElement getPrint() {
+    return findNotNullChildByType(PRINT);
+  }
+
+  @Override
+  @NotNull
   public PsiElement getSemi() {
     return findNotNullChildByType(SEMI);
   }

@@ -69,6 +69,12 @@ public class DafnyClassDeclImpl extends ASTWrapperPsiElement implements DafnyCla
   }
 
   @Override
+  @Nullable
+  public PsiElement getExtends() {
+    return findChildByType(EXTENDS);
+  }
+
+  @Override
   @NotNull
   public PsiElement getLbrace() {
     return findNotNullChildByType(LBRACE);

@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyOrOp extends PsiElement {
 
+  @Nullable
+  PsiElement getDoubleOr();
+
 }

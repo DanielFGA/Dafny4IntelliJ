@@ -45,6 +45,12 @@ public class DafnyMatchExpressionImpl extends ASTWrapperPsiElement implements Da
   }
 
   @Override
+  @NotNull
+  public PsiElement getMatch() {
+    return findNotNullChildByType(MATCH);
+  }
+
+  @Override
   @Nullable
   public PsiElement getRbrace() {
     return findChildByType(RBRACE);

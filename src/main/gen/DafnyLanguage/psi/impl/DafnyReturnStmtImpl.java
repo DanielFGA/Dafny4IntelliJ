@@ -33,9 +33,21 @@ public class DafnyReturnStmtImpl extends ASTWrapperPsiElement implements DafnyRe
   }
 
   @Override
+  @Nullable
+  public PsiElement getReturn() {
+    return findChildByType(RETURN);
+  }
+
+  @Override
   @NotNull
   public PsiElement getSemi() {
     return findNotNullChildByType(SEMI);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getYield() {
+    return findChildByType(YIELD);
   }
 
 }

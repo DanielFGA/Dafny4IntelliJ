@@ -28,6 +28,12 @@ public class DafnyDeclModifierImpl extends ASTWrapperPsiElement implements Dafny
 
   @Override
   @Nullable
+  public PsiElement getAbstract() {
+    return findChildByType(ABSTRACT);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getGhost() {
     return findChildByType(GHOST);
   }

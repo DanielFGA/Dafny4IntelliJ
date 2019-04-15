@@ -28,4 +28,7 @@ public interface DafnyIfStmt extends PsiElement {
   @Nullable
   PsiElement getElse();
 
+  @NotNull
+  PsiElement getIf();
+
 }

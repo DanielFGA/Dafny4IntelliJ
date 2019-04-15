@@ -19,6 +19,9 @@ public interface DafnyModifyStmt extends PsiElement {
   @Nullable
   PsiElement getEllipsis();
 
+  @NotNull
+  PsiElement getModify();
+
   @Nullable
   PsiElement getSemi();
 

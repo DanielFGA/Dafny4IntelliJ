@@ -76,6 +76,12 @@ public class DafnySubModuleDeclImpl extends ASTWrapperPsiElement implements Dafn
 
   @Override
   @Nullable
+  public PsiElement getAssign() {
+    return findChildByType(ASSIGN);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getColon() {
     return findChildByType(COLON);
   }
@@ -100,8 +106,26 @@ public class DafnySubModuleDeclImpl extends ASTWrapperPsiElement implements Dafn
 
   @Override
   @Nullable
+  public PsiElement getModule() {
+    return findChildByType(MODULE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOpened() {
+    return findChildByType(OPENED);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getRbrace() {
     return findChildByType(RBRACE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getRefines() {
+    return findChildByType(REFINES);
   }
 
   @Override

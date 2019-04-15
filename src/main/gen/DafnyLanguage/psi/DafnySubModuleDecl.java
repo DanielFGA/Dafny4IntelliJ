@@ -32,6 +32,9 @@ public interface DafnySubModuleDecl extends PsiElement {
   List<DafnyTopDecl> getTopDeclList();
 
   @Nullable
+  PsiElement getAssign();
+
+  @Nullable
   PsiElement getColon();
 
   @Nullable
@@ -44,7 +47,16 @@ public interface DafnySubModuleDecl extends PsiElement {
   PsiElement getLbrace();
 
   @Nullable
+  PsiElement getModule();
+
+  @Nullable
+  PsiElement getOpened();
+
+  @Nullable
   PsiElement getRbrace();
+
+  @Nullable
+  PsiElement getRefines();
 
   @Nullable
   PsiElement getSemi();

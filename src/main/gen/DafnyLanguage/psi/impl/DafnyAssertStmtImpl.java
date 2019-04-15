@@ -51,6 +51,12 @@ public class DafnyAssertStmtImpl extends ASTWrapperPsiElement implements DafnyAs
   }
 
   @Override
+  @NotNull
+  public PsiElement getAssert() {
+    return findNotNullChildByType(ASSERT);
+  }
+
+  @Override
   @Nullable
   public PsiElement getBy() {
     return findChildByType(BY);

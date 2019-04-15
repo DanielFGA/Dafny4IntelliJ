@@ -16,4 +16,7 @@ public interface DafnyNamedExpr extends PsiElement {
   @NotNull
   PsiElement getColon();
 
+  @NotNull
+  PsiElement getLabel();
+
 }

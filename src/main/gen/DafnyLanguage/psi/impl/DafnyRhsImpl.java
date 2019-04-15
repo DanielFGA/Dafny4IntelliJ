@@ -64,6 +64,12 @@ public class DafnyRhsImpl extends ASTWrapperPsiElement implements DafnyRhs {
 
   @Override
   @Nullable
+  public PsiElement getNew() {
+    return findChildByType(NEW);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getOpenparen() {
     return findChildByType(OPENPAREN);
   }

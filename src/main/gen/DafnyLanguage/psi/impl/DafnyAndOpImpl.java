@@ -26,4 +26,10 @@ public class DafnyAndOpImpl extends ASTWrapperPsiElement implements DafnyAndOp {
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getDoubleAnd() {
+    return findChildByType(DOUBLEAND);
+  }
+
 }

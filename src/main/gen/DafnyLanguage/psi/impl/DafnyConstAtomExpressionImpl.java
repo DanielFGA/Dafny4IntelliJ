@@ -64,6 +64,18 @@ public class DafnyConstAtomExpressionImpl extends ASTWrapperPsiElement implement
 
   @Override
   @Nullable
+  public PsiElement getAllocated() {
+    return findChildByType(ALLOCATED);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getAt() {
+    return findChildByType(AT);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getCharToken() {
     return findChildByType(CHARTOKEN);
   }
@@ -76,8 +88,32 @@ public class DafnyConstAtomExpressionImpl extends ASTWrapperPsiElement implement
 
   @Override
   @Nullable
+  public PsiElement getFalse() {
+    return findChildByType(FALSE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getFresh() {
+    return findChildByType(FRESH);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getInt() {
     return findChildByType(INT);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNull() {
+    return findChildByType(NULL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOld() {
+    return findChildByType(OLD);
   }
 
   @Override
@@ -96,6 +132,24 @@ public class DafnyConstAtomExpressionImpl extends ASTWrapperPsiElement implement
   @Nullable
   public PsiElement getStringToken() {
     return findChildByType(STRINGTOKEN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getThis() {
+    return findChildByType(THIS);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getTrue() {
+    return findChildByType(TRUE);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getUnchanged() {
+    return findChildByType(UNCHANGED);
   }
 
 }

@@ -26,4 +26,10 @@ public class DafnyExpliesOpImpl extends ASTWrapperPsiElement implements DafnyExp
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getImplyLeft() {
+    return findChildByType(IMPLYLEFT);
+  }
+
 }

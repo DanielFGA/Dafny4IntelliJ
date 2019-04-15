@@ -20,13 +20,31 @@ public interface DafnyCalcOp extends PsiElement {
   DafnyImpliesOp getImpliesOp();
 
   @Nullable
+  PsiElement getArrQuest();
+
+  @Nullable
+  PsiElement getAssign();
+
+  @Nullable
+  PsiElement getCloseAngleBracket();
+
+  @Nullable
+  PsiElement getDarrow();
+
+  @Nullable
   PsiElement getEq();
+
+  @Nullable
+  PsiElement getHashtag();
 
   @Nullable
   PsiElement getLbracket();
 
   @Nullable
   PsiElement getNeq();
+
+  @Nullable
+  PsiElement getOpenAngleBracket();
 
   @Nullable
   PsiElement getRbracket();

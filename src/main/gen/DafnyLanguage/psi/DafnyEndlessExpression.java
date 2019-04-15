@@ -38,6 +38,9 @@ public interface DafnyEndlessExpression extends PsiElement {
   PsiElement getElse();
 
   @Nullable
+  PsiElement getIf();
+
+  @Nullable
   PsiElement getImap();
 
   @Nullable

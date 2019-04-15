@@ -10,13 +10,13 @@ import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 %%
 
 %{
-  public _DafnyLexer() {
+  public DafnyLexer() {
     this((java.io.Reader)null);
   }
 %}
 
 %public
-%class _DafnyLexer
+%class DafnyLexer
 %implements FlexLexer
 %function advance
 %type IElementType
@@ -89,6 +89,61 @@ REQUIRES=requires
 ENSURES=ensures
 GHOST=ghost
 WITNESS=witness
+INCLUDE=include
+ABSTRACT=abstract
+MODULE=module
+REFINES=refines
+PROVIDES=provides
+REVEALS=reveals
+EXTENDS=extends
+YIELDS=yields
+RETURNS=returns
+NEW=new
+COMETHOD=comethod
+FREE=free
+LABEL=label
+BREAK=break
+IF=if
+WHILE=while
+MATCH=match
+ASSERT=assert
+PRINT=print
+FORALLTOKEN=forall
+PARALLEL=parallel
+MODIFY=modify
+FALSE=false
+TRUE=true
+NULL=null
+THIS=this
+FRESH=fresh
+ALLOCATED=allocated
+UNCHANGED=unchanged
+OLD=old
+EXISTSTOKEN=exists
+OPENED=opened
+YIELD=yield
+WHERE=where
+RETURN=return
+ASSIGN==
+PLUS=\+
+MINUS=-
+EXCMARK=\!
+WAVEARROW="~>"
+LINEARROW="->"
+DOUBLELINEARROW="-->"
+HASHTAG=#
+BIGGEREQ=">="
+EQUIVALENTTO="<==>"
+IMPLYRIGHT="==>"
+IMPLYLEFT="<=="
+AND=\&
+DOUBLEAND=\&\&
+DOUBLEOR=\|\|
+CIRCUMFLEX=\^
+DOUBLEDOT=\.\.
+AT=@
+ARRQUEST=>\?
+PERCENT=%
 LBRACE=\{
 RBRACE=}
 LBRACKET=\[
@@ -113,13 +168,14 @@ ARRAYTOKEN=array([1-9])(([0-9])*)?
 ARRAYTOKEN_Q=array([1-9])(([0-9])*)?[?]
 BVTOKEN=bv(0|([1-9])([0-9])* )
 IDENTDEF=([A-Zb-z?])([A-zZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*
-COMMENT=(\/\/.*)|(\/\*[\s\S]*?\*\/)
+COMMENT=\\\\.*\n|\\\*[\s\S]*?\*\\
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}              { return WHITE_SPACE; }
 
+  "ghostd"                   { return GHOSTD; }
   "verticalbarExpression"    { return VERTICALBAREXPRESSION; }
 
   {BOOL}                     { return BOOL; }
@@ -186,6 +242,61 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   {ENSURES}                  { return ENSURES; }
   {GHOST}                    { return GHOST; }
   {WITNESS}                  { return WITNESS; }
+  {INCLUDE}                  { return INCLUDE; }
+  {ABSTRACT}                 { return ABSTRACT; }
+  {MODULE}                   { return MODULE; }
+  {REFINES}                  { return REFINES; }
+  {PROVIDES}                 { return PROVIDES; }
+  {REVEALS}                  { return REVEALS; }
+  {EXTENDS}                  { return EXTENDS; }
+  {YIELDS}                   { return YIELDS; }
+  {RETURNS}                  { return RETURNS; }
+  {NEW}                      { return NEW; }
+  {COMETHOD}                 { return COMETHOD; }
+  {FREE}                     { return FREE; }
+  {LABEL}                    { return LABEL; }
+  {BREAK}                    { return BREAK; }
+  {IF}                       { return IF; }
+  {WHILE}                    { return WHILE; }
+  {MATCH}                    { return MATCH; }
+  {ASSERT}                   { return ASSERT; }
+  {PRINT}                    { return PRINT; }
+  {FORALLTOKEN}              { return FORALLTOKEN; }
+  {PARALLEL}                 { return PARALLEL; }
+  {MODIFY}                   { return MODIFY; }
+  {FALSE}                    { return FALSE; }
+  {TRUE}                     { return TRUE; }
+  {NULL}                     { return NULL; }
+  {THIS}                     { return THIS; }
+  {FRESH}                    { return FRESH; }
+  {ALLOCATED}                { return ALLOCATED; }
+  {UNCHANGED}                { return UNCHANGED; }
+  {OLD}                      { return OLD; }
+  {EXISTSTOKEN}              { return EXISTSTOKEN; }
+  {OPENED}                   { return OPENED; }
+  {YIELD}                    { return YIELD; }
+  {WHERE}                    { return WHERE; }
+  {RETURN}                   { return RETURN; }
+  {ASSIGN}                   { return ASSIGN; }
+  {PLUS}                     { return PLUS; }
+  {MINUS}                    { return MINUS; }
+  {EXCMARK}                  { return EXCMARK; }
+  {WAVEARROW}                { return WAVEARROW; }
+  {LINEARROW}                { return LINEARROW; }
+  {DOUBLELINEARROW}          { return DOUBLELINEARROW; }
+  {HASHTAG}                  { return HASHTAG; }
+  {BIGGEREQ}                 { return BIGGEREQ; }
+  {EQUIVALENTTO}             { return EQUIVALENTTO; }
+  {IMPLYRIGHT}               { return IMPLYRIGHT; }
+  {IMPLYLEFT}                { return IMPLYLEFT; }
+  {AND}                      { return AND; }
+  {DOUBLEAND}                { return DOUBLEAND; }
+  {DOUBLEOR}                 { return DOUBLEOR; }
+  {CIRCUMFLEX}               { return CIRCUMFLEX; }
+  {DOUBLEDOT}                { return DOUBLEDOT; }
+  {AT}                       { return AT; }
+  {ARRQUEST}                 { return ARRQUEST; }
+  {PERCENT}                  { return PERCENT; }
   {LBRACE}                   { return LBRACE; }
   {RBRACE}                   { return RBRACE; }
   {LBRACKET}                 { return LBRACKET; }
@@ -211,8 +322,8 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   {BVTOKEN}                  { return BVTOKEN; }
   {IDENTDEF}                 { return IDENTDEF; }
   {COMMENT}                  { return COMMENT; }
-  {WHITE_SPACE}              { /* ignore */}
-  <<EOF>>                     { return EOF; }
+  {WHITE_SPACE}              { return WHITE_SPACE; }
+  <<EOF>>                      { return EOF; }
 
 }
 

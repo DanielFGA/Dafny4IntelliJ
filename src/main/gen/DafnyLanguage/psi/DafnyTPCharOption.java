@@ -13,4 +13,10 @@ public interface DafnyTPCharOption extends PsiElement {
   @Nullable
   PsiElement getEq();
 
+  @Nullable
+  PsiElement getExcMark();
+
+  @Nullable
+  PsiElement getNew();
+
 }

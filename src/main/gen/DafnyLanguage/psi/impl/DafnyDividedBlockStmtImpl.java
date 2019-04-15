@@ -39,6 +39,12 @@ public class DafnyDividedBlockStmtImpl extends ASTWrapperPsiElement implements D
   }
 
   @Override
+  @Nullable
+  public PsiElement getNew() {
+    return findChildByType(NEW);
+  }
+
+  @Override
   @NotNull
   public PsiElement getRbrace() {
     return findNotNullChildByType(RBRACE);

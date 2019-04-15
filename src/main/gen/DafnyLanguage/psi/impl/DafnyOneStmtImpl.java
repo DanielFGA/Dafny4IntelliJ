@@ -136,6 +136,12 @@ public class DafnyOneStmtImpl extends ASTWrapperPsiElement implements DafnyOneSt
 
   @Override
   @Nullable
+  public PsiElement getLabel() {
+    return findChildByType(LABEL);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getSemi() {
     return findChildByType(SEMI);
   }

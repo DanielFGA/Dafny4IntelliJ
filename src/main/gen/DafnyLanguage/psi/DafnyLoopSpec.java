@@ -26,6 +26,9 @@ public interface DafnyLoopSpec extends PsiElement {
   PsiElement getDecreases();
 
   @Nullable
+  PsiElement getFree();
+
+  @Nullable
   PsiElement getInvariant();
 
   @Nullable

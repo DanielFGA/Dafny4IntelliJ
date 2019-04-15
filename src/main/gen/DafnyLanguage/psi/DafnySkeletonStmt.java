@@ -22,4 +22,7 @@ public interface DafnySkeletonStmt extends PsiElement {
   @NotNull
   PsiElement getSemi();
 
+  @Nullable
+  PsiElement getWhere();
+
 }

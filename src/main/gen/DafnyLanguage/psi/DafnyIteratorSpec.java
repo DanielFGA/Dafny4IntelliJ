@@ -35,6 +35,9 @@ public interface DafnyIteratorSpec extends PsiElement {
   PsiElement getEnsures();
 
   @Nullable
+  PsiElement getFree();
+
+  @Nullable
   PsiElement getModifies();
 
   @Nullable
@@ -42,5 +45,8 @@ public interface DafnyIteratorSpec extends PsiElement {
 
   @Nullable
   PsiElement getRequires();
+
+  @Nullable
+  PsiElement getYield();
 
 }

@@ -26,4 +26,10 @@ public class DafnyExistsImpl extends ASTWrapperPsiElement implements DafnyExists
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getExiststoken() {
+    return findChildByType(EXISTSTOKEN);
+  }
+
 }

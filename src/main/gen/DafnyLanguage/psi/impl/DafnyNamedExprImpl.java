@@ -44,4 +44,10 @@ public class DafnyNamedExprImpl extends ASTWrapperPsiElement implements DafnyNam
     return findNotNullChildByType(COLON);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getLabel() {
+    return findNotNullChildByType(LABEL);
+  }
+
 }

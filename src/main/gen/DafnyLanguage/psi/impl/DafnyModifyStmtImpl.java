@@ -51,6 +51,12 @@ public class DafnyModifyStmtImpl extends ASTWrapperPsiElement implements DafnyMo
   }
 
   @Override
+  @NotNull
+  public PsiElement getModify() {
+    return findNotNullChildByType(MODIFY);
+  }
+
+  @Override
   @Nullable
   public PsiElement getSemi() {
     return findChildByType(SEMI);

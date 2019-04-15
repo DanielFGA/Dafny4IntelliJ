@@ -26,4 +26,10 @@ public class DafnyForallImpl extends ASTWrapperPsiElement implements DafnyForall
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getForalltoken() {
+    return findChildByType(FORALLTOKEN);
+  }
+
 }

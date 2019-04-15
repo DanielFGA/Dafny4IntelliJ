@@ -58,8 +58,20 @@ public class DafnyForallStmtImpl extends ASTWrapperPsiElement implements DafnyFo
 
   @Override
   @Nullable
+  public PsiElement getForalltoken() {
+    return findChildByType(FORALLTOKEN);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getOpenparen() {
     return findChildByType(OPENPAREN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getParallel() {
+    return findChildByType(PARALLEL);
   }
 
 }

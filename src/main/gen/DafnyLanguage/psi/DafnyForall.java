@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyForall extends PsiElement {
 
+  @Nullable
+  PsiElement getForalltoken();
+
 }

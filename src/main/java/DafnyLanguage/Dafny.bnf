@@ -98,7 +98,7 @@
       match = "regexp:match"
       assert = "regexp:assert"
       print = "regexp:print"
-      forall = "regexp:forall"
+      foralltoken = "regexp:forall"
       parallel = "regexp:parallel"
       modify = "regexp:modify"
       false = "regexp:false"
@@ -109,7 +109,7 @@
       allocated = "regexp:allocated"
       unchanged = "regexp:unchanged"
       old = "regexp:old"
-      exists = "regexp:exists"
+      existstoken = "regexp:exists"
       opened = "regexp:opened"
       ghost = "regexp:ghost"
       yield = "regexp:yield"
@@ -117,7 +117,6 @@
       return = "regexp:return"
 
       assign = "regexp:="
-      singleSpace = "regexp: "
       plus = "regexp:\+"
       minus = "regexp:-"
       excMark = "regexp:\!"
@@ -240,7 +239,7 @@ QualifiedModuleExportSuffix
 ::=
  (
     dot ModuleName (dot ModuleName )*
-    | singleSpace (
+    | " " (
         ModuleExport
         | lbrace ModuleExport (comma ModuleExport )* rbrace
     )
@@ -657,7 +656,7 @@ RevealStmt ::= reveal Expression (comma Expression)* semi
 
 ForallStmt
 ::=
- (forall | parallel)
+ (foralltoken | parallel)
  (openparen(QuantifierDomain)?closeparen| (QuantifierDomain)?)
  ((free)? ensures Expression OldSemi)* (BlockStmt)?
 
@@ -700,8 +699,8 @@ AndOp ::= doubleAnd | '\u2227'
 OrOp ::= doubleOr | '\u2228'
 
 NegOp ::= excMark | '\u00ac'
-Forall ::= forall | '\u2200'
-Exists ::= exists | '\u2203'
+Forall ::= foralltoken | '\u2200'
+Exists ::= existstoken | '\u2203'
 QSep ::= doublecolon | 'bullet'
 
 Expression ::= EquivExpression (semi Expression)?

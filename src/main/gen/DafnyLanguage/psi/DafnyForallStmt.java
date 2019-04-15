@@ -23,6 +23,12 @@ public interface DafnyForallStmt extends PsiElement {
   PsiElement getCloseparen();
 
   @Nullable
+  PsiElement getForalltoken();
+
+  @Nullable
   PsiElement getOpenparen();
+
+  @Nullable
+  PsiElement getParallel();
 
 }

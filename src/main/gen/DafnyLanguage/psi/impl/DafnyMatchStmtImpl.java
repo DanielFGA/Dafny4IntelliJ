@@ -38,4 +38,10 @@ public class DafnyMatchStmtImpl extends ASTWrapperPsiElement implements DafnyMat
     return findNotNullChildByClass(DafnyExpression.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getMatch() {
+    return findNotNullChildByType(MATCH);
+  }
+
 }

@@ -50,4 +50,10 @@ public class DafnyWhileStmtImpl extends ASTWrapperPsiElement implements DafnyWhi
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyLoopSpec.class);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getWhile() {
+    return findNotNullChildByType(WHILE);
+  }
+
 }

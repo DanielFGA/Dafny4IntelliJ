@@ -88,6 +88,12 @@ public class DafnyEndlessExpressionImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @Nullable
+  public PsiElement getIf() {
+    return findChildByType(IF);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getImap() {
     return findChildByType(IMAP);
   }

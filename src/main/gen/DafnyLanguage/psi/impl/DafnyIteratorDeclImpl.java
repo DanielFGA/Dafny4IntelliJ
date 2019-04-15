@@ -74,4 +74,16 @@ public class DafnyIteratorDeclImpl extends ASTWrapperPsiElement implements Dafny
     return findNotNullChildByType(ITERATOR);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getReturns() {
+    return findChildByType(RETURNS);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getYields() {
+    return findChildByType(YIELDS);
+  }
+
 }

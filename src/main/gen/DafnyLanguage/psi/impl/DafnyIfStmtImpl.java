@@ -68,4 +68,10 @@ public class DafnyIfStmtImpl extends ASTWrapperPsiElement implements DafnyIfStmt
     return findChildByType(ELSE);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getIf() {
+    return findNotNullChildByType(IF);
+  }
+
 }

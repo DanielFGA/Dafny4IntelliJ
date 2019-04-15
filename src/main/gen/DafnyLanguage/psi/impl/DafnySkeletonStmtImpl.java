@@ -56,4 +56,10 @@ public class DafnySkeletonStmtImpl extends ASTWrapperPsiElement implements Dafny
     return findNotNullChildByType(SEMI);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getWhere() {
+    return findChildByType(WHERE);
+  }
+
 }

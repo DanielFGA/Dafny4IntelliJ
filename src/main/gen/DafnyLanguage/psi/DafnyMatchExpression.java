@@ -16,6 +16,9 @@ public interface DafnyMatchExpression extends PsiElement {
   @Nullable
   PsiElement getLbrace();
 
+  @NotNull
+  PsiElement getMatch();
+
   @Nullable
   PsiElement getRbrace();
 

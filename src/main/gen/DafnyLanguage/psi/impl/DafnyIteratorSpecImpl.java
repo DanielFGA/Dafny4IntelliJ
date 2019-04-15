@@ -82,6 +82,12 @@ public class DafnyIteratorSpecImpl extends ASTWrapperPsiElement implements Dafny
 
   @Override
   @Nullable
+  public PsiElement getFree() {
+    return findChildByType(FREE);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getModifies() {
     return findChildByType(MODIFIES);
   }
@@ -96,6 +102,12 @@ public class DafnyIteratorSpecImpl extends ASTWrapperPsiElement implements Dafny
   @Nullable
   public PsiElement getRequires() {
     return findChildByType(REQUIRES);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getYield() {
+    return findChildByType(YIELD);
   }
 
 }

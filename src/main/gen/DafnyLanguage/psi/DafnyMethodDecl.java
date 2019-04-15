@@ -35,6 +35,9 @@ public interface DafnyMethodDecl extends PsiElement {
   PsiElement getColemma();
 
   @Nullable
+  PsiElement getComethod();
+
+  @Nullable
   PsiElement getConstructor();
 
   @Nullable
@@ -48,6 +51,9 @@ public interface DafnyMethodDecl extends PsiElement {
 
   @Nullable
   PsiElement getMethod();
+
+  @Nullable
+  PsiElement getReturns();
 
   @Nullable
   PsiElement getTwostate();

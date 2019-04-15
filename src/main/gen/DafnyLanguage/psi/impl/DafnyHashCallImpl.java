@@ -52,6 +52,12 @@ public class DafnyHashCallImpl extends ASTWrapperPsiElement implements DafnyHash
 
   @Override
   @NotNull
+  public PsiElement getHashtag() {
+    return findNotNullChildByType(HASHTAG);
+  }
+
+  @Override
+  @NotNull
   public PsiElement getLbracket() {
     return findNotNullChildByType(LBRACKET);
   }

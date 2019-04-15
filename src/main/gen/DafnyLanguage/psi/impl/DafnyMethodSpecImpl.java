@@ -82,6 +82,12 @@ public class DafnyMethodSpecImpl extends ASTWrapperPsiElement implements DafnyMe
 
   @Override
   @Nullable
+  public PsiElement getFree() {
+    return findChildByType(FREE);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getModifies() {
     return findChildByType(MODIFIES);
   }

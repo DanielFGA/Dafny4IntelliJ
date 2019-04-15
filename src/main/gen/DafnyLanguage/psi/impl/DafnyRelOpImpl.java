@@ -34,14 +34,32 @@ public class DafnyRelOpImpl extends ASTWrapperPsiElement implements DafnyRelOp {
 
   @Override
   @Nullable
+  public PsiElement getBiggerEq() {
+    return findChildByType(BIGGEREQ);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getCloseAngleBracket() {
     return findChildByType(CLOSEANGLEBRACKET);
   }
 
   @Override
   @Nullable
+  public PsiElement getDarrow() {
+    return findChildByType(DARROW);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getEq() {
     return findChildByType(EQ);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getHashtag() {
+    return findChildByType(HASHTAG);
   }
 
   @Override

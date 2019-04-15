@@ -8,6 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface DafnyMulOp extends PsiElement {
 
   @Nullable
+  PsiElement getPercent();
+
+  @Nullable
   PsiElement getStar();
+
+  @Nullable
+  PsiElement getVerticalbar();
 
 }

@@ -26,6 +26,9 @@ public interface DafnyRhs extends PsiElement {
   PsiElement getCloseparen();
 
   @Nullable
+  PsiElement getNew();
+
+  @Nullable
   PsiElement getOpenparen();
 
   @Nullable

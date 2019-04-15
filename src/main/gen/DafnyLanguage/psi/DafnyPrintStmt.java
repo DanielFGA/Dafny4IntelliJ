@@ -11,6 +11,9 @@ public interface DafnyPrintStmt extends PsiElement {
   List<DafnyExpression> getExpressionList();
 
   @NotNull
+  PsiElement getPrint();
+
+  @NotNull
   PsiElement getSemi();
 
 }

@@ -10,7 +10,13 @@ public interface DafnyReturnStmt extends PsiElement {
   @NotNull
   List<DafnyRhs> getRhsList();
 
+  @Nullable
+  PsiElement getReturn();
+
   @NotNull
   PsiElement getSemi();
+
+  @Nullable
+  PsiElement getYield();
 
 }

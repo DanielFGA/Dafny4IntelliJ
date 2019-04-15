@@ -64,6 +64,12 @@ public class DafnyLoopSpecImpl extends ASTWrapperPsiElement implements DafnyLoop
 
   @Override
   @Nullable
+  public PsiElement getFree() {
+    return findChildByType(FREE);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getInvariant() {
     return findChildByType(INVARIANT);
   }

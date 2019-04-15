@@ -82,6 +82,12 @@ public class DafnyMethodDeclImpl extends ASTWrapperPsiElement implements DafnyMe
 
   @Override
   @Nullable
+  public PsiElement getComethod() {
+    return findChildByType(COMETHOD);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getConstructor() {
     return findChildByType(CONSTRUCTOR);
   }
@@ -108,6 +114,12 @@ public class DafnyMethodDeclImpl extends ASTWrapperPsiElement implements DafnyMe
   @Nullable
   public PsiElement getMethod() {
     return findChildByType(METHOD);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getReturns() {
+    return findChildByType(RETURNS);
   }
 
   @Override

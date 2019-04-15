@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface DafnyDeclModifier extends PsiElement {
 
   @Nullable
+  PsiElement getAbstract();
+
+  @Nullable
   PsiElement getGhost();
 
   @Nullable

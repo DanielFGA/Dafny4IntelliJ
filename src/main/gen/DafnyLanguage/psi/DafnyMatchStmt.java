@@ -13,4 +13,7 @@ public interface DafnyMatchStmt extends PsiElement {
   @NotNull
   DafnyExpression getExpression();
 
+  @NotNull
+  PsiElement getMatch();
+
 }

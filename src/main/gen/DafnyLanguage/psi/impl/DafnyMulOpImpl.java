@@ -28,8 +28,20 @@ public class DafnyMulOpImpl extends ASTWrapperPsiElement implements DafnyMulOp {
 
   @Override
   @Nullable
+  public PsiElement getPercent() {
+    return findChildByType(PERCENT);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getStar() {
     return findChildByType(STAR);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getVerticalbar() {
+    return findChildByType(VERTICALBAR);
   }
 
 }

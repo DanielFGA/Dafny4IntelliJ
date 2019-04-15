@@ -19,6 +19,9 @@ public interface DafnyAssertStmt extends PsiElement {
   @Nullable
   DafnyLabelIdent getLabelIdent();
 
+  @NotNull
+  PsiElement getAssert();
+
   @Nullable
   PsiElement getBy();
 

@@ -62,6 +62,9 @@ public interface DafnyOneStmt extends PsiElement {
   PsiElement getColon();
 
   @Nullable
+  PsiElement getLabel();
+
+  @Nullable
   PsiElement getSemi();
 
 }

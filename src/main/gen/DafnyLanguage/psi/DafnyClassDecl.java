@@ -28,6 +28,9 @@ public interface DafnyClassDecl extends PsiElement {
   @NotNull
   PsiElement getClassToken();
 
+  @Nullable
+  PsiElement getExtends();
+
   @NotNull
   PsiElement getLbrace();
 
