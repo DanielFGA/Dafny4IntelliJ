@@ -11,9 +11,6 @@ public interface DafnyRelOp extends PsiElement {
   DafnyExpression getExpression();
 
   @Nullable
-  PsiElement getBiggerEq();
-
-  @Nullable
   PsiElement getCloseAngleBracket();
 
   @Nullable
@@ -21,9 +18,6 @@ public interface DafnyRelOp extends PsiElement {
 
   @Nullable
   PsiElement getEq();
-
-  @Nullable
-  PsiElement getHashtag();
 
   @Nullable
   PsiElement getIn();

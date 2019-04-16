@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<list>
+    <option name="DAFNY_KEY">
+        <value>
+            <option name="FOREGROUND" value="000066"/>
+        </value>
+    </option>
+    <option name="VAR_KEY">
+        <value>
+            <option name="FOREGROUND" value="008000"/>
+        </value>
+    </option>
+    <option name="VERIFY_KEY">
+        <value>
+            <option name="FOREGROUND" value="0066ff"/>
+        </value>
+    </option>
+    <option name="STRING_CHAR_KEY">
+        <value>
+            <option name="FOREGROUND" value="000000"/>
+        </value>
+    </option>
+</list>

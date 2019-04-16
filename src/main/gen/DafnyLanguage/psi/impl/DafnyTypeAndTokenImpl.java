@@ -52,12 +52,6 @@ public class DafnyTypeAndTokenImpl extends ASTWrapperPsiElement implements Dafny
 
   @Override
   @Nullable
-  public PsiElement getLineArrow() {
-    return findChildByType(LINEARROW);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getOrdinal() {
     return findChildByType(ORDINAL);
   }
@@ -96,12 +90,6 @@ public class DafnyTypeAndTokenImpl extends ASTWrapperPsiElement implements Dafny
   @Nullable
   public PsiElement getCloseparen() {
     return findChildByType(CLOSEPAREN);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getDoubleLineArrow() {
-    return findChildByType(DOUBLELINEARROW);
   }
 
   @Override
@@ -180,12 +168,6 @@ public class DafnyTypeAndTokenImpl extends ASTWrapperPsiElement implements Dafny
   @Nullable
   public PsiElement getString() {
     return findChildByType(STRING);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getWaveArrow() {
-    return findChildByType(WAVEARROW);
   }
 
 }

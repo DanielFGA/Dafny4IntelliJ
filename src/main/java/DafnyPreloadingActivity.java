@@ -9,9 +9,6 @@ import java.io.File;
 public class DafnyPreloadingActivity extends PreloadingActivity {
     @Override
     public void preload(@NotNull ProgressIndicator indicator) {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File("C:\\Users\\Daniel Figia\\IdeaProjects\\DafnyPlugin4Intellij\\Server.jar");
-        System.out.println(file.exists());
-        IntellijLanguageClient.addServerDefinition(new RawCommandServerDefinition("dfy", new String[]{"java", "-jar", "C:\\Users\\Daniel\\IdeaProjects\\jsonreader\\DafnyPlugin4Intellij\\Server4.jar"}));
+        IntellijLanguageClient.addServerDefinition(new RawCommandServerDefinition("dfy", new String[]{"java", "-jar", "C:\\Users\\Daniel\\IdeaProjects\\jsonreader\\DafnyPlugin4Intellij\\src\\main\\resources\\Server4.jar"}));
     }
 }

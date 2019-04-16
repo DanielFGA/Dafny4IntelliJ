@@ -439,14 +439,13 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // plus | minus
+  // "+" | "-"
   public static boolean AddOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AddOp")) return false;
-    if (!nextTokenIs(b, "<add op>", MINUS, PLUS)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ADD_OP, "<add op>");
-    r = consumeToken(b, PLUS);
-    if (!r) r = consumeToken(b, MINUS);
+    r = consumeToken(b, "+");
+    if (!r) r = consumeToken(b, "-");
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -576,12 +575,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // doubleAnd | '\u2227'
+  // "&&" | '\u2227'
   public static boolean AndOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AndOp")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, AND_OP, "<and op>");
-    r = consumeToken(b, DOUBLEAND);
+    r = consumeToken(b, "&&");
     if (!r) r = consumeToken(b, "\\u2227");
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -806,9 +805,9 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   // AsExpression
   //  (
   //      (
-  //          and  AsExpression ( and AsExpression)*
+  //          "&"  AsExpression ( "&" AsExpression)*
   //          | verticalbar AsExpression (verticalbar AsExpression )*
-  //          | circumflex AsExpression ( circumflex AsExpression)*
+  //          | "^" AsExpression ( "^" AsExpression)*
   //     )
   //  )?
   public static boolean BitvectorFactor(PsiBuilder b, int l) {
@@ -823,9 +822,9 @@ public class DafnyParser implements PsiParser, LightPsiParser {
 
   // (
   //      (
-  //          and  AsExpression ( and AsExpression)*
+  //          "&"  AsExpression ( "&" AsExpression)*
   //          | verticalbar AsExpression (verticalbar AsExpression )*
-  //          | circumflex AsExpression ( circumflex AsExpression)*
+  //          | "^" AsExpression ( "^" AsExpression)*
   //     )
   //  )?
   private static boolean BitvectorFactor_1(PsiBuilder b, int l) {
@@ -834,9 +833,9 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // and  AsExpression ( and AsExpression)*
+  // "&"  AsExpression ( "&" AsExpression)*
   //          | verticalbar AsExpression (verticalbar AsExpression )*
-  //          | circumflex AsExpression ( circumflex AsExpression)*
+  //          | "^" AsExpression ( "^" AsExpression)*
   private static boolean BitvectorFactor_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "BitvectorFactor_1_0")) return false;
     boolean r;
@@ -848,19 +847,19 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // and  AsExpression ( and AsExpression)*
+  // "&"  AsExpression ( "&" AsExpression)*
   private static boolean BitvectorFactor_1_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "BitvectorFactor_1_0_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, AND);
+    r = consumeToken(b, "&");
     r = r && AsExpression(b, l + 1);
     r = r && BitvectorFactor_1_0_0_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // ( and AsExpression)*
+  // ( "&" AsExpression)*
   private static boolean BitvectorFactor_1_0_0_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "BitvectorFactor_1_0_0_2")) return false;
     while (true) {
@@ -871,12 +870,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // and AsExpression
+  // "&" AsExpression
   private static boolean BitvectorFactor_1_0_0_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "BitvectorFactor_1_0_0_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, AND);
+    r = consumeToken(b, "&");
     r = r && AsExpression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -916,19 +915,19 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // circumflex AsExpression ( circumflex AsExpression)*
+  // "^" AsExpression ( "^" AsExpression)*
   private static boolean BitvectorFactor_1_0_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "BitvectorFactor_1_0_2")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, CIRCUMFLEX);
+    r = consumeToken(b, "^");
     r = r && AsExpression(b, l + 1);
     r = r && BitvectorFactor_1_0_2_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // ( circumflex AsExpression)*
+  // ( "^" AsExpression)*
   private static boolean BitvectorFactor_1_0_2_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "BitvectorFactor_1_0_2_2")) return false;
     while (true) {
@@ -939,12 +938,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // circumflex AsExpression
+  // "^" AsExpression
   private static boolean BitvectorFactor_1_0_2_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "BitvectorFactor_1_0_2_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, CIRCUMFLEX);
+    r = consumeToken(b, "^");
     r = r && AsExpression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -1026,12 +1025,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // eq (hashtag lbracket Expression rbracket)?
+  // eq ("#" lbracket Expression rbracket)?
   //      | openAngleBracket
   //      | closeAngleBracket
   //      | darrow
-  //      | arrQuest
-  //      | assign
+  //      | ">?"
+  //      | "="
   //      | neq
   //      | 'neqAlt'
   //      | '\u2264'
@@ -1047,8 +1046,8 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, OPENANGLEBRACKET);
     if (!r) r = consumeToken(b, CLOSEANGLEBRACKET);
     if (!r) r = consumeToken(b, DARROW);
-    if (!r) r = consumeToken(b, ARRQUEST);
-    if (!r) r = consumeToken(b, ASSIGN);
+    if (!r) r = consumeToken(b, ">?");
+    if (!r) r = consumeToken(b, "=");
     if (!r) r = consumeToken(b, NEQ);
     if (!r) r = consumeToken(b, "neqAlt");
     if (!r) r = consumeToken(b, "\\u2264");
@@ -1060,7 +1059,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // eq (hashtag lbracket Expression rbracket)?
+  // eq ("#" lbracket Expression rbracket)?
   private static boolean CalcOp_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CalcOp_0")) return false;
     boolean r;
@@ -1071,19 +1070,20 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (hashtag lbracket Expression rbracket)?
+  // ("#" lbracket Expression rbracket)?
   private static boolean CalcOp_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CalcOp_0_1")) return false;
     CalcOp_0_1_0(b, l + 1);
     return true;
   }
 
-  // hashtag lbracket Expression rbracket
+  // "#" lbracket Expression rbracket
   private static boolean CalcOp_0_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CalcOp_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, HASHTAG, LBRACKET);
+    r = consumeToken(b, "#");
+    r = r && consumeToken(b, LBRACKET);
     r = r && Expression(b, l + 1);
     r = r && consumeToken(b, RBRACKET);
     exit_section_(b, m, null, r);
@@ -1924,8 +1924,8 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   //      | this
   //      | fresh openparen Expression closeparen
   //      | allocated openparen Expression closeparen
-  //      | unchanged (at LabelIdent)? openparen FrameExpression (comma FrameExpression)* closeparen
-  //      | old (at LabelIdent)? openparen Expression closeparen
+  //      | unchanged ("@" LabelIdent)? openparen FrameExpression (comma FrameExpression)* closeparen
+  //      | old ("@" LabelIdent)? openparen Expression closeparen
   //      | verticalbar  Expression verticalbar
   //      | ( int | real) openparen Expression closeparen
   //      | ParensExpression
@@ -1976,7 +1976,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // unchanged (at LabelIdent)? openparen FrameExpression (comma FrameExpression)* closeparen
+  // unchanged ("@" LabelIdent)? openparen FrameExpression (comma FrameExpression)* closeparen
   private static boolean ConstAtomExpression_10(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ConstAtomExpression_10")) return false;
     boolean r;
@@ -1991,19 +1991,19 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (at LabelIdent)?
+  // ("@" LabelIdent)?
   private static boolean ConstAtomExpression_10_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ConstAtomExpression_10_1")) return false;
     ConstAtomExpression_10_1_0(b, l + 1);
     return true;
   }
 
-  // at LabelIdent
+  // "@" LabelIdent
   private static boolean ConstAtomExpression_10_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ConstAtomExpression_10_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, AT);
+    r = consumeToken(b, "@");
     r = r && LabelIdent(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -2031,7 +2031,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // old (at LabelIdent)? openparen Expression closeparen
+  // old ("@" LabelIdent)? openparen Expression closeparen
   private static boolean ConstAtomExpression_11(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ConstAtomExpression_11")) return false;
     boolean r;
@@ -2045,19 +2045,19 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (at LabelIdent)?
+  // ("@" LabelIdent)?
   private static boolean ConstAtomExpression_11_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ConstAtomExpression_11_1")) return false;
     ConstAtomExpression_11_1_0(b, l + 1);
     return true;
   }
 
-  // at LabelIdent
+  // "@" LabelIdent
   private static boolean ConstAtomExpression_11_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ConstAtomExpression_11_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, AT);
+    r = consumeToken(b, "@");
     r = r && LabelIdent(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -2215,7 +2215,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   //     datatype
   //     | codatatype
   //  )
-  //  (Attribute)* NoUSIdent (GenericParameters)? assign (verticalbar)? DatatypeMemberDecl (verticalbar DatatypeMemberDecl)* (semi)?
+  //  (Attribute)* NoUSIdent (GenericParameters)? "=" (verticalbar)? DatatypeMemberDecl (verticalbar DatatypeMemberDecl)* (semi)?
   public static boolean DatatypeDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "DatatypeDecl")) return false;
     if (!nextTokenIs(b, "<datatype decl>", CODATATYPE, DATATYPE)) return false;
@@ -2225,7 +2225,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     r = r && DatatypeDecl_1(b, l + 1);
     r = r && NoUSIdent(b, l + 1);
     r = r && DatatypeDecl_3(b, l + 1);
-    r = r && consumeToken(b, ASSIGN);
+    r = r && consumeToken(b, "=");
     r = r && DatatypeDecl_5(b, l + 1);
     r = r && DatatypeMemberDecl(b, l + 1);
     r = r && DatatypeDecl_7(b, l + 1);
@@ -2755,12 +2755,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // equivalentTo | '\u21d4'
+  // "<==>" | '\u21d4'
   public static boolean EquivOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "EquivOp")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, EQUIV_OP, "<equiv op>");
-    r = consumeToken(b, EQUIVALENTTO);
+    r = consumeToken(b, "<==>");
     if (!r) r = consumeToken(b, "\\u21d4");
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -2838,12 +2838,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // implyLeft | '\u21d0'
+  // "<==" | '\u21d0'
   public static boolean ExpliesOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ExpliesOp")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, EXPLIES_OP, "<explies op>");
-    r = consumeToken(b, IMPLYLEFT);
+    r = consumeToken(b, "<==");
     if (!r) r = consumeToken(b, "\\u21d0");
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -4255,20 +4255,19 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // hashtag (GenericInstantiation)? lbracket Expression rbracket openparen (Expressions)? closeparen
+  // "#" (GenericInstantiation)? lbracket Expression rbracket openparen (Expressions)? closeparen
   public static boolean HashCall(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "HashCall")) return false;
-    if (!nextTokenIs(b, HASHTAG)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, HASHTAG);
+    Marker m = enter_section_(b, l, _NONE_, HASH_CALL, "<hash call>");
+    r = consumeToken(b, "#");
     r = r && HashCall_1(b, l + 1);
     r = r && consumeToken(b, LBRACKET);
     r = r && Expression(b, l + 1);
     r = r && consumeTokens(b, 0, RBRACKET, OPENPAREN);
     r = r && HashCall_6(b, l + 1);
     r = r && consumeToken(b, CLOSEPAREN);
-    exit_section_(b, m, HASH_CALL, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -4604,12 +4603,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // implyRight | '\u21d2'
+  // "==>" | '\u21d2'
   public static boolean ImpliesOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ImpliesOp")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, IMPLIES_OP, "<implies op>");
-    r = consumeToken(b, IMPLYRIGHT);
+    r = consumeToken(b, "==>");
     if (!r) r = consumeToken(b, "\\u21d2");
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -6761,14 +6760,14 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // star| verticalbar | percent
+  // star| verticalbar | "%"
   public static boolean MulOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MulOp")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, MUL_OP, "<mul op>");
     r = consumeToken(b, STAR);
     if (!r) r = consumeToken(b, VERTICALBAR);
-    if (!r) r = consumeToken(b, PERCENT);
+    if (!r) r = consumeToken(b, "%");
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -6910,12 +6909,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // excMark | '\u00ac'
+  // "!" | '\u00ac'
   public static boolean NegOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NegOp")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, NEG_OP, "<neg op>");
-    r = consumeToken(b, EXCMARK);
+    r = consumeToken(b, "!");
     if (!r) r = consumeToken(b, "\\u00ac");
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -7051,7 +7050,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // newtype (Attribute)* NoUSIdent assign
+  // newtype (Attribute)* NoUSIdent "="
   //  (
   //      NoUSIdent (colon TypeAndToken)? verticalbar Expression
   //      (
@@ -7067,7 +7066,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, NEWTYPE);
     r = r && NewtypeDecl_1(b, l + 1);
     r = r && NoUSIdent(b, l + 1);
-    r = r && consumeToken(b, ASSIGN);
+    r = r && consumeToken(b, "=");
     r = r && NewtypeDecl_4(b, l + 1);
     exit_section_(b, m, NEWTYPE_DECL, r);
     return r;
@@ -7307,12 +7306,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // doubleOr | '\u2228'
+  // "||" | '\u2228'
   public static boolean OrOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "OrOp")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OR_OP, "<or op>");
-    r = consumeToken(b, DOUBLEOR);
+    r = consumeToken(b, "||");
     if (!r) r = consumeToken(b, "\\u2228");
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -7321,7 +7320,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // type (Attribute)* NoUSIdent
   //  (TypeParameterCharacteristics)* (GenericParameters)?
-  //  (assign
+  //  ("="
   //      (
   //          NoUSIdent (colon TypeAndToken)? verticalbar Expression
   //          (
@@ -7406,7 +7405,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (assign
+  // ("="
   //      (
   //          NoUSIdent (colon TypeAndToken)? verticalbar Expression
   //          (
@@ -7421,7 +7420,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // assign
+  // "="
   //      (
   //          NoUSIdent (colon TypeAndToken)? verticalbar Expression
   //          (
@@ -7433,7 +7432,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "OtherTypeDecl_5_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, ASSIGN);
+    r = consumeToken(b, "=");
     r = r && OtherTypeDecl_5_0_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -7771,7 +7770,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IdentTypeOptional (comma IdentTypeOptional)* (Attribute)* (verticalbarExpression)?
+  // IdentTypeOptional (comma IdentTypeOptional)* (Attribute)* (verticalbar Expression)?
   public static boolean QuantifierDomain(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "QuantifierDomain")) return false;
     if (!nextTokenIs(b, IDENTDEF)) return false;
@@ -7828,11 +7827,22 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (verticalbarExpression)?
+  // (verticalbar Expression)?
   private static boolean QuantifierDomain_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "QuantifierDomain_3")) return false;
-    consumeToken(b, VERTICALBAREXPRESSION);
+    QuantifierDomain_3_0(b, l + 1);
     return true;
+  }
+
+  // verticalbar Expression
+  private static boolean QuantifierDomain_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "QuantifierDomain_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, VERTICALBAR);
+    r = r && Expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -7859,15 +7869,15 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // eq (hashtag lbracket Expression rbracket)?
+  // eq ("#" lbracket Expression rbracket)?
   //      | openAngleBracket
   //      | closeAngleBracket
   //      | darrow
-  //      | biggerEq
-  //      | neq (hashtag lbracket Expression rbracket)?
+  //      | ">="
+  //      | neq ("#" lbracket Expression rbracket)?
   //      | in
   //      | notIn
-  //      | excMark (excMark)?
+  //      | "!" ("!")?
   //      | 'neqAlt'
   //      | '\u2264'
   //      | '\u2265'
@@ -7879,7 +7889,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, OPENANGLEBRACKET);
     if (!r) r = consumeToken(b, CLOSEANGLEBRACKET);
     if (!r) r = consumeToken(b, DARROW);
-    if (!r) r = consumeToken(b, BIGGEREQ);
+    if (!r) r = consumeToken(b, ">=");
     if (!r) r = RelOp_5(b, l + 1);
     if (!r) r = consumeToken(b, IN);
     if (!r) r = consumeToken(b, NOTIN);
@@ -7891,7 +7901,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // eq (hashtag lbracket Expression rbracket)?
+  // eq ("#" lbracket Expression rbracket)?
   private static boolean RelOp_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RelOp_0")) return false;
     boolean r;
@@ -7902,26 +7912,27 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (hashtag lbracket Expression rbracket)?
+  // ("#" lbracket Expression rbracket)?
   private static boolean RelOp_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RelOp_0_1")) return false;
     RelOp_0_1_0(b, l + 1);
     return true;
   }
 
-  // hashtag lbracket Expression rbracket
+  // "#" lbracket Expression rbracket
   private static boolean RelOp_0_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RelOp_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, HASHTAG, LBRACKET);
+    r = consumeToken(b, "#");
+    r = r && consumeToken(b, LBRACKET);
     r = r && Expression(b, l + 1);
     r = r && consumeToken(b, RBRACKET);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // neq (hashtag lbracket Expression rbracket)?
+  // neq ("#" lbracket Expression rbracket)?
   private static boolean RelOp_5(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RelOp_5")) return false;
     boolean r;
@@ -7932,41 +7943,52 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (hashtag lbracket Expression rbracket)?
+  // ("#" lbracket Expression rbracket)?
   private static boolean RelOp_5_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RelOp_5_1")) return false;
     RelOp_5_1_0(b, l + 1);
     return true;
   }
 
-  // hashtag lbracket Expression rbracket
+  // "#" lbracket Expression rbracket
   private static boolean RelOp_5_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RelOp_5_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, HASHTAG, LBRACKET);
+    r = consumeToken(b, "#");
+    r = r && consumeToken(b, LBRACKET);
     r = r && Expression(b, l + 1);
     r = r && consumeToken(b, RBRACKET);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // excMark (excMark)?
+  // "!" ("!")?
   private static boolean RelOp_8(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RelOp_8")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, EXCMARK);
+    r = consumeToken(b, "!");
     r = r && RelOp_8_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // (excMark)?
+  // ("!")?
   private static boolean RelOp_8_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RelOp_8_1")) return false;
-    consumeToken(b, EXCMARK);
+    RelOp_8_1_0(b, l + 1);
     return true;
+  }
+
+  // ("!")
+  private static boolean RelOp_8_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "RelOp_8_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "!");
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -8522,7 +8544,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   // module (Attribute)* NoUSIdent (dot NoUSIdent)* (refines ModuleName)? lbrace (TopDecl)* rbrace
   //     | import (opened)? ModuleName
   //     (
-  //         assign QualifiedModuleExport
+  //         "=" QualifiedModuleExport
   //         | colon QualifiedModuleExport
   //         | (QualifiedModuleExportSuffix)?
   //     )
@@ -8652,7 +8674,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
 
   // import (opened)? ModuleName
   //     (
-  //         assign QualifiedModuleExport
+  //         "=" QualifiedModuleExport
   //         | colon QualifiedModuleExport
   //         | (QualifiedModuleExportSuffix)?
   //     )
@@ -8677,7 +8699,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // assign QualifiedModuleExport
+  // "=" QualifiedModuleExport
   //         | colon QualifiedModuleExport
   //         | (QualifiedModuleExportSuffix)?
   private static boolean SubModuleDecl_1_3(PsiBuilder b, int l) {
@@ -8691,12 +8713,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // assign QualifiedModuleExport
+  // "=" QualifiedModuleExport
   private static boolean SubModuleDecl_1_3_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "SubModuleDecl_1_3_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, ASSIGN);
+    r = consumeToken(b, "=");
     r = r && QualifiedModuleExport(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -8986,12 +9008,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   //      (
   //          Expression
   //          (
-  //              doubleDot(Expression)?
+  //              ".."(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
   //          )
-  //          | doubleDot
+  //          | ".."
   //          (Expression)?
   //      )
   //      rbracket
@@ -9097,12 +9119,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   //      (
   //          Expression
   //          (
-  //              doubleDot(Expression)?
+  //              ".."(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
   //          )
-  //          | doubleDot
+  //          | ".."
   //          (Expression)?
   //      )
   //      rbracket
@@ -9119,12 +9141,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
 
   // Expression
   //          (
-  //              doubleDot(Expression)?
+  //              ".."(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
   //          )
-  //          | doubleDot
+  //          | ".."
   //          (Expression)?
   private static boolean Suffix_1_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Suffix_1_1")) return false;
@@ -9138,7 +9160,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
 
   // Expression
   //          (
-  //              doubleDot(Expression)?
+  //              ".."(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
@@ -9153,7 +9175,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // doubleDot(Expression)?
+  // ".."(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
@@ -9169,12 +9191,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // doubleDot(Expression)?
+  // ".."(Expression)?
   private static boolean Suffix_1_1_0_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Suffix_1_1_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, DOUBLEDOT);
+    r = consumeToken(b, "..");
     r = r && Suffix_1_1_0_1_0_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -9289,13 +9311,13 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // doubleDot
+  // ".."
   //          (Expression)?
   private static boolean Suffix_1_1_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Suffix_1_1_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, DOUBLEDOT);
+    r = consumeToken(b, "..");
     r = r && Suffix_1_1_1_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -9349,15 +9371,26 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // eq | digits | excMark new
+  // eq | digits | "!" new
   public static boolean TPCharOption(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TPCharOption")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, TP_CHAR_OPTION, "<tp char option>");
     r = consumeToken(b, EQ);
     if (!r) r = consumeToken(b, DIGITS);
-    if (!r) r = parseTokens(b, 0, EXCMARK, NEW);
+    if (!r) r = TPCharOption_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // "!" new
+  private static boolean TPCharOption_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TPCharOption_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "!");
+    r = r && consumeToken(b, NEW);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -9588,7 +9621,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   //      | openparen (TypeAndToken (comma TypeAndToken)* )? closeparen
   //      | NameSegmentForTypeName (dot TypeNameOrCtorSuffix OptGenericInstantiation)*
   //  )
-  //  ((waveArrow | doubleLineArrow | LineArrow ) TypeAndToken)?
+  //  (("~>" | "-->" | "->" ) TypeAndToken)?
   public static boolean TypeAndToken(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeAndToken")) return false;
     boolean r;
@@ -9821,14 +9854,14 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ((waveArrow | doubleLineArrow | LineArrow ) TypeAndToken)?
+  // (("~>" | "-->" | "->" ) TypeAndToken)?
   private static boolean TypeAndToken_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeAndToken_1")) return false;
     TypeAndToken_1_0(b, l + 1);
     return true;
   }
 
-  // (waveArrow | doubleLineArrow | LineArrow ) TypeAndToken
+  // ("~>" | "-->" | "->" ) TypeAndToken
   private static boolean TypeAndToken_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeAndToken_1_0")) return false;
     boolean r;
@@ -9839,13 +9872,15 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // waveArrow | doubleLineArrow | LineArrow
+  // "~>" | "-->" | "->"
   private static boolean TypeAndToken_1_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TypeAndToken_1_0_0")) return false;
     boolean r;
-    r = consumeToken(b, WAVEARROW);
-    if (!r) r = consumeToken(b, DOUBLELINEARROW);
-    if (!r) r = consumeToken(b, LINEARROW);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, "~>");
+    if (!r) r = consumeToken(b, "-->");
+    if (!r) r = consumeToken(b, "->");
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -9974,7 +10009,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // minus UnaryExpression
+  // "-" UnaryExpression
   //      | NegOp UnaryExpression
   //      | map MapDisplayExpr (Suffix)*
   //      | imap MapDisplayExpr (Suffix)*
@@ -10004,12 +10039,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // minus UnaryExpression
+  // "-" UnaryExpression
   private static boolean UnaryExpression_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "UnaryExpression_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, MINUS);
+    r = consumeToken(b, "-");
     r = r && UnaryExpression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -10706,15 +10741,15 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // star | plus | excMark | minus
+  // star | "+" | "!" | "-"
   public static boolean Variance(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Variance")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, VARIANCE, "<variance>");
     r = consumeToken(b, STAR);
-    if (!r) r = consumeToken(b, PLUS);
-    if (!r) r = consumeToken(b, EXCMARK);
-    if (!r) r = consumeToken(b, MINUS);
+    if (!r) r = consumeToken(b, "+");
+    if (!r) r = consumeToken(b, "!");
+    if (!r) r = consumeToken(b, "-");
     exit_section_(b, l, m, r, false, null);
     return r;
   }

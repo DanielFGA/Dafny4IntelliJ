@@ -76,12 +76,6 @@ public class DafnySuffixImpl extends ASTWrapperPsiElement implements DafnySuffix
 
   @Override
   @Nullable
-  public PsiElement getDoubleDot() {
-    return findChildByType(DOUBLEDOT);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getGets() {
     return findChildByType(GETS);
   }

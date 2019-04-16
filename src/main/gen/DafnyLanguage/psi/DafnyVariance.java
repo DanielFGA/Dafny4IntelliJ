@@ -8,15 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface DafnyVariance extends PsiElement {
 
   @Nullable
-  PsiElement getExcMark();
-
-  @Nullable
-  PsiElement getMinus();
-
-  @Nullable
-  PsiElement getPlus();
-
-  @Nullable
   PsiElement getStar();
 
 }

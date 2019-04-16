@@ -33,9 +33,21 @@ public class DafnyQuantifierDomainImpl extends ASTWrapperPsiElement implements D
   }
 
   @Override
+  @Nullable
+  public DafnyExpression getExpression() {
+    return findChildByClass(DafnyExpression.class);
+  }
+
+  @Override
   @NotNull
   public List<DafnyIdentTypeOptional> getIdentTypeOptionalList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, DafnyIdentTypeOptional.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getVerticalbar() {
+    return findChildByType(VERTICALBAR);
   }
 
 }

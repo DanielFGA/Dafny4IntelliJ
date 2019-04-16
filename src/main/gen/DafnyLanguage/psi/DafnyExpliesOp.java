@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyExpliesOp extends PsiElement {
 
-  @Nullable
-  PsiElement getImplyLeft();
-
 }

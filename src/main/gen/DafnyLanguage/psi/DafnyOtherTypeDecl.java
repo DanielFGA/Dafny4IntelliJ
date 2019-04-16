@@ -26,9 +26,6 @@ public interface DafnyOtherTypeDecl extends PsiElement {
   List<DafnyTypeParameterCharacteristics> getTypeParameterCharacteristicsList();
 
   @Nullable
-  PsiElement getAssign();
-
-  @Nullable
   PsiElement getColon();
 
   @Nullable

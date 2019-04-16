@@ -7,10 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyAddOp extends PsiElement {
 
-  @Nullable
-  PsiElement getMinus();
-
-  @Nullable
-  PsiElement getPlus();
-
 }

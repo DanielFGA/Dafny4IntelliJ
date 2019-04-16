@@ -115,27 +115,6 @@
       yield = "regexp:yield"
       where = "regexp:where"
       return = "regexp:return"
-
-      assign = "regexp:="
-      plus = "regexp:\+"
-      minus = "regexp:-"
-      excMark = "regexp:\!"
-      waveArrow = "regexp:~>"
-      LineArrow = "regexp:->"
-      doubleLineArrow = "regexp:-->"
-      hashtag = "regexp:#"
-      biggerEq = "regexp:>="
-      equivalentTo = "regexp:<==>"
-      implyRight = "regexp:==>"
-      implyLeft = "regexp:<=="
-      and = "regexp:\&"
-      doubleAnd = "regexp:\&\&"
-      doubleOr = "regexp:\|\|"
-      circumflex = "regexp:\^"
-      doubleDot = "regexp:\.\."
-      at = "regexp:@"
-      arrQuest = "regexp:>\?"
-      percent = "regexp:%"
       //----
 
       lbrace = "regexp:\{"
@@ -144,18 +123,18 @@
       rbracket = "regexp:]"
       openparen = "regexp:\("
       closeparen = "regexp:\)"
-      openAngleBracket = "regexp:<"
-      closeAngleBracket = "regexp:>"
       eq = "regexp:=="
       neq = "regexp:\!="
       neqAlt = "regexp:\u2260"
       star = "regexp:\*"
       ellipsis = "regexp:\.\.\."
       reveal = "regexp:reveal"
-      
+      openAngleBracket = "regexp:<"
+      closeAngleBracket = "regexp:>"
+
       charToken = "regexp:([']([^(\\)(\\\\)\r\n]|\\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])')"
       stringToken = "regexp:([\"]([^\"\\\\\r\n]|\\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])*)\"|@\"([^\"]|\"\")*\""
-      
+
       notIn = "regexp:\!in"
       digits = "regexp:[0-9](_)?([0-9])*"
       hexdigits = "regexp:0x([0-9A-Fa-f])(_)?([0-9A-Fa-f])*"
@@ -168,8 +147,6 @@
 
       comment = "regexp:\\\\.*\n|\\\*[\s\S]*?\*\\"
       WHITE_SPACE = 'regexp:\s+'
-
-      EOF = "regexp:<<EOF>>"
 
   ]
 
@@ -209,7 +186,7 @@ SubModuleDecl
     module (Attribute)* NoUSIdent (dot NoUSIdent)* (refines ModuleName)? lbrace (TopDecl)* rbrace
     | import (opened)? ModuleName
     (
-        assign QualifiedModuleExport
+        "=" QualifiedModuleExport
         | colon QualifiedModuleExport
         | (QualifiedModuleExportSuffix)?
     )
@@ -279,7 +256,7 @@ DatatypeDecl
     datatype
     | codatatype
  )
- (Attribute)* NoUSIdent (GenericParameters)? assign (verticalbar)? DatatypeMemberDecl (verticalbar DatatypeMemberDecl)* (semi)?
+ (Attribute)* NoUSIdent (GenericParameters)? "=" (verticalbar)? DatatypeMemberDecl (verticalbar DatatypeMemberDecl)* (semi)?
 
 DatatypeMemberDecl ::= (Attribute)* NoUSIdent (FormalsOptionalIds)?
 
@@ -289,7 +266,7 @@ ConstantFieldDecl ::= const (Attribute)* CIdentType (gets Expression)? OldSemi
 
 NewtypeDecl
 ::=
- newtype (Attribute)* NoUSIdent assign
+ newtype (Attribute)* NoUSIdent "="
  (
      NoUSIdent (colon TypeAndToken)? verticalbar Expression
      (
@@ -302,7 +279,7 @@ OtherTypeDecl
 ::=
  type (Attribute)* NoUSIdent
  (TypeParameterCharacteristics)* (GenericParameters)?
- (assign
+ ("="
      (
          NoUSIdent (colon TypeAndToken)? verticalbar Expression
          (
@@ -354,11 +331,11 @@ GenericParameters
     (comma( Variance)? NoUSIdent (TypeParameterCharacteristics)*)*
   closeAngleBracket
 
-Variance ::= (star | plus | excMark | minus)
+Variance ::= (star | "+" | "!" | "-")
 
 TypeParameterCharacteristics ::= openparen TPCharOption (comma TPCharOption)* closeparen
 
-TPCharOption ::= (eq | digits | excMark new)
+TPCharOption ::= (eq | digits | "!" new)
 
 /*------------------------------------------------------------------------*/
 
@@ -439,7 +416,7 @@ TypeAndToken
      | openparen (TypeAndToken (comma TypeAndToken)* )? closeparen
      | NameSegmentForTypeName (dot TypeNameOrCtorSuffix OptGenericInstantiation)*
  )
- ((waveArrow | doubleLineArrow | LineArrow ) TypeAndToken)?
+ (("~>" | "-->" | "->" ) TypeAndToken)?
 
 OptGenericInstantiation ::= (GenericInstantiation)?
 
@@ -677,12 +654,12 @@ CalcStmt
 CalcOp
 ::=
  (
-     eq (hashtag lbracket Expression rbracket)?
+     eq ("#" lbracket Expression rbracket)?
      | openAngleBracket
      | closeAngleBracket
      | darrow
-     | arrQuest
-     | assign
+     | ">?"
+     | "="
      | neq
      | 'neqAlt'
      | '\u2264'
@@ -692,13 +669,13 @@ CalcOp
      | ExpliesOp
  )
 
-EquivOp ::= equivalentTo | '\u21d4'
-ImpliesOp ::= implyRight | '\u21d2'
-ExpliesOp ::= implyLeft | '\u21d0'
-AndOp ::= doubleAnd | '\u2227'
-OrOp ::= doubleOr | '\u2228'
+EquivOp ::= "<==>" | '\u21d4'
+ImpliesOp ::= "==>" | '\u21d2'
+ExpliesOp ::= "<==" | '\u21d0'
+AndOp ::= "&&" | '\u2227'
+OrOp ::= "||" | '\u2228'
 
-NegOp ::= excMark | '\u00ac'
+NegOp ::= "!" | '\u00ac'
 Forall ::= foralltoken | '\u2200'
 Exists ::= existstoken | '\u2203'
 QSep ::= doublecolon | 'bullet'
@@ -752,15 +729,15 @@ RelationalExpression
 RelOp
 ::=
  (
-     eq (hashtag lbracket Expression rbracket)?
+     eq ("#" lbracket Expression rbracket)?
      | openAngleBracket
      | closeAngleBracket
      | darrow
-     | biggerEq
-     | neq (hashtag lbracket Expression rbracket)?
+     | ">="
+     | neq ("#" lbracket Expression rbracket)?
      | in
      | notIn
-     | excMark (excMark)?
+     | "!" ("!")?
      | 'neqAlt'
      | '\u2264'
      | '\u2265'
@@ -783,13 +760,13 @@ ShiftTerm
 
 Term ::= Factor (AddOp Factor)*
 
-AddOp ::= (plus | minus)
+AddOp ::= ("+" | "-")
 
 /*------------------------------------------------------------------------*/
 
 Factor ::= BitvectorFactor (MulOp BitvectorFactor)*
 
-MulOp ::= (star| verticalbar | percent)
+MulOp ::= (star| verticalbar | "%")
 
 /*------------------------------------------------------------------------*/
 
@@ -798,9 +775,9 @@ BitvectorFactor
  AsExpression
  (
      (
-         and  AsExpression ( and AsExpression)*
+         "&"  AsExpression ( "&" AsExpression)*
          | verticalbar AsExpression (verticalbar AsExpression )*
-         | circumflex AsExpression ( circumflex AsExpression)*
+         | "^" AsExpression ( "^" AsExpression)*
     )
  )?
 
@@ -811,7 +788,7 @@ AsExpression ::= UnaryExpression (as TypeAndToken)*
 UnaryExpression
 ::=
  (
-     minus UnaryExpression
+     "-" UnaryExpression
      | NegOp UnaryExpression
      | map MapDisplayExpr (Suffix)*
      | imap MapDisplayExpr (Suffix)*
@@ -844,8 +821,8 @@ ConstAtomExpression
      | this
      | fresh openparen Expression closeparen
      | allocated openparen Expression closeparen
-     | unchanged (at LabelIdent)? openparen FrameExpression (comma FrameExpression)* closeparen
-     | old (at LabelIdent)? openparen Expression closeparen
+     | unchanged ("@" LabelIdent)? openparen FrameExpression (comma FrameExpression)* closeparen
+     | old ("@" LabelIdent)? openparen Expression closeparen
      | verticalbar  Expression verticalbar
      | ( int | real) openparen Expression closeparen
      | ParensExpression
@@ -960,7 +937,7 @@ NameSegment ::= Ident (GenericInstantiation|HashCall|)
 
 NameSegmentForTypeName::= Ident OptGenericInstantiation
 
-HashCall ::= hashtag (GenericInstantiation)? lbracket Expression rbracket openparen (Expressions)? closeparen
+HashCall ::= "#" (GenericInstantiation)? lbracket Expression rbracket openparen (Expressions)? closeparen
 
 Suffix
 ::=
@@ -974,12 +951,12 @@ Suffix
      (
          Expression
          (
-             doubleDot(Expression)?
+             ".."(Expression)?
              | gets Expression
              | colon (Expression ( colon Expression)* (colon)? )?
              | (comma Expression)*
          )
-         | doubleDot
+         | ".."
          (Expression)?
      )
      rbracket
@@ -991,7 +968,7 @@ Suffix
 
 QuantifierGuts ::= (Forall | Exists) QuantifierDomain QSep Expression
 
-QuantifierDomain ::= IdentTypeOptional (comma IdentTypeOptional)* (Attribute)* (verticalbarExpression)?
+QuantifierDomain ::= IdentTypeOptional (comma IdentTypeOptional)* (Attribute)* (verticalbar Expression)?
 
 SetComprehensionExpr
 ::=

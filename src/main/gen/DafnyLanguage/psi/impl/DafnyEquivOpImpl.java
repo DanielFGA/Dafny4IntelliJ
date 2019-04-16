@@ -26,10 +26,4 @@ public class DafnyEquivOpImpl extends ASTWrapperPsiElement implements DafnyEquiv
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public PsiElement getEquivalentTo() {
-    return findChildByType(EQUIVALENTTO);
-  }
-
 }

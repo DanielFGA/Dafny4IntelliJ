@@ -76,12 +76,6 @@ public class DafnySubModuleDeclImpl extends ASTWrapperPsiElement implements Dafn
 
   @Override
   @Nullable
-  public PsiElement getAssign() {
-    return findChildByType(ASSIGN);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getColon() {
     return findChildByType(COLON);
   }

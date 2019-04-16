@@ -11,6 +11,8 @@ public class DafnySyntaxHighlighterFactory extends SyntaxHighlighterFactory {
     @NotNull
     @Override
     public SyntaxHighlighter getSyntaxHighlighter(@Nullable Project project, @Nullable VirtualFile virtualFile) {
-        return new DafnySyntaxHighlighter();
+        DafnySyntaxHighlighter dafnySyntaxHighlighter = new DafnySyntaxHighlighter();
+        dafnySyntaxHighlighter.registerKeyWords();
+        return dafnySyntaxHighlighter;
     }
 }

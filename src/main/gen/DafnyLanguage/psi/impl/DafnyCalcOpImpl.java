@@ -52,18 +52,6 @@ public class DafnyCalcOpImpl extends ASTWrapperPsiElement implements DafnyCalcOp
 
   @Override
   @Nullable
-  public PsiElement getArrQuest() {
-    return findChildByType(ARRQUEST);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getAssign() {
-    return findChildByType(ASSIGN);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getCloseAngleBracket() {
     return findChildByType(CLOSEANGLEBRACKET);
   }
@@ -78,12 +66,6 @@ public class DafnyCalcOpImpl extends ASTWrapperPsiElement implements DafnyCalcOp
   @Nullable
   public PsiElement getEq() {
     return findChildByType(EQ);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getHashtag() {
-    return findChildByType(HASHTAG);
   }
 
   @Override

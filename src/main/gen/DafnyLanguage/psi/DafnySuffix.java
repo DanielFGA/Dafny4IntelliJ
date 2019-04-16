@@ -32,9 +32,6 @@ public interface DafnySuffix extends PsiElement {
   PsiElement getDot();
 
   @Nullable
-  PsiElement getDoubleDot();
-
-  @Nullable
   PsiElement getGets();
 
   @Nullable

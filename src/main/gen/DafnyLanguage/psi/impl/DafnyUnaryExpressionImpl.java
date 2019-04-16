@@ -110,10 +110,4 @@ public class DafnyUnaryExpressionImpl extends ASTWrapperPsiElement implements Da
     return findChildByType(MAP);
   }
 
-  @Override
-  @Nullable
-  public PsiElement getMinus() {
-    return findChildByType(MINUS);
-  }
-
 }

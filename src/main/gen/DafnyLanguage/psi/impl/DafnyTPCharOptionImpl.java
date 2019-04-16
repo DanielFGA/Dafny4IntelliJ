@@ -40,12 +40,6 @@ public class DafnyTPCharOptionImpl extends ASTWrapperPsiElement implements Dafny
 
   @Override
   @Nullable
-  public PsiElement getExcMark() {
-    return findChildByType(EXCMARK);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getNew() {
     return findChildByType(NEW);
   }

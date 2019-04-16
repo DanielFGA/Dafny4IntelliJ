@@ -19,9 +19,6 @@ public interface DafnyDatatypeDecl extends PsiElement {
   @NotNull
   DafnyNoUSIdent getNoUSIdent();
 
-  @NotNull
-  PsiElement getAssign();
-
   @Nullable
   PsiElement getCodatatype();
 

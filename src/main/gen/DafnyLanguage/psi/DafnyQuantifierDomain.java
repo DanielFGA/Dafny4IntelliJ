@@ -10,7 +10,13 @@ public interface DafnyQuantifierDomain extends PsiElement {
   @NotNull
   List<DafnyAttribute> getAttributeList();
 
+  @Nullable
+  DafnyExpression getExpression();
+
   @NotNull
   List<DafnyIdentTypeOptional> getIdentTypeOptionalList();
+
+  @Nullable
+  PsiElement getVerticalbar();
 
 }

@@ -26,16 +26,4 @@ public class DafnyAddOpImpl extends ASTWrapperPsiElement implements DafnyAddOp {
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public PsiElement getMinus() {
-    return findChildByType(MINUS);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getPlus() {
-    return findChildByType(PLUS);
-  }
-
 }

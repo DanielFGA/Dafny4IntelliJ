@@ -49,7 +49,4 @@ public interface DafnyUnaryExpression extends PsiElement {
   @Nullable
   PsiElement getMap();
 
-  @Nullable
-  PsiElement getMinus();
-
 }

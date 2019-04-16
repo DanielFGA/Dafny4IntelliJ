@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyNegOp extends PsiElement {
 
-  @Nullable
-  PsiElement getExcMark();
-
 }

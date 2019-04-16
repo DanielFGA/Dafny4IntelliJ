@@ -26,10 +26,4 @@ public class DafnyNegOpImpl extends ASTWrapperPsiElement implements DafnyNegOp {
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public PsiElement getExcMark() {
-    return findChildByType(EXCMARK);
-  }
-
 }

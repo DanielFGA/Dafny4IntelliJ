@@ -19,9 +19,6 @@ public interface DafnyNewtypeDecl extends PsiElement {
   @Nullable
   DafnyTypeAndToken getTypeAndToken();
 
-  @NotNull
-  PsiElement getAssign();
-
   @Nullable
   PsiElement getColon();
 

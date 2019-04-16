@@ -10,13 +10,13 @@ import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 %%
 
 %{
-  public DafnyLexer() {
+  public _DafnyLexer() {
     this((java.io.Reader)null);
   }
 %}
 
 %public
-%class DafnyLexer
+%class _DafnyLexer
 %implements FlexLexer
 %function advance
 %type IElementType
@@ -124,40 +124,20 @@ OPENED=opened
 YIELD=yield
 WHERE=where
 RETURN=return
-ASSIGN==
-PLUS=\+
-MINUS=-
-EXCMARK=\!
-WAVEARROW="~>"
-LINEARROW="->"
-DOUBLELINEARROW="-->"
-HASHTAG=#
-BIGGEREQ=">="
-EQUIVALENTTO="<==>"
-IMPLYRIGHT="==>"
-IMPLYLEFT="<=="
-AND=\&
-DOUBLEAND=\&\&
-DOUBLEOR=\|\|
-CIRCUMFLEX=\^
-DOUBLEDOT=\.\.
-AT=@
-ARRQUEST=>\?
-PERCENT=%
 LBRACE=\{
 RBRACE=}
 LBRACKET=\[
 RBRACKET=]
 OPENPAREN=\(
 CLOSEPAREN=\)
-OPENANGLEBRACKET=<
-CLOSEANGLEBRACKET=>
 EQ===
 NEQ=\!=
 NEQALT=\u2260
 STAR=\*
 ELLIPSIS=\.\.\.
 REVEAL=reveal
+OPENANGLEBRACKET=<
+CLOSEANGLEBRACKET=>
 CHARTOKEN=([']([^(\\)(\\\\)\r\n]|\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])')
 STRINGTOKEN=([\"]([^\"\\\\\r\n]|\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])*)\"|@\"([^\"]|\"\")*\"
 NOTIN=\!in
@@ -173,157 +153,136 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}              { return WHITE_SPACE; }
+  {WHITE_SPACE}            { return WHITE_SPACE; }
 
-  "ghostd"                   { return GHOSTD; }
-  "verticalbarExpression"    { return VERTICALBAREXPRESSION; }
+  "EOF"                    { return EOF; }
+  "ghostd"                 { return GHOSTD; }
 
-  {BOOL}                     { return BOOL; }
-  {CHAR}                     { return CHAR; }
-  {INT}                      { return INT; }
-  {NATTOKEN}                 { return NATTOKEN; }
-  {REAL}                     { return REAL; }
-  {ORDINAL}                  { return ORDINAL; }
-  {OBJECT}                   { return OBJECT; }
-  {OBJECT_Q}                 { return OBJECT_Q; }
-  {STRING}                   { return STRING; }
-  {SET}                      { return SET; }
-  {ISET}                     { return ISET; }
-  {MULTISET}                 { return MULTISET; }
-  {SEQ}                      { return SEQ; }
-  {MAP}                      { return MAP; }
-  {IMAP}                     { return IMAP; }
-  {COLON}                    { return COLON; }
-  {COMMA}                    { return COMMA; }
-  {VERTICALBAR}              { return VERTICALBAR; }
-  {DOUBLECOLON}              { return DOUBLECOLON; }
-  {GETS}                     { return GETS; }
-  {BOREDSMILEY}              { return BOREDSMILEY; }
-  {BULLET}                   { return BULLET; }
-  {DOT}                      { return DOT; }
-  {BACKTICK}                 { return BACKTICK; }
-  {SEMI}                     { return SEMI; }
-  {DARROW}                   { return DARROW; }
-  {ASSUME}                   { return ASSUME; }
-  {CALC}                     { return CALC; }
-  {CASE}                     { return CASE; }
-  {THEN}                     { return THEN; }
-  {ELSE}                     { return ELSE; }
-  {AS}                       { return AS; }
-  {BY}                       { return BY; }
-  {IN}                       { return IN; }
-  {DECREASES}                { return DECREASES; }
-  {INVARIANT}                { return INVARIANT; }
-  {FUNCTION}                 { return FUNCTION; }
-  {PREDICATE}                { return PREDICATE; }
-  {INDUCTIVE}                { return INDUCTIVE; }
-  {TWOSTATE}                 { return TWOSTATE; }
-  {COPREDICATE}              { return COPREDICATE; }
-  {LEMMA}                    { return LEMMA; }
-  {STATIC}                   { return STATIC; }
-  {PROTECTED}                { return PROTECTED; }
-  {IMPORT}                   { return IMPORT; }
-  {EXPORT}                   { return EXPORT; }
-  {CLASSTOKEN}               { return CLASSTOKEN; }
-  {TRAIT}                    { return TRAIT; }
-  {DATATYPE}                 { return DATATYPE; }
-  {CODATATYPE}               { return CODATATYPE; }
-  {VAR}                      { return VAR; }
-  {CONST}                    { return CONST; }
-  {NEWTYPE}                  { return NEWTYPE; }
-  {TYPE}                     { return TYPE; }
-  {ITERATOR}                 { return ITERATOR; }
-  {METHOD}                   { return METHOD; }
-  {COLEMMA}                  { return COLEMMA; }
-  {CONSTRUCTOR}              { return CONSTRUCTOR; }
-  {MODIFIES}                 { return MODIFIES; }
-  {READS}                    { return READS; }
-  {REQUIRES}                 { return REQUIRES; }
-  {ENSURES}                  { return ENSURES; }
-  {GHOST}                    { return GHOST; }
-  {WITNESS}                  { return WITNESS; }
-  {INCLUDE}                  { return INCLUDE; }
-  {ABSTRACT}                 { return ABSTRACT; }
-  {MODULE}                   { return MODULE; }
-  {REFINES}                  { return REFINES; }
-  {PROVIDES}                 { return PROVIDES; }
-  {REVEALS}                  { return REVEALS; }
-  {EXTENDS}                  { return EXTENDS; }
-  {YIELDS}                   { return YIELDS; }
-  {RETURNS}                  { return RETURNS; }
-  {NEW}                      { return NEW; }
-  {COMETHOD}                 { return COMETHOD; }
-  {FREE}                     { return FREE; }
-  {LABEL}                    { return LABEL; }
-  {BREAK}                    { return BREAK; }
-  {IF}                       { return IF; }
-  {WHILE}                    { return WHILE; }
-  {MATCH}                    { return MATCH; }
-  {ASSERT}                   { return ASSERT; }
-  {PRINT}                    { return PRINT; }
-  {FORALLTOKEN}              { return FORALLTOKEN; }
-  {PARALLEL}                 { return PARALLEL; }
-  {MODIFY}                   { return MODIFY; }
-  {FALSE}                    { return FALSE; }
-  {TRUE}                     { return TRUE; }
-  {NULL}                     { return NULL; }
-  {THIS}                     { return THIS; }
-  {FRESH}                    { return FRESH; }
-  {ALLOCATED}                { return ALLOCATED; }
-  {UNCHANGED}                { return UNCHANGED; }
-  {OLD}                      { return OLD; }
-  {EXISTSTOKEN}              { return EXISTSTOKEN; }
-  {OPENED}                   { return OPENED; }
-  {YIELD}                    { return YIELD; }
-  {WHERE}                    { return WHERE; }
-  {RETURN}                   { return RETURN; }
-  {ASSIGN}                   { return ASSIGN; }
-  {PLUS}                     { return PLUS; }
-  {MINUS}                    { return MINUS; }
-  {EXCMARK}                  { return EXCMARK; }
-  {WAVEARROW}                { return WAVEARROW; }
-  {LINEARROW}                { return LINEARROW; }
-  {DOUBLELINEARROW}          { return DOUBLELINEARROW; }
-  {HASHTAG}                  { return HASHTAG; }
-  {BIGGEREQ}                 { return BIGGEREQ; }
-  {EQUIVALENTTO}             { return EQUIVALENTTO; }
-  {IMPLYRIGHT}               { return IMPLYRIGHT; }
-  {IMPLYLEFT}                { return IMPLYLEFT; }
-  {AND}                      { return AND; }
-  {DOUBLEAND}                { return DOUBLEAND; }
-  {DOUBLEOR}                 { return DOUBLEOR; }
-  {CIRCUMFLEX}               { return CIRCUMFLEX; }
-  {DOUBLEDOT}                { return DOUBLEDOT; }
-  {AT}                       { return AT; }
-  {ARRQUEST}                 { return ARRQUEST; }
-  {PERCENT}                  { return PERCENT; }
-  {LBRACE}                   { return LBRACE; }
-  {RBRACE}                   { return RBRACE; }
-  {LBRACKET}                 { return LBRACKET; }
-  {RBRACKET}                 { return RBRACKET; }
-  {OPENPAREN}                { return OPENPAREN; }
-  {CLOSEPAREN}               { return CLOSEPAREN; }
-  {OPENANGLEBRACKET}         { return OPENANGLEBRACKET; }
-  {CLOSEANGLEBRACKET}        { return CLOSEANGLEBRACKET; }
-  {EQ}                       { return EQ; }
-  {NEQ}                      { return NEQ; }
-  {NEQALT}                   { return NEQALT; }
-  {STAR}                     { return STAR; }
-  {ELLIPSIS}                 { return ELLIPSIS; }
-  {REVEAL}                   { return REVEAL; }
-  {CHARTOKEN}                { return CHARTOKEN; }
-  {STRINGTOKEN}              { return STRINGTOKEN; }
-  {NOTIN}                    { return NOTIN; }
-  {DIGITS}                   { return DIGITS; }
-  {HEXDIGITS}                { return HEXDIGITS; }
-  {DECIMALDIGITS}            { return DECIMALDIGITS; }
-  {ARRAYTOKEN}               { return ARRAYTOKEN; }
-  {ARRAYTOKEN_Q}             { return ARRAYTOKEN_Q; }
-  {BVTOKEN}                  { return BVTOKEN; }
-  {IDENTDEF}                 { return IDENTDEF; }
-  {COMMENT}                  { return COMMENT; }
-  {WHITE_SPACE}              { return WHITE_SPACE; }
-  <<EOF>>                      { return EOF; }
+  {BOOL}                   { return BOOL; }
+  {CHAR}                   { return CHAR; }
+  {INT}                    { return INT; }
+  {NATTOKEN}               { return NATTOKEN; }
+  {REAL}                   { return REAL; }
+  {ORDINAL}                { return ORDINAL; }
+  {OBJECT}                 { return OBJECT; }
+  {OBJECT_Q}               { return OBJECT_Q; }
+  {STRING}                 { return STRING; }
+  {SET}                    { return SET; }
+  {ISET}                   { return ISET; }
+  {MULTISET}               { return MULTISET; }
+  {SEQ}                    { return SEQ; }
+  {MAP}                    { return MAP; }
+  {IMAP}                   { return IMAP; }
+  {COLON}                  { return COLON; }
+  {COMMA}                  { return COMMA; }
+  {VERTICALBAR}            { return VERTICALBAR; }
+  {DOUBLECOLON}            { return DOUBLECOLON; }
+  {GETS}                   { return GETS; }
+  {BOREDSMILEY}            { return BOREDSMILEY; }
+  {BULLET}                 { return BULLET; }
+  {DOT}                    { return DOT; }
+  {BACKTICK}               { return BACKTICK; }
+  {SEMI}                   { return SEMI; }
+  {DARROW}                 { return DARROW; }
+  {ASSUME}                 { return ASSUME; }
+  {CALC}                   { return CALC; }
+  {CASE}                   { return CASE; }
+  {THEN}                   { return THEN; }
+  {ELSE}                   { return ELSE; }
+  {AS}                     { return AS; }
+  {BY}                     { return BY; }
+  {IN}                     { return IN; }
+  {DECREASES}              { return DECREASES; }
+  {INVARIANT}              { return INVARIANT; }
+  {FUNCTION}               { return FUNCTION; }
+  {PREDICATE}              { return PREDICATE; }
+  {INDUCTIVE}              { return INDUCTIVE; }
+  {TWOSTATE}               { return TWOSTATE; }
+  {COPREDICATE}            { return COPREDICATE; }
+  {LEMMA}                  { return LEMMA; }
+  {STATIC}                 { return STATIC; }
+  {PROTECTED}              { return PROTECTED; }
+  {IMPORT}                 { return IMPORT; }
+  {EXPORT}                 { return EXPORT; }
+  {CLASSTOKEN}             { return CLASSTOKEN; }
+  {TRAIT}                  { return TRAIT; }
+  {DATATYPE}               { return DATATYPE; }
+  {CODATATYPE}             { return CODATATYPE; }
+  {VAR}                    { return VAR; }
+  {CONST}                  { return CONST; }
+  {NEWTYPE}                { return NEWTYPE; }
+  {TYPE}                   { return TYPE; }
+  {ITERATOR}               { return ITERATOR; }
+  {METHOD}                 { return METHOD; }
+  {COLEMMA}                { return COLEMMA; }
+  {CONSTRUCTOR}            { return CONSTRUCTOR; }
+  {MODIFIES}               { return MODIFIES; }
+  {READS}                  { return READS; }
+  {REQUIRES}               { return REQUIRES; }
+  {ENSURES}                { return ENSURES; }
+  {GHOST}                  { return GHOST; }
+  {WITNESS}                { return WITNESS; }
+  {INCLUDE}                { return INCLUDE; }
+  {ABSTRACT}               { return ABSTRACT; }
+  {MODULE}                 { return MODULE; }
+  {REFINES}                { return REFINES; }
+  {PROVIDES}               { return PROVIDES; }
+  {REVEALS}                { return REVEALS; }
+  {EXTENDS}                { return EXTENDS; }
+  {YIELDS}                 { return YIELDS; }
+  {RETURNS}                { return RETURNS; }
+  {NEW}                    { return NEW; }
+  {COMETHOD}               { return COMETHOD; }
+  {FREE}                   { return FREE; }
+  {LABEL}                  { return LABEL; }
+  {BREAK}                  { return BREAK; }
+  {IF}                     { return IF; }
+  {WHILE}                  { return WHILE; }
+  {MATCH}                  { return MATCH; }
+  {ASSERT}                 { return ASSERT; }
+  {PRINT}                  { return PRINT; }
+  {FORALLTOKEN}            { return FORALLTOKEN; }
+  {PARALLEL}               { return PARALLEL; }
+  {MODIFY}                 { return MODIFY; }
+  {FALSE}                  { return FALSE; }
+  {TRUE}                   { return TRUE; }
+  {NULL}                   { return NULL; }
+  {THIS}                   { return THIS; }
+  {FRESH}                  { return FRESH; }
+  {ALLOCATED}              { return ALLOCATED; }
+  {UNCHANGED}              { return UNCHANGED; }
+  {OLD}                    { return OLD; }
+  {EXISTSTOKEN}            { return EXISTSTOKEN; }
+  {OPENED}                 { return OPENED; }
+  {YIELD}                  { return YIELD; }
+  {WHERE}                  { return WHERE; }
+  {RETURN}                 { return RETURN; }
+  {LBRACE}                 { return LBRACE; }
+  {RBRACE}                 { return RBRACE; }
+  {LBRACKET}               { return LBRACKET; }
+  {RBRACKET}               { return RBRACKET; }
+  {OPENPAREN}              { return OPENPAREN; }
+  {CLOSEPAREN}             { return CLOSEPAREN; }
+  {EQ}                     { return EQ; }
+  {NEQ}                    { return NEQ; }
+  {NEQALT}                 { return NEQALT; }
+  {STAR}                   { return STAR; }
+  {ELLIPSIS}               { return ELLIPSIS; }
+  {REVEAL}                 { return REVEAL; }
+  {OPENANGLEBRACKET}       { return OPENANGLEBRACKET; }
+  {CLOSEANGLEBRACKET}      { return CLOSEANGLEBRACKET; }
+  {CHARTOKEN}              { return CHARTOKEN; }
+  {STRINGTOKEN}            { return STRINGTOKEN; }
+  {NOTIN}                  { return NOTIN; }
+  {DIGITS}                 { return DIGITS; }
+  {HEXDIGITS}              { return HEXDIGITS; }
+  {DECIMALDIGITS}          { return DECIMALDIGITS; }
+  {ARRAYTOKEN}             { return ARRAYTOKEN; }
+  {ARRAYTOKEN_Q}           { return ARRAYTOKEN_Q; }
+  {BVTOKEN}                { return BVTOKEN; }
+  {IDENTDEF}               { return IDENTDEF; }
+  {COMMENT}                { return COMMENT; }
+  {WHITE_SPACE}            { /* ignore */ }
 
 }
 

@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyEquivOp extends PsiElement {
 
-  @Nullable
-  PsiElement getEquivalentTo();
-
 }

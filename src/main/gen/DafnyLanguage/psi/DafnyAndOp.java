@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyAndOp extends PsiElement {
 
-  @Nullable
-  PsiElement getDoubleAnd();
-
 }

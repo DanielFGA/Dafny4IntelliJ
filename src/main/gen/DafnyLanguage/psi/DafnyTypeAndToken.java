@@ -20,9 +20,6 @@ public interface DafnyTypeAndToken extends PsiElement {
   List<DafnyTypeNameOrCtorSuffix> getTypeNameOrCtorSuffixList();
 
   @Nullable
-  PsiElement getLineArrow();
-
-  @Nullable
   PsiElement getOrdinal();
 
   @Nullable
@@ -42,9 +39,6 @@ public interface DafnyTypeAndToken extends PsiElement {
 
   @Nullable
   PsiElement getCloseparen();
-
-  @Nullable
-  PsiElement getDoubleLineArrow();
 
   @Nullable
   PsiElement getImap();
@@ -84,8 +78,5 @@ public interface DafnyTypeAndToken extends PsiElement {
 
   @Nullable
   PsiElement getString();
-
-  @Nullable
-  PsiElement getWaveArrow();
 
 }

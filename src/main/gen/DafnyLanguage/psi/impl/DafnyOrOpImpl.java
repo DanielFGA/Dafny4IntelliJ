@@ -26,10 +26,4 @@ public class DafnyOrOpImpl extends ASTWrapperPsiElement implements DafnyOrOp {
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public PsiElement getDoubleOr() {
-    return findChildByType(DOUBLEOR);
-  }
-
 }

@@ -70,12 +70,6 @@ public class DafnyConstAtomExpressionImpl extends ASTWrapperPsiElement implement
 
   @Override
   @Nullable
-  public PsiElement getAt() {
-    return findChildByType(AT);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getCharToken() {
     return findChildByType(CHARTOKEN);
   }

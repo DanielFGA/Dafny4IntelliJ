@@ -51,12 +51,6 @@ public class DafnyNewtypeDeclImpl extends ASTWrapperPsiElement implements DafnyN
   }
 
   @Override
-  @NotNull
-  public PsiElement getAssign() {
-    return findNotNullChildByType(ASSIGN);
-  }
-
-  @Override
   @Nullable
   public PsiElement getColon() {
     return findChildByType(COLON);

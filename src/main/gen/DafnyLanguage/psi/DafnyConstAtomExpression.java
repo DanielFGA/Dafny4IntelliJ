@@ -29,9 +29,6 @@ public interface DafnyConstAtomExpression extends PsiElement {
   PsiElement getAllocated();
 
   @Nullable
-  PsiElement getAt();
-
-  @Nullable
   PsiElement getCharToken();
 
   @Nullable
