@@ -25,12 +25,15 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("STRING_CHAR_KEY", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey DIGIT_KEY =
             createTextAttributesKey("DIGIT_KEY", DefaultLanguageHighlighterColors.NUMBER);
+    public static final TextAttributesKey COMMENT_KEY =
+            createTextAttributesKey("COMMENT_KEY", DefaultLanguageHighlighterColors.LINE_COMMENT);
 
     private static final TextAttributesKey[] DAFNY_KEYS = new TextAttributesKey[]{DAFNY_KEY};
     private static final TextAttributesKey[] VAR_KEYS = new TextAttributesKey[]{VAR_KEY};
     private static final TextAttributesKey[] VERIFY_KEYS = new TextAttributesKey[]{VERIFY_KEY};
     private static final TextAttributesKey[] STRING_CHAR_KEYS = new TextAttributesKey[]{STRING_CHAR_KEY};
     private static final TextAttributesKey[] DIGIT_KEYS = new TextAttributesKey[]{DIGIT_KEY};
+    private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT_KEY};
 
     private Set<IElementType> DAFNY_KEY_SET = new HashSet<>();
     private Set<IElementType> VAR_KEY_SET = new HashSet<>();
@@ -53,10 +56,12 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
         if (VERIFY_KEY_SET.contains(iElementType)) return VERIFY_KEYS;
         if (STRING_CHAR_KEY_SET.contains(iElementType)) return STRING_CHAR_KEYS;
         if (DIGIT_KEY_SET.contains(iElementType)) return DIGIT_KEYS;
+        if (iElementType.equals(DafnyTypeImpl.COMMENT)) return COMMENT_KEYS;
         return new TextAttributesKey[0];
     }
 
     protected void registerKeyWords() {
+
         VAR_KEY_SET.add(DafnyTypeImpl.BOOL);
         VAR_KEY_SET.add(DafnyTypeImpl.CHAR);
         VAR_KEY_SET.add(DafnyTypeImpl.INT);

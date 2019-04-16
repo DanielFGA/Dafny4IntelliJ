@@ -3,6 +3,7 @@ import org.wso2.lsp4intellij.client.languageserver.serverdefinition.RawCommandSe
 import com.intellij.openapi.application.PreloadingActivity;
 import com.intellij.openapi.progress.ProgressIndicator;
 import org.jetbrains.annotations.NotNull;
+import org.wso2.lsp4intellij.extensions.LSPExtensionManager;
 
 import java.io.File;
 
