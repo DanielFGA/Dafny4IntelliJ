@@ -221,7 +221,6 @@ public interface DafnyTypeImpl {
   IElementType MODIFY = new DafnyTokenType("modify");
   IElementType MODULE = new DafnyTokenType("module");
   IElementType MULTISET = new DafnyTokenType("multiset");
-  IElementType NAMESEGMENT_1_2_0 = new DafnyTokenType("NameSegment_1_2_0");
   IElementType NATTOKEN = new DafnyTokenType("nattoken");
   IElementType NEQ = new DafnyTokenType("neq");
   IElementType NEQALT = new DafnyTokenType("neqAlt");

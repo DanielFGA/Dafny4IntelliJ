@@ -284,8 +284,6 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   {COMMENT}                { return COMMENT; }
   {WHITE_SPACE}            { /* ignore */ }
 
-
-
 }
 
 [^] { return BAD_CHARACTER; }

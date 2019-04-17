@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.wso2.lsp4intellij.extensions.LSPExtensionManager;
 
 import java.io.File;
+import java.io.InputStream;
 
 public class DafnyPreloadingActivity extends PreloadingActivity {
     @Override

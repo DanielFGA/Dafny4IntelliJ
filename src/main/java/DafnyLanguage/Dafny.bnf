@@ -933,7 +933,7 @@ CasePatternLocal
 
 /*------------------------------------------------------------------------*/
 
-NameSegment ::= Ident (GenericInstantiation|HashCall|)
+NameSegment ::= Ident (GenericInstantiation|HashCall)?
 
 NameSegmentForTypeName::= Ident OptGenericInstantiation
 

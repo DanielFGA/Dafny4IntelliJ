@@ -6843,7 +6843,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Ident (GenericInstantiation|HashCall|)
+  // Ident (GenericInstantiation|HashCall)?
   public static boolean NameSegment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NameSegment")) return false;
     if (!nextTokenIs(b, IDENTDEF)) return false;
@@ -6855,15 +6855,19 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // GenericInstantiation|HashCall|
+  // (GenericInstantiation|HashCall)?
   private static boolean NameSegment_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NameSegment_1")) return false;
+    NameSegment_1_0(b, l + 1);
+    return true;
+  }
+
+  // GenericInstantiation|HashCall
+  private static boolean NameSegment_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NameSegment_1_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = GenericInstantiation(b, l + 1);
     if (!r) r = HashCall(b, l + 1);
-    if (!r) r = consumeToken(b, NAMESEGMENT_1_2_0);
-    exit_section_(b, m, null, r);
     return r;
   }
 

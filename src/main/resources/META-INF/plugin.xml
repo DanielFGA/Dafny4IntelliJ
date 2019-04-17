@@ -1,14 +1,8 @@
 <idea-plugin>
     <id>DafnyPlugin4Intellij.DafnyPlugin4Intellij</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
-
-
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
-    <!-- uncomment to enable plugin in all products
-    <depends>com.intellij.modules.lang</depends>
-    -->
+    <name>Dafny4Intellij</name>
+    <vendor email="daniel.figia@stud.th-luebeck.de">Technische Hochschule Lübeck</vendor>
+    <description>Dafny Support for Intellj with verification and execution.</description>
 
     <extensions defaultExtensionNs="com.intellij">
         <preloadingActivity implementation="DafnyPreloadingActivity"
