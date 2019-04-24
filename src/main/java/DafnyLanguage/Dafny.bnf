@@ -36,6 +36,7 @@
       gets = "regexp::="
       boredSmiley = "regexp::\|"
       bullet = "regexp:\u2022"
+      twoDots = "regexp:\.\."
       dot = "regexp:\."
       backtick = "regexp:`"
       semi = "regexp:;"
@@ -118,9 +119,9 @@
       //----
 
       lbrace = "regexp:\{"
-      rbrace = "regexp:}"
+      rbrace = "regexp:\}"
       lbracket = "regexp:\["
-      rbracket = "regexp:]"
+      rbracket = "regexp:\]"
       openparen = "regexp:\("
       closeparen = "regexp:\)"
       eq = "regexp:=="
@@ -145,8 +146,9 @@
 
       identdef="regexp:([A-Zb-z?])([A-zZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*"
 
-      comment = "regexp:\/\/.*|\/\*[\s|\S]+\*\/"
+      comment = "regexp:\/\/.*|[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]"
       WHITE_SPACE = 'regexp:\s+'
+      EOF = "regexp:\Z";
 
   ]
 
@@ -290,7 +292,7 @@ OtherTypeDecl
     )?
  (semi)?
 
-GIdentType ::= (ghostd | new)* IdentType
+GIdentType ::= (ghost | new)* IdentType
 
 FIdentType ::=( WildIdent|digits) colon TypeAndToken
 
@@ -420,7 +422,7 @@ TypeAndToken
 
 OptGenericInstantiation ::= (GenericInstantiation)?
 
-GenericInstantiation ::= openAngleBracket TypeAndToken ( comma TypeAndToken)*closeAngleBracket
+GenericInstantiation ::= openAngleBracket TypeAndToken ( comma TypeAndToken)* closeAngleBracket
 
 /*------------------------------------------------------------------------*/
 
@@ -941,28 +943,26 @@ HashCall ::= "#" (GenericInstantiation)? lbracket Expression rbracket openparen 
 
 Suffix
 ::=
- (
-     dot
-     (
-         openparen MemberBindingUpdate (comma MemberBindingUpdate)* closeparen
-         | DotSuffix (GenericInstantiation|HashCall|)
-     )
-     | lbracket
+
+     //lbracket
      (
          Expression
          (
-             ".."(Expression)?
+             twoDots (Expression)?
              | gets Expression
              | colon (Expression ( colon Expression)* (colon)? )?
              | (comma Expression)*
          )
-         | ".."
-         (Expression)?
+         | twoDots (Expression)?
      )
      rbracket
-     | openparen
-     (Expressions)? closeparen
- )
+     | openparen (Expressions)? closeparen
+     | dot
+           (
+               openparen MemberBindingUpdate (comma MemberBindingUpdate)* closeparen
+               | DotSuffix (GenericInstantiation|HashCall)?
+           )
+
 
 /*------------------------------------------------------------------------*/
 
@@ -1007,7 +1007,7 @@ NoUSIdent ::= identdef
 
 WildIdent ::= identdef
 
-OldSemi ::= semi
+OldSemi ::= semi?
 
 Nat ::= ( digits | hexdigits)
 

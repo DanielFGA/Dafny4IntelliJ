@@ -1,6 +1,6 @@
 package DafnyLanguage;
 
-import Lexer.DafnyLexer;
+import DafnyLanguage.Lexer.DafnyLexer;
 import com.intellij.lexer.FlexAdapter;
 
 import java.io.Reader;

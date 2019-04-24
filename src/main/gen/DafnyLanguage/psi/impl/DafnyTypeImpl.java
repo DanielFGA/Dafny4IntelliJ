@@ -197,7 +197,6 @@ public interface DafnyTypeImpl {
   IElementType FUNCTION = new DafnyTokenType("function");
   IElementType GETS = new DafnyTokenType("gets");
   IElementType GHOST = new DafnyTokenType("ghost");
-  IElementType GHOSTD = new DafnyTokenType("ghostd");
   IElementType HEXDIGITS = new DafnyTokenType("hexdigits");
   IElementType IDENTDEF = new DafnyTokenType("identdef");
   IElementType IF = new DafnyTokenType("if");
@@ -262,6 +261,7 @@ public interface DafnyTypeImpl {
   IElementType THIS = new DafnyTokenType("this");
   IElementType TRAIT = new DafnyTokenType("trait");
   IElementType TRUE = new DafnyTokenType("true");
+  IElementType TWODOTS = new DafnyTokenType("twoDots");
   IElementType TWOSTATE = new DafnyTokenType("twostate");
   IElementType TYPE = new DafnyTokenType("type");
   IElementType UNCHANGED = new DafnyTokenType("unchanged");

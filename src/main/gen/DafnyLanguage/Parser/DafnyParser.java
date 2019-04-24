@@ -4053,7 +4053,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (ghostd | new)* IdentType
+  // (ghost | new)* IdentType
   public static boolean GIdentType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GIdentType")) return false;
     boolean r;
@@ -4064,7 +4064,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (ghostd | new)*
+  // (ghost | new)*
   private static boolean GIdentType_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GIdentType_0")) return false;
     while (true) {
@@ -4075,11 +4075,11 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ghostd | new
+  // ghost | new
   private static boolean GIdentType_0_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "GIdentType_0_0")) return false;
     boolean r;
-    r = consumeToken(b, GHOSTD);
+    r = consumeToken(b, GHOST);
     if (!r) r = consumeToken(b, NEW);
     return r;
   }
@@ -7188,15 +7188,13 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // semi
+  // semi?
   public static boolean OldSemi(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "OldSemi")) return false;
-    if (!nextTokenIs(b, SEMI)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, SEMI);
-    exit_section_(b, m, OLD_SEMI, r);
-    return r;
+    Marker m = enter_section_(b, l, _NONE_, OLD_SEMI, "<old semi>");
+    consumeToken(b, SEMI);
+    exit_section_(b, l, m, true, false, null);
+    return true;
   }
 
   /* ********************************************************** */
@@ -9012,12 +9010,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   //      (
   //          Expression
   //          (
-  //              ".."(Expression)?
+  //              twoDots(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
   //          )
-  //          | ".."
+  //          | twoDots
   //          (Expression)?
   //      )
   //      rbracket
@@ -9123,12 +9121,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
   //      (
   //          Expression
   //          (
-  //              ".."(Expression)?
+  //              twoDots(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
   //          )
-  //          | ".."
+  //          | twoDots
   //          (Expression)?
   //      )
   //      rbracket
@@ -9145,12 +9143,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
 
   // Expression
   //          (
-  //              ".."(Expression)?
+  //              twoDots(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
   //          )
-  //          | ".."
+  //          | twoDots
   //          (Expression)?
   private static boolean Suffix_1_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Suffix_1_1")) return false;
@@ -9164,7 +9162,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
 
   // Expression
   //          (
-  //              ".."(Expression)?
+  //              twoDots(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
@@ -9179,7 +9177,7 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ".."(Expression)?
+  // twoDots(Expression)?
   //              | gets Expression
   //              | colon (Expression ( colon Expression)* (colon)? )?
   //              | (comma Expression)*
@@ -9195,12 +9193,12 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ".."(Expression)?
+  // twoDots(Expression)?
   private static boolean Suffix_1_1_0_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Suffix_1_1_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, "..");
+    r = consumeToken(b, TWODOTS);
     r = r && Suffix_1_1_0_1_0_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -9315,13 +9313,13 @@ public class DafnyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ".."
+  // twoDots
   //          (Expression)?
   private static boolean Suffix_1_1_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Suffix_1_1_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, "..");
+    r = consumeToken(b, TWODOTS);
     r = r && Suffix_1_1_1_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;

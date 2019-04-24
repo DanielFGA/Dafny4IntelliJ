@@ -43,4 +43,7 @@ public interface DafnySuffix extends PsiElement {
   @Nullable
   PsiElement getRbracket();
 
+  @Nullable
+  PsiElement getTwoDots();
+
 }

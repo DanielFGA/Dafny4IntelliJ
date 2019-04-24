@@ -10,13 +10,13 @@ import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 %%
 
 %{
-  public _DafnyLexer() {
+  public DafnyLexer() {
     this((java.io.Reader)null);
   }
 %}
 
 %public
-%class DafnyLexer
+%class _DafnyLexer
 %implements FlexLexer
 %function advance
 %type IElementType
@@ -138,6 +138,7 @@ ELLIPSIS=\.\.\.
 REVEAL=reveal
 OPENANGLEBRACKET=<
 CLOSEANGLEBRACKET=>
+TWODOTS=\.\.
 CHARTOKEN=([']([^(\\)(\\\\)\r\n]|\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])')
 STRINGTOKEN=([\"]([^\"\\\\\r\n]|\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])*)\"|@\"([^\"]|\"\")*\"
 NOTIN=\!in
@@ -150,13 +151,12 @@ BVTOKEN=bv(0|([1-9])([0-9])* )
 IDENTDEF=([A-Zb-z?])([A-zZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*
 COMMENT=\/\/.*|[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]
 WHITE_SPACE=[ \t\n\x0B\f\r]+
+EOF=\Z
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}            { return WHITE_SPACE; }
 
-  "EOF"                    { return EOF; }
-  "ghostd"                 { return GHOSTD; }
 
   {BOOL}                   { return BOOL; }
   {CHAR}                   { return CHAR; }
@@ -271,6 +271,7 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   {REVEAL}                 { return REVEAL; }
   {OPENANGLEBRACKET}       { return OPENANGLEBRACKET; }
   {CLOSEANGLEBRACKET}      { return CLOSEANGLEBRACKET; }
+  {TWODOTS}                { return TWODOTS; }
   {CHARTOKEN}              { return CHARTOKEN; }
   {STRINGTOKEN}            { return STRINGTOKEN; }
   {NOTIN}                  { return NOTIN; }
@@ -282,7 +283,8 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   {BVTOKEN}                { return BVTOKEN; }
   {IDENTDEF}               { return IDENTDEF; }
   {COMMENT}                { return COMMENT; }
-  {WHITE_SPACE}            { /* ignore */ }
+  {WHITE_SPACE}            { /* ignonre */ }
+  {EOF}                    { return EOF; }
 
 }
 

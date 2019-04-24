@@ -98,4 +98,10 @@ public class DafnySuffixImpl extends ASTWrapperPsiElement implements DafnySuffix
     return findChildByType(RBRACKET);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getTwoDots() {
+    return findChildByType(TWODOTS);
+  }
+
 }

@@ -27,9 +27,9 @@ public class DafnyOldSemiImpl extends ASTWrapperPsiElement implements DafnyOldSe
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getSemi() {
-    return findNotNullChildByType(SEMI);
+    return findChildByType(SEMI);
   }
 
 }

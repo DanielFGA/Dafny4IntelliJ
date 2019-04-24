@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface DafnyOldSemi extends PsiElement {
 
-  @NotNull
+  @Nullable
   PsiElement getSemi();
 
 }
