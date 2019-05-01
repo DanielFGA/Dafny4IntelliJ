@@ -151,9 +151,12 @@ public interface DafnyTypeImpl {
   IElementType ARRAYTOKEN_Q = new DafnyTokenType("arrayToken_q");
   IElementType AS = new DafnyTokenType("as");
   IElementType ASSERT = new DafnyTokenType("assert");
+  IElementType ASSIGN = new DafnyTokenType("assign");
   IElementType ASSUME = new DafnyTokenType("assume");
   IElementType BACKTICK = new DafnyTokenType("backtick");
   IElementType BOOL = new DafnyTokenType("bool");
+  IElementType BOOLAND = new DafnyTokenType("boolAnd");
+  IElementType BOOLOR = new DafnyTokenType("boolOr");
   IElementType BOREDSMILEY = new DafnyTokenType("boredSmiley");
   IElementType BREAK = new DafnyTokenType("break");
   IElementType BULLET = new DafnyTokenType("bullet");
@@ -216,6 +219,7 @@ public interface DafnyTypeImpl {
   IElementType MAP = new DafnyTokenType("map");
   IElementType MATCH = new DafnyTokenType("match");
   IElementType METHOD = new DafnyTokenType("method");
+  IElementType MINUS = new DafnyTokenType("minus");
   IElementType MODIFIES = new DafnyTokenType("modifies");
   IElementType MODIFY = new DafnyTokenType("modify");
   IElementType MODULE = new DafnyTokenType("module");
@@ -235,6 +239,7 @@ public interface DafnyTypeImpl {
   IElementType OPENPAREN = new DafnyTokenType("openparen");
   IElementType ORDINAL = new DafnyTokenType("ORDINAL");
   IElementType PARALLEL = new DafnyTokenType("parallel");
+  IElementType PLUS = new DafnyTokenType("plus");
   IElementType PREDICATE = new DafnyTokenType("predicate");
   IElementType PRINT = new DafnyTokenType("print");
   IElementType PROTECTED = new DafnyTokenType("protected");
@@ -256,7 +261,6 @@ public interface DafnyTypeImpl {
   IElementType STATIC = new DafnyTokenType("static");
   IElementType STRING = new DafnyTokenType("string");
   IElementType STRINGTOKEN = new DafnyTokenType("stringToken");
-  IElementType SUFFIX_0_1_1_1_2_0 = new DafnyTokenType("Suffix_0_1_1_1_2_0");
   IElementType THEN = new DafnyTokenType("then");
   IElementType THIS = new DafnyTokenType("this");
   IElementType TRAIT = new DafnyTokenType("trait");

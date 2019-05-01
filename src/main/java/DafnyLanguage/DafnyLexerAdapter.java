@@ -1,6 +1,5 @@
 package DafnyLanguage;
 
-import DafnyLanguage.Lexer.DafnyLexer;
 import com.intellij.lexer.FlexAdapter;
 
 import java.io.Reader;
@@ -8,6 +7,6 @@ import java.io.Reader;
 public class DafnyLexerAdapter extends FlexAdapter {
 
     public DafnyLexerAdapter() {
-        super(new DafnyLexer((Reader) null));
+        super(new _DafnyLexer((Reader) null));
     }
 }

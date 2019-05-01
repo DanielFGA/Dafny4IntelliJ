@@ -52,6 +52,12 @@ public class DafnyCalcOpImpl extends ASTWrapperPsiElement implements DafnyCalcOp
 
   @Override
   @Nullable
+  public PsiElement getAssign() {
+    return findChildByType(ASSIGN);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getCloseAngleBracket() {
     return findChildByType(CLOSEANGLEBRACKET);
   }

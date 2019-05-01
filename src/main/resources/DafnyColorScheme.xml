@@ -20,4 +20,9 @@
             <option name="FOREGROUND" value="000000"/>
         </value>
     </option>
+    <option name="SYMBOL_KEY">
+        <value>
+            <option name="FOREGROUND" value="4b007a"/>
+        </value>
+    </option>
 </list>

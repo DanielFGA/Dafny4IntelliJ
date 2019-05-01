@@ -25,6 +25,8 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("STRING_CHAR_KEY", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey DIGIT_KEY =
             createTextAttributesKey("DIGIT_KEY", DefaultLanguageHighlighterColors.NUMBER);
+    public static final TextAttributesKey SYMBOL_KEY =
+            createTextAttributesKey("SYMBOL_KEY", DefaultLanguageHighlighterColors.MARKUP_TAG);
     public static final TextAttributesKey COMMENT_KEY =
             createTextAttributesKey("COMMENT_KEY", DefaultLanguageHighlighterColors.LINE_COMMENT);
 
@@ -33,6 +35,7 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] VERIFY_KEYS = new TextAttributesKey[]{VERIFY_KEY};
     private static final TextAttributesKey[] STRING_CHAR_KEYS = new TextAttributesKey[]{STRING_CHAR_KEY};
     private static final TextAttributesKey[] DIGIT_KEYS = new TextAttributesKey[]{DIGIT_KEY};
+    private static final TextAttributesKey[] SYMBOL_KEYS = new TextAttributesKey[]{SYMBOL_KEY};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT_KEY};
 
     private Set<IElementType> DAFNY_KEY_SET = new HashSet<>();
@@ -40,6 +43,7 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
     private Set<IElementType> VERIFY_KEY_SET = new HashSet<>();
     private Set<IElementType> STRING_CHAR_KEY_SET = new HashSet<>();
     private Set<IElementType> DIGIT_KEY_SET = new HashSet<>();
+    private Set<IElementType> SYMBOL_KEY_SET = new HashSet<>();
 
     @NotNull
     @Override
@@ -56,6 +60,7 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
         if (VERIFY_KEY_SET.contains(iElementType)) return VERIFY_KEYS;
         if (STRING_CHAR_KEY_SET.contains(iElementType)) return STRING_CHAR_KEYS;
         if (DIGIT_KEY_SET.contains(iElementType)) return DIGIT_KEYS;
+        if (SYMBOL_KEY_SET.contains(iElementType)) return SYMBOL_KEYS;
         if (iElementType.equals(DafnyTypeImpl.COMMENT)) return COMMENT_KEYS;
         return new TextAttributesKey[0];
     }
@@ -79,6 +84,36 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
         VAR_KEY_SET.add(DafnyTypeImpl.BVTOKEN);
         VAR_KEY_SET.add(DafnyTypeImpl.ARRAYTOKEN);
         VAR_KEY_SET.add(DafnyTypeImpl.ARRAYTOKEN_Q);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.COLON);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.COMMA);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.VERTICALBAR);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.DOUBLECOLON);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.GETS);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.BOREDSMILEY);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.BULLET);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.DOT);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.BACKTICK);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.SEMI);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.DARROW);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.LBRACE);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.RBRACE);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.LBRACKET);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.RBRACKET);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.OPENPAREN);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.CLOSEPAREN);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.EQ);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.NEQ);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.NEQALT);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.STAR);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.ELLIPSIS);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.REVEAL);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.OPENANGLEBRACKET);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.CLOSEANGLEBRACKET);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.PLUS);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.MINUS);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.ASSIGN);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.BOOLAND);
+        SYMBOL_KEY_SET.add(DafnyTypeImpl.BOOLOR);
         DAFNY_KEY_SET.add(DafnyTypeImpl.CALC);
         DAFNY_KEY_SET.add(DafnyTypeImpl.CASE);
         DAFNY_KEY_SET.add(DafnyTypeImpl.THEN);

@@ -116,6 +116,12 @@
       yield = "regexp:yield"
       where = "regexp:where"
       return = "regexp:return"
+
+      plus = "regexp:\+"
+      minus = "regexp:\-"
+      assign = "regexp:="
+      boolAnd = "regexp:&&"
+      boolOr = "regexp:\|\|"
       //----
 
       lbrace = "regexp:\{"
@@ -144,7 +150,7 @@
       arrayToken_q = "regexp:array([1-9])(([0-9])*)?[?]"
       bvToken = "regexp:bv(0|([1-9])([0-9])* )"
 
-      identdef="regexp:([A-Zb-z?])([A-zZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*"
+      identdef="regexp:([A-Zb-z?])([A-ZZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*"
 
       comment = "regexp:\/\/.*|[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]"
       WHITE_SPACE = 'regexp:\s+'
@@ -188,7 +194,7 @@ SubModuleDecl
     module (Attribute)* NoUSIdent (dot NoUSIdent)* (refines ModuleName)? lbrace (TopDecl)* rbrace
     | import (opened)? ModuleName
     (
-        "=" QualifiedModuleExport
+        assign QualifiedModuleExport
         | colon QualifiedModuleExport
         | (QualifiedModuleExportSuffix)?
     )
@@ -258,7 +264,7 @@ DatatypeDecl
     datatype
     | codatatype
  )
- (Attribute)* NoUSIdent (GenericParameters)? "=" (verticalbar)? DatatypeMemberDecl (verticalbar DatatypeMemberDecl)* (semi)?
+ (Attribute)* NoUSIdent (GenericParameters)? assign (verticalbar)? DatatypeMemberDecl (verticalbar DatatypeMemberDecl)* (semi)?
 
 DatatypeMemberDecl ::= (Attribute)* NoUSIdent (FormalsOptionalIds)?
 
@@ -268,7 +274,7 @@ ConstantFieldDecl ::= const (Attribute)* CIdentType (gets Expression)? OldSemi
 
 NewtypeDecl
 ::=
- newtype (Attribute)* NoUSIdent "="
+ newtype (Attribute)* NoUSIdent assign
  (
      NoUSIdent (colon TypeAndToken)? verticalbar Expression
      (
@@ -281,7 +287,7 @@ OtherTypeDecl
 ::=
  type (Attribute)* NoUSIdent
  (TypeParameterCharacteristics)* (GenericParameters)?
- ("="
+ (assign
      (
          NoUSIdent (colon TypeAndToken)? verticalbar Expression
          (
@@ -333,7 +339,7 @@ GenericParameters
     (comma( Variance)? NoUSIdent (TypeParameterCharacteristics)*)*
   closeAngleBracket
 
-Variance ::= (star | "+" | "!" | "-")
+Variance ::= (star | plus | "!" | minus)
 
 TypeParameterCharacteristics ::= openparen TPCharOption (comma TPCharOption)* closeparen
 
@@ -488,7 +494,7 @@ Stmt ::= OneStmt
 OneStmt
 ::=
  (
- BlockStmt
+       BlockStmt
      | AssertStmt
      | AssumeStmt
      | PrintStmt
@@ -513,13 +519,9 @@ ReturnStmt ::= (return | yield) (Rhs (comma Rhs)* )? semi
 
 UpdateStmt
 ::=
- Lhs
- (
+ Lhs (
      (Attribute)* semi
-     | (comma Lhs)* (
-        gets Rhs (comma Rhs)*
-        | boredSmiley (assume)? Expression
-      )semi
+     | (comma Lhs)* (gets Rhs (comma Rhs)* | boredSmiley (assume)? Expression) semi
      | colon
  )
 
@@ -661,7 +663,7 @@ CalcOp
      | closeAngleBracket
      | darrow
      | ">?"
-     | "="
+     | assign
      | neq
      | 'neqAlt'
      | '\u2264'
@@ -674,8 +676,8 @@ CalcOp
 EquivOp ::= "<==>" | '\u21d4'
 ImpliesOp ::= "==>" | '\u21d2'
 ExpliesOp ::= "<==" | '\u21d0'
-AndOp ::= "&&" | '\u2227'
-OrOp ::= "||" | '\u2228'
+AndOp ::= boolAnd | '\u2227'
+OrOp ::= boolOr | '\u2228'
 
 NegOp ::= "!" | '\u00ac'
 Forall ::= foralltoken | '\u2200'
@@ -736,6 +738,7 @@ RelOp
      | closeAngleBracket
      | darrow
      | ">="
+     | "<="
      | neq ("#" lbracket Expression rbracket)?
      | in
      | notIn
@@ -762,7 +765,7 @@ ShiftTerm
 
 Term ::= Factor (AddOp Factor)*
 
-AddOp ::= ("+" | "-")
+AddOp ::= (plus | minus)
 
 /*------------------------------------------------------------------------*/
 
@@ -790,7 +793,7 @@ AsExpression ::= UnaryExpression (as TypeAndToken)*
 UnaryExpression
 ::=
  (
-     "-" UnaryExpression
+     minus UnaryExpression
      | NegOp UnaryExpression
      | map MapDisplayExpr (Suffix)*
      | imap MapDisplayExpr (Suffix)*
@@ -944,7 +947,7 @@ HashCall ::= "#" (GenericInstantiation)? lbracket Expression rbracket openparen 
 Suffix
 ::=
 
-     //lbracket
+     lbracket
      (
          Expression
          (

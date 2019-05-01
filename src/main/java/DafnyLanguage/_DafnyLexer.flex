@@ -10,7 +10,7 @@ import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 %%
 
 %{
-  public DafnyLexer() {
+  public _DafnyLexer() {
     this((java.io.Reader)null);
   }
 %}
@@ -47,6 +47,7 @@ DOUBLECOLON=::
 GETS=:=
 BOREDSMILEY=:\|
 BULLET=\u2022
+TWODOTS=\.\.
 DOT=\.
 BACKTICK=`
 SEMI=;
@@ -124,10 +125,15 @@ OPENED=opened
 YIELD=yield
 WHERE=where
 RETURN=return
+PLUS=\+
+MINUS=\-
+ASSIGN==
+BOOLAND=&&
+BOOLOR=\|\|
 LBRACE=\{
-RBRACE=}
+RBRACE=\}
 LBRACKET=\[
-RBRACKET=]
+RBRACKET=\]
 OPENPAREN=\(
 CLOSEPAREN=\)
 EQ===
@@ -138,7 +144,6 @@ ELLIPSIS=\.\.\.
 REVEAL=reveal
 OPENANGLEBRACKET=<
 CLOSEANGLEBRACKET=>
-TWODOTS=\.\.
 CHARTOKEN=([']([^(\\)(\\\\)\r\n]|\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])')
 STRINGTOKEN=([\"]([^\"\\\\\r\n]|\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])*)\"|@\"([^\"]|\"\")*\"
 NOTIN=\!in
@@ -148,7 +153,7 @@ DECIMALDIGITS=[0-9][_]?([0-9])*.([0-9])[_]?([0-9])*
 ARRAYTOKEN=array([1-9])(([0-9])*)?
 ARRAYTOKEN_Q=array([1-9])(([0-9])*)?[?]
 BVTOKEN=bv(0|([1-9])([0-9])* )
-IDENTDEF=([A-Zb-z?])([A-zZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*
+IDENTDEF=([A-Zb-z?])([A-ZZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*
 COMMENT=\/\/.*|[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 EOF=\Z
@@ -180,6 +185,7 @@ EOF=\Z
   {GETS}                   { return GETS; }
   {BOREDSMILEY}            { return BOREDSMILEY; }
   {BULLET}                 { return BULLET; }
+  {TWODOTS}                { return TWODOTS; }
   {DOT}                    { return DOT; }
   {BACKTICK}               { return BACKTICK; }
   {SEMI}                   { return SEMI; }
@@ -257,6 +263,11 @@ EOF=\Z
   {YIELD}                  { return YIELD; }
   {WHERE}                  { return WHERE; }
   {RETURN}                 { return RETURN; }
+  {PLUS}                   { return PLUS; }
+  {MINUS}                  { return MINUS; }
+  {ASSIGN}                 { return ASSIGN; }
+  {BOOLAND}                { return BOOLAND; }
+  {BOOLOR}                 { return BOOLOR; }
   {LBRACE}                 { return LBRACE; }
   {RBRACE}                 { return RBRACE; }
   {LBRACKET}               { return LBRACKET; }
@@ -271,7 +282,6 @@ EOF=\Z
   {REVEAL}                 { return REVEAL; }
   {OPENANGLEBRACKET}       { return OPENANGLEBRACKET; }
   {CLOSEANGLEBRACKET}      { return CLOSEANGLEBRACKET; }
-  {TWODOTS}                { return TWODOTS; }
   {CHARTOKEN}              { return CHARTOKEN; }
   {STRINGTOKEN}            { return STRINGTOKEN; }
   {NOTIN}                  { return NOTIN; }
@@ -283,7 +293,7 @@ EOF=\Z
   {BVTOKEN}                { return BVTOKEN; }
   {IDENTDEF}               { return IDENTDEF; }
   {COMMENT}                { return COMMENT; }
-  {WHITE_SPACE}            { /* ignonre */ }
+  {WHITE_SPACE}            {  }
   {EOF}                    { return EOF; }
 
 }

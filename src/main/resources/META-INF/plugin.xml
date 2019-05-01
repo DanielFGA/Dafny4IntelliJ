@@ -15,9 +15,15 @@
         </component>
     </application-components>
 
+    <!--LSP4Intellij -->
     <extensions defaultExtensionNs="com.intellij">
         <inspectionToolProvider implementation="org.wso2.lsp4intellij.contributors.inspection.LSPInspectionProvider"
                                 id="LSPInspectionProvider"/>
+    </extensions>
+
+    <!--Dafny Tool Window -->
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="DafnyToolWindow" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindowController"></toolWindow>
     </extensions>
 
     <!--DafnyLanguage -->

@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 public class Helper {
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Daniel\\IdeaProjects\\jsonreader\\DafnyPlugin4Intellij\\src\\main\\java\\highlightingKeywords.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Daniel\\IdeaProjects\\jsonreader\\DafnyPlugin4Intellij\\src\\main\\resources\\highlightingKeywords.txt"));
         String line = "";
         String output = "";
         String[] outputSplit;

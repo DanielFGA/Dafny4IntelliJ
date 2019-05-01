@@ -51,6 +51,12 @@ public class DafnyDatatypeDeclImpl extends ASTWrapperPsiElement implements Dafny
   }
 
   @Override
+  @NotNull
+  public PsiElement getAssign() {
+    return findNotNullChildByType(ASSIGN);
+  }
+
+  @Override
   @Nullable
   public PsiElement getCodatatype() {
     return findChildByType(CODATATYPE);

@@ -28,6 +28,18 @@ public class DafnyVarianceImpl extends ASTWrapperPsiElement implements DafnyVari
 
   @Override
   @Nullable
+  public PsiElement getMinus() {
+    return findChildByType(MINUS);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getPlus() {
+    return findChildByType(PLUS);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getStar() {
     return findChildByType(STAR);
   }

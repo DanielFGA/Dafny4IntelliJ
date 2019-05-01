@@ -16,7 +16,7 @@
 -bvToken
 -arrayToken
 -arrayToken_q
--#SYMBOLKEY
+-#SYMBOL_KEY_SET
 -colon
 -comma
 -verticalbar
@@ -42,6 +42,11 @@
 -reveal
 -openAngleBracket
 -closeAngleBracket
+-plus
+-minus
+-assign
+-boolAnd
+-boolOr
 -#DAFNY_KEY_SET
 -calc
 -case
