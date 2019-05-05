@@ -29,7 +29,7 @@ public class DafnyToolWindowController implements ToolWindowFactory {
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
-        Content content = contentFactory.createContent(dafnyToolWindow.getDafnyMainPanel(), "Dafny Output", false);
+        Content content = contentFactory.createContent(dafnyToolWindow.getDafnyMainPanel(), "Dafny Tool Window", false);
         toolWindow.getContentManager().addContent(content);
         this.project = project;
     }

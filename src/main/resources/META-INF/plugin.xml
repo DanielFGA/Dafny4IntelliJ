@@ -23,7 +23,7 @@
 
     <!--Dafny Tool Window -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="DafnyToolWindow" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindowController"></toolWindow>
+        <toolWindow id="Dafny" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindowController"></toolWindow>
     </extensions>
 
     <!--DafnyLanguage -->
