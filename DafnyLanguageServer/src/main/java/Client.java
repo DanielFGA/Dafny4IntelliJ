@@ -15,6 +15,8 @@ public class Client implements StreamConnectionProvider {
 
     private InputStream inputStream ;
     private OutputStream outputStream;
+    private DafnyLanguageServer dafnyLanguageServer;
+    private Launcher<LanguageClient> launcher;
 
     public Client(InputStream sysIn, OutputStream sysOut) {
         inputStream = sysIn;
@@ -23,12 +25,8 @@ public class Client implements StreamConnectionProvider {
 
     @Override
     public void start()  {
-        DafnyLanguageServer dafnyLanguageServer = new DafnyLanguageServer();
-        Launcher<LanguageClient> launcher =
-                LSPLauncher.createServerLauncher(dafnyLanguageServer,
-                        inputStream,
-                        outputStream);
-
+        dafnyLanguageServer = new DafnyLanguageServer();
+        launcher = LSPLauncher.createServerLauncher(dafnyLanguageServer, inputStream, outputStream);
         dafnyLanguageServer.connect(launcher.getRemoteProxy());
         launcher.startListening();
     }
@@ -45,5 +43,6 @@ public class Client implements StreamConnectionProvider {
 
     @Override
     public void stop() {
+        //TODO implement
     }
 }

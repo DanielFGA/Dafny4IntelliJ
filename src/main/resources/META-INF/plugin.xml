@@ -34,6 +34,10 @@
         <additionalTextAttributes scheme="Default" file="DafnyColorScheme.xml"/>
     </extensions>
 
+    <!--DafnyProjectWizard -->
+    <extensions defaultExtensionNs="com.intellij">
+        <moduleType id="DAFNY_MODULE" implementationClass="DafnyProjectWizard.DafnyModuleType"/>
+    </extensions>
 
 
     <actions>
