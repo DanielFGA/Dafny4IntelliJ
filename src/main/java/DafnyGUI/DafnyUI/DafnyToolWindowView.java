@@ -1,8 +1,8 @@
-package DafnyGUI;
+package DafnyGUI.DafnyUI;
 
 import javax.swing.*;
 
-public class DafnyToolWindow {
+public class DafnyToolWindowView {
 
     private JEditorPane dafnyConsole;
     private JPanel dafnyMainPanel;

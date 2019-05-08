@@ -23,7 +23,7 @@
 
     <!--Dafny Tool Window -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Dafny" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindowController"></toolWindow>
+        <toolWindow id="Dafny" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"></toolWindow>
     </extensions>
 
     <!--DafnyLanguage -->
@@ -34,13 +34,15 @@
         <additionalTextAttributes scheme="Default" file="DafnyColorScheme.xml"/>
     </extensions>
 
-    <!--DafnyProjectWizard -->
+    <!--DafnyGUI.DafnyProjectWizard -->
     <extensions defaultExtensionNs="com.intellij">
-        <moduleType id="DAFNY_MODULE" implementationClass="DafnyProjectWizard.DafnyModuleType"/>
+        <moduleType id="DAFNY_MODULE" implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
+        <projectConfigurable id="Dafny" groupId="language"
+                             provider="DafnyGUI.DafnyConfiguration.DafnyConfigurationProvider"
+                             dynamic="false"/>
     </extensions>
 
 
     <actions>
-        <!-- Add your actions here -->
     </actions>
 </idea-plugin>

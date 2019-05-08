@@ -1,4 +1,4 @@
-package DafnyProjectWizard;
+package DafnyGUI.DafnyProjectWizard;
 
 import DafnyLanguage.DafnyIcon;
 import com.intellij.openapi.module.ModuleType;
