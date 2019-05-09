@@ -1,31 +1,33 @@
 package DafnyGUI.DafnyConfiguration;
 
-import DafnyGUI.DafnyUI.DafnyConfigurationWindowView;
-import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurableProvider;
-import org.jetbrains.annotations.Nullable;
-
 import javax.swing.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
-public class DafnyConfigurationProvider extends ConfigurableProvider {
+/**
+ * DafnyConfigurationController creates the DafnyConfigurationWindowView and DafnyConfigurationModel. It handles the
+ * communication between these classes. Notifies the DafnyConfigurationWindowView, if the Model has new results, so that
+ * the DafnyConfigurationWindowView can update his elements. Notifies the model, if there was an action on the
+ * DafnyConfigurationWindowView and need to do some calculations.
+ *
+ */
+public class DafnyConfigurationController {
 
     private DafnyConfigurationWindowView dafnyConfigurationWindowView;
-    private DafnyConfigurable dafnyConfigurable;
+    private DafnyConfigurationModel dafnyConfigurationModel;
 
-    public DafnyConfigurationProvider() {
+    /**
+     * Constructor. Add all necessary ActionLister, initialize DafnyConfigurationWindowView and DafnyConfigurationModel
+     * and load the configuration.
+     */
+    public DafnyConfigurationController() {
         dafnyConfigurationWindowView = new DafnyConfigurationWindowView();
-        dafnyConfigurable = new DafnyConfigurable(this);
+        dafnyConfigurationModel = new DafnyConfigurationModel(this);
         setTestSrcButtonListener();
         setRadioButtonListener();
         setSetSrcButtonListener();
-        loadPathandOS(dafnyConfigurable.loadPathAndOS());
-    }
-
-
-    @Nullable
-    @Override
-    public Configurable createConfigurable() {
-        return dafnyConfigurable;
+        setDownloadButtonListener();
+        loadPathAndOS(dafnyConfigurationModel.loadPathAndOS());
     }
 
     public JPanel getConfigurationPanel() {
@@ -35,7 +37,7 @@ public class DafnyConfigurationProvider extends ConfigurableProvider {
     private void setTestSrcButtonListener() {
         dafnyConfigurationWindowView.getTestSrcButton().addActionListener(e -> {
             String srcPath = dafnyConfigurationWindowView.getPath();
-            Boolean testResult = dafnyConfigurable.testDafnyPath(srcPath);
+            Boolean testResult = dafnyConfigurationModel.testDafnyPath(srcPath);
             dafnyConfigurationWindowView.setTestLED(testResult);
             dafnyConfigurationWindowView.setTestOutputTextPane(testResult);
         });
@@ -43,8 +45,20 @@ public class DafnyConfigurationProvider extends ConfigurableProvider {
 
     private void setSetSrcButtonListener() {
         dafnyConfigurationWindowView.getSetSrcButton().addActionListener(e -> {
-            String path = dafnyConfigurable.selectFile();
+            String path = dafnyConfigurationModel.selectFile();
             dafnyConfigurationWindowView.setPathText(path);
+        });
+    }
+
+    private void setDownloadButtonListener() {
+        dafnyConfigurationWindowView.getDownloadSrcButton().addActionListener(e -> {
+            try {
+                dafnyConfigurationModel.openBrowserForDownload();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (URISyntaxException e1) {
+                e1.printStackTrace();
+            }
         });
     }
 
@@ -70,8 +84,13 @@ public class DafnyConfigurationProvider extends ConfigurableProvider {
         return new String[]{path, os};
     }
 
-    private void loadPathandOS(String[] loadPathAndOS) {
+    public void savePathandOS() {
+        dafnyConfigurationModel.setPathAndOS();
+    }
+
+    private void loadPathAndOS(String[] loadPathAndOS) {
         dafnyConfigurationWindowView.setPathAndOs(loadPathAndOS);
     }
+
 
 }

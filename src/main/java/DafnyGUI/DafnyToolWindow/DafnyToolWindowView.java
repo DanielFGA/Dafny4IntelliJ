@@ -1,4 +1,4 @@
-package DafnyGUI.DafnyUI;
+package DafnyGUI.DafnyToolWindow;
 
 import javax.swing.*;
 

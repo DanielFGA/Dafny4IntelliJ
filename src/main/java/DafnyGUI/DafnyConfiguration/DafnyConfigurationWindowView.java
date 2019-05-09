@@ -1,7 +1,4 @@
-package DafnyGUI.DafnyUI;
-
-import DafnyGUI.DafnyConfiguration.DafnyStateService;
-import com.intellij.openapi.components.ServiceManager;
+package DafnyGUI.DafnyConfiguration;
 
 import java.awt.Color;
 
@@ -39,20 +36,16 @@ public class DafnyConfigurationWindowView {
         return setSrcButton;
     }
 
+    public JButton getDownloadSrcButton() {
+        return downloadSrcButton;
+    }
+
     public JRadioButton getWindowsRadioButton() {
         return windowsRadioButton;
     }
 
     public JRadioButton getMacOSRadioButton() {
         return macOSRadioButton;
-    }
-
-    public JTextField getWindowPathTextField() {
-        return windowPathTextField;
-    }
-
-    public JTextField getMacOSPathTextField() {
-        return macOSPathTextField;
     }
 
     public String getPath() {

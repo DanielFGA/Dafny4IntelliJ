@@ -1,7 +1,6 @@
 package DafnyGUI.DafnyConfiguration;
 
 import com.intellij.openapi.components.*;
-import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,6 +32,10 @@ public class DafnyStateService implements PersistentStateComponent<DafnyStateSer
 
     public String[] getPathAndOS() {
         return pathAndOS;
+    }
+
+    public String getPath() {
+        return pathAndOS[0];
     }
 
     public void setPathAndOS(String[] pathAndOS) {
