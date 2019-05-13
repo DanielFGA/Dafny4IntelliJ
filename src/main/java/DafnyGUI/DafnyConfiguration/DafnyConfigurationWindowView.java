@@ -89,12 +89,15 @@ public class DafnyConfigurationWindowView {
     }
 
     public void setPathAndOs(String[] pathAndOs) {
-        if (pathAndOs[1].equals("OS")) {
-            macOSRadioButton.setSelected(true);
-            macOSPathTextField.setText(pathAndOs[0]);
-        } else {
-            windowsRadioButton.setSelected(false);
-            windowPathTextField.setText(pathAndOs[0]);
+        try {
+            if (pathAndOs[1].equals("OS")) {
+                macOSRadioButton.setSelected(true);
+                macOSPathTextField.setText(pathAndOs[0]);
+            } else {
+                windowsRadioButton.setSelected(false);
+                windowPathTextField.setText(pathAndOs[0]);
+            }
+        } catch (NullPointerException e) {
         }
     }
 

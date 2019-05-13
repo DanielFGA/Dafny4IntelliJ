@@ -1,5 +1,8 @@
 package DafnyGUI.DafnyConfiguration;
 
+import org.wso2.lsp4intellij.IntellijLanguageClient;
+import org.wso2.lsp4intellij.client.languageserver.serverdefinition.RawCommandServerDefinition;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -40,13 +43,23 @@ public class DafnyConfigurationController {
             Boolean testResult = dafnyConfigurationModel.testDafnyPath(srcPath);
             dafnyConfigurationWindowView.setTestLED(testResult);
             dafnyConfigurationWindowView.setTestOutputTextPane(testResult);
+
+            if (testResult) addServerDefinition(srcPath);
+
         });
     }
 
     private void setSetSrcButtonListener() {
         dafnyConfigurationWindowView.getSetSrcButton().addActionListener(e -> {
-            String path = dafnyConfigurationModel.selectFile();
-            dafnyConfigurationWindowView.setPathText(path);
+            String srcPath = dafnyConfigurationModel.selectFile();
+            dafnyConfigurationWindowView.setPathText(srcPath);
+
+            boolean testResult = dafnyConfigurationModel.testDafnyPath(srcPath);
+            dafnyConfigurationWindowView.setTestLED(testResult);
+            dafnyConfigurationWindowView.setTestOutputTextPane(testResult);
+
+            if (testResult) addServerDefinition(srcPath);
+
         });
     }
 
@@ -90,6 +103,12 @@ public class DafnyConfigurationController {
 
     private void loadPathAndOS(String[] loadPathAndOS) {
         dafnyConfigurationWindowView.setPathAndOs(loadPathAndOS);
+    }
+
+    private void addServerDefinition(String srcPath) {
+        srcPath = srcPath +"\\LanguageServer.jar";
+        IntellijLanguageClient.addServerDefinition(
+                new RawCommandServerDefinition("dfy", new String[]{"java", "-jar", srcPath}));
     }
 
 
