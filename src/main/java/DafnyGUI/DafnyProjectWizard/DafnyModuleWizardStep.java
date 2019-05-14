@@ -1,20 +1,21 @@
 package DafnyGUI.DafnyProjectWizard;
 
+import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 
 import javax.swing.*;
 
 public class DafnyModuleWizardStep extends ModuleWizardStep {
 
-    private DafnyModuleBuilder dafnyModuleBuilder;
+    private DafnyConfigurationController dafnyConfigurationController;
 
-    public DafnyModuleWizardStep(DafnyModuleBuilder dafnyModuleBuilder) {
-        this.dafnyModuleBuilder = dafnyModuleBuilder;
+    public DafnyModuleWizardStep() {
+        dafnyConfigurationController = new DafnyConfigurationController();
     }
 
     @Override
     public JComponent getComponent() {
-        return dafnyModuleBuilder.getConfigurationPanel();
+        return dafnyConfigurationController.getConfigurationPanel();
     }
 
     @Override

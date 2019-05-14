@@ -1,6 +1,5 @@
 package DafnyGUI.DafnyProjectWizard;
 
-import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import com.intellij.ide.util.projectWizard.*;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.options.ConfigurationException;
@@ -13,7 +12,6 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +20,11 @@ public class DafnyModuleBuilder extends ModuleBuilder implements SourcePathsBuil
 
     private DafnyModuleType dafnyModuleType;
     private List<Pair<String, String>> srcPaths;
-    private DafnyConfigurationController dafnyConfigurationController;
     private DafnyModuleWizardStep dafnyModuleWizardStep;
 
     public DafnyModuleBuilder() {
         dafnyModuleType = DafnyModuleType.getInstance();
-        dafnyConfigurationController = new DafnyConfigurationController();
-        dafnyModuleWizardStep = new DafnyModuleWizardStep(this);
+        dafnyModuleWizardStep = new DafnyModuleWizardStep();
     }
 
     @Override
@@ -88,7 +84,4 @@ public class DafnyModuleBuilder extends ModuleBuilder implements SourcePathsBuil
         srcPaths.add(sourcePathInfo);
     }
 
-    public JPanel getConfigurationPanel() {
-        return dafnyConfigurationController.getConfigurationPanel();
-    }
 }
