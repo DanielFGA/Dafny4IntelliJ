@@ -519,7 +519,7 @@ ReturnStmt ::= (return | yield) (Rhs (comma Rhs)* )? semi
 
 UpdateStmt
 ::=
- Lhs (
+     Lhs (
      (Attribute)* semi
      | (comma Lhs)* (gets Rhs (comma Rhs)* | boredSmiley (assume)? Expression) semi
      | colon
@@ -684,7 +684,7 @@ Forall ::= foralltoken | '\u2200'
 Exists ::= existstoken | '\u2203'
 QSep ::= doublecolon | 'bullet'
 
-Expression ::= EquivExpression (semi Expression)?
+Expression ::= EquivExpression | EquivExpression (semi Expression)?
 
 /*------------------------------------------------------------------------*/
 
