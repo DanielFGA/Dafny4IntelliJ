@@ -160,7 +160,7 @@ EOF=\Z
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}            { return WHITE_SPACE; }
+  {WHITE_SPACE}            { /*ignore*/ }
 
 
   {BOOL}                   { return BOOL; }
@@ -293,7 +293,7 @@ EOF=\Z
   {BVTOKEN}                { return BVTOKEN; }
   {IDENTDEF}               { return IDENTDEF; }
   {COMMENT}                { return COMMENT; }
-  {WHITE_SPACE}            {  }
+  {WHITE_SPACE}            { /*ignore*/ }
   {EOF}                    { return EOF; }
 
 }
