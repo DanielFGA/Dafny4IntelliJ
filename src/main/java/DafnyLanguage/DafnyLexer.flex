@@ -16,7 +16,7 @@ import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 %}
 
 %public
-%class _DafnyLexer
+%class DafnyLexer
 %implements FlexLexer
 %function advance
 %type IElementType

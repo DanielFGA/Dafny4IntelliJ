@@ -7,6 +7,6 @@ import java.io.Reader;
 public class DafnyLexerAdapter extends FlexAdapter {
 
     public DafnyLexerAdapter() {
-        super(new _DafnyLexer((Reader) null));
+        super(new DafnyLexer((Reader) null));
     }
 }
