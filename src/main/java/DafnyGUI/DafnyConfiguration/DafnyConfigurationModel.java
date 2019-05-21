@@ -24,7 +24,6 @@ public class DafnyConfigurationModel {
      */
     private DafnyStateService dafnyStateService = ServiceManager.getService(DafnyStateService.class);
 
-
     /**
      * Checks if ithe files Dafny.exe, Dafny_Sever.exe and DafnyLanguageServer.jar exist in the given path.
      * @param path - the path, where the files should be stored

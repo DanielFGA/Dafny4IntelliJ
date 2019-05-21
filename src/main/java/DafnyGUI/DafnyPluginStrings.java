@@ -6,6 +6,8 @@ public class DafnyPluginStrings {
     public static final String DAFNY_SERVER_EXE = "\\DafnyServer.exe";
     public static final String LANGUAGE_SERVER_JAR = "\\LanguageServer.jar";
 
+    public static final String DAFNY_FILE = ".dfy";
+
     public static final String SET_PATH = "Set Path";
 
     public static final String DOWNLOAD_LINK = "https://github.com/DanielFGA/DafnyPlugin4Intellij";

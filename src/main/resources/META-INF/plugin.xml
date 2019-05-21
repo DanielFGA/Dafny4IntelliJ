@@ -43,6 +43,17 @@
         <applicationService serviceInterface="DafnyGUI.DafnyConfiguration.DafnyStateService"
                             serviceImplementation="DafnyGUI.DafnyConfiguration.DafnyStateService" />
     </extensions>
+    
+    <actions>
+        <action id="Dafny.NewDafnyFile"
+                class="DafnyGUI.DafnyActions.DafnyCreateFileAction"
+                text="Dafny File"
+                description="Create new Dafny file">
+            <add-to-group group-id="NewGroup"
+                          anchor="before"
+                          relative-to-action="NewFile"/>
+        </action>
+    </actions>
 
 
     <actions>

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-public class DafnyFile extends PsiFileBase{
+public class DafnyFile extends PsiFileBase {
 
     public DafnyFile(@NotNull FileViewProvider viewProvider) {
         super(viewProvider, DafnyLanguage.INSTANCE);
