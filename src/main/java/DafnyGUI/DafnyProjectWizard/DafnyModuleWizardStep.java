@@ -31,6 +31,7 @@ public class DafnyModuleWizardStep extends ModuleWizardStep {
      */
     @Override
     public boolean validate() {
+        dafnyConfigurationController.savePathAndOS();
         return dafnyConfigurationController.testPath();
     }
 }
