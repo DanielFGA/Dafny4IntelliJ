@@ -47,7 +47,7 @@ public class DafnyConfigurable implements SearchableConfigurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        dafnyConfigurationController.savePathandOS();
+        dafnyConfigurationController.savePathAndOS();
     }
 
 

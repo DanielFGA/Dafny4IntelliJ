@@ -2,6 +2,7 @@ package DafnyGUI.DafnyProjectWizard;
 
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
+import com.intellij.openapi.options.ConfigurationException;
 
 import javax.swing.*;
 
@@ -21,5 +22,15 @@ public class DafnyModuleWizardStep extends ModuleWizardStep {
     @Override
     public void updateDataModel() {
         //TODO ??
+    }
+
+    /**
+     * Validates user input before {@link #updateDataModel()} is called.
+     * For the validation the path for the Dafny files is tested.
+     * @return {@code true} if input is valid, {@code false} otherwise
+     */
+    @Override
+    public boolean validate() {
+        return dafnyConfigurationController.testPath();
     }
 }

@@ -93,18 +93,18 @@ public class DafnyConfigurationController {
      * Test if the path in the enables text field is valid.
      * @return
      */
-    private String testPath() {
+    public boolean testPath() {
         String srcPath = dafnyConfigurationWindowView.getPath();
         Boolean testResult = dafnyConfigurationModel.testDafnyPath(srcPath);
         dafnyConfigurationWindowView.setTestLEDAndOutput(testResult);
         if (testResult) addServerDefinition(srcPath);
-        return srcPath;
+        return testResult;
     }
 
     /**
      * Save the current input (path and os) as a persistent state.
      */
-    public void savePathandOS() {
+    public void savePathAndOS() {
         dafnyConfigurationModel.savePathAndOS(getConfiguration());
     }
 
