@@ -15,13 +15,12 @@ public class DafnyConfigurationWindowView {
 
     private JTextField pathTextField;
 
-    private JButton setSrcButton;
-    private JButton testSrcButton;
-    private JButton downloadSrcButton;
+    private JButton setFilesButton;
+    private JButton testFilesButton;
+    private JButton downloadFilesButton;
 
     private JLabel testFilesLED;
     private JTextPane filesTestOutputPane;
-    private JLabel pathLabel;
 
     private JLabel monoLabel;
     private JTextField monoPathTextField;
@@ -34,12 +33,21 @@ public class DafnyConfigurationWindowView {
     private JPanel downloadButtonsPane;
     private JPanel testPane;
 
-    /**
-     * Update the content for the test output.
-     * @param state - True for test was successfully, false for test was not successfully.
-     */
-    public void setFilesTestLEDAndOutput(Boolean state) {
-        if (state) {
+    private DafnyConfigurationModel dafnyConfigurationModel;
+
+    public DafnyConfigurationWindowView(DafnyConfigurationModel dafnyConfigurationModel) {
+        this.dafnyConfigurationModel = dafnyConfigurationModel;
+    }
+
+    public void updatePaths() {
+
+        pathTextField.setText(dafnyConfigurationModel.getDafnyPath());
+        monoPathTextField.setText(dafnyConfigurationModel.getMonoPath());
+
+    }
+
+    public void updateTests() {
+        if (dafnyConfigurationModel.testDafnyPath()) {
             filesTestOutputPane.setForeground(Color.GREEN);
             filesTestOutputPane.setText(DafnyPluginStrings.DAFNY_FILES_FOUND);
             testFilesLED.setForeground(Color.GREEN);
@@ -48,10 +56,8 @@ public class DafnyConfigurationWindowView {
             filesTestOutputPane.setText(DafnyPluginStrings.DAFNY_FILES_NOT_FOUND);
             testFilesLED.setForeground(Color.RED);
         }
-    }
 
-    public void setMonoTestLEDAndOutput(Boolean state) {
-        if (state) {
+        if (dafnyConfigurationModel.testMonoPath()) {
             monoTestOutputPane.setForeground(Color.GREEN);
             monoTestOutputPane.setText(DafnyPluginStrings.MONO_FOUND);
             testMonoLED.setForeground(Color.GREEN);
@@ -62,17 +68,16 @@ public class DafnyConfigurationWindowView {
         }
     }
 
-    /**
-     * Update one of the path text field related to the currently selected operating system.
-     * @param pathText - the path, that gets written in the text field.
-     */
-    public void setPathText(String pathText) {
-        pathTextField.setText(pathText);
+    public void setWindowsView() {
+        pathPane.remove(monoLabel);
+        pathPane.remove(monoPathTextField);
+        pathPane.remove(setMonoButton);
+        testPane.remove(testMonoLED);
+        testPane.remove(testMonoButton);
+        testPane.remove(monoTestOutputPane);
+        downloadButtonsPane.remove(downloadMonoButton);
     }
 
-    public void setMonoPathText(String monoPathText) {
-        monoPathTextField.setText(monoPathText);
-    }
 
     /**
      * @return - The text on the currently activated text field.
@@ -90,15 +95,15 @@ public class DafnyConfigurationWindowView {
     }
 
     public JButton getTestFilesButton() {
-        return testSrcButton;
+        return testFilesButton;
     }
 
     public JButton getSetFilesButton() {
-        return setSrcButton;
+        return setFilesButton;
     }
 
     public JButton getDownloadFilesButton() {
-        return downloadSrcButton;
+        return downloadFilesButton;
     }
 
     public JButton getDownloadMonoButton() {
@@ -121,15 +126,7 @@ public class DafnyConfigurationWindowView {
         return pathTextField;
     }
 
-    public void setWindowsView() {
-        pathPane.remove(monoLabel);
-        pathPane.remove(monoPathTextField);
-        pathPane.remove(setMonoButton);
-        testPane.remove(testMonoLED);
-        testPane.remove(testMonoButton);
-        testPane.remove(monoTestOutputPane);
-        downloadButtonsPane.remove(downloadMonoButton);
-    }
+
 
 
 }

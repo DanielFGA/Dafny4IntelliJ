@@ -1,17 +1,8 @@
 package DafnyGUI.DafnyConfiguration;
 
 import DafnyGUI.DafnyPluginStrings;
-import com.intellij.openapi.components.ServiceManager;
-import org.wso2.lsp4intellij.IntellijLanguageClient;
-import org.wso2.lsp4intellij.client.languageserver.serverdefinition.RawCommandServerDefinition;
-
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-
-import javax.swing.*;
 import java.io.File;
-import java.net.URISyntaxException;
+
 
 /**
  * DafnyConfigurationModel does the calculation and processing for the Dafny-Configurations.
@@ -40,7 +31,7 @@ public class DafnyConfigurationModel {
 
     public boolean testMonoPath() {
         File monoExe = new File(monoPath + DafnyPluginStrings.MONO_EXE);
-        return monoExe.exists();
+        return isWindows() || monoExe.exists();
     }
 
     public String getDafnyPath() {
@@ -51,8 +42,8 @@ public class DafnyConfigurationModel {
         return monoPath;
     }
 
-    public void setFilesPath(String srcPath) {
-        this.dafnyPath = srcPath;
+    public void setFilesPath(String filesPath) {
+        this.dafnyPath = filesPath;
     }
 
     public void setMonoPath(String monoPath) {

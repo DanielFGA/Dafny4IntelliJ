@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,7 +20,6 @@ import java.net.URISyntaxException;
  * communication between these classes. Notifies the DafnyConfigurationWindowView, if the model has new results, so that
  * the DafnyConfigurationWindowView can update his elements. Notifies the model, if there was an action on the
  * DafnyConfigurationWindowView and need to do some calculations.
- *
  */
 public class DafnyConfigurationController {
 
@@ -37,57 +37,30 @@ public class DafnyConfigurationController {
     public DafnyConfigurationController() {
         dafnyStateService = ServiceManager.getService(DafnyStateService.class);
         dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(), dafnyStateService.getMono());
-        dafnyConfigurationWindowView = new DafnyConfigurationWindowView();
-        setTestSrcButtonListener();
+        dafnyConfigurationWindowView = new DafnyConfigurationWindowView(dafnyConfigurationModel);
+        setTestFilesButtonListener();
         setSetFilesButtonListener();
         setDownloadButtonListener();
         setPathTextFieldListener();
-        if (dafnyConfigurationModel.isWindows()) dafnyConfigurationWindowView.setWindowsView();
+
         if (dafnyConfigurationModel.isMac()) {
             setSetMonoButtonListener();
             setTestMonoButtonListener();
             setMonoPathTextFieldListener();
             setMonoDownloadButtonListener();
         }
-        updateView(dafnyConfigurationModel.getDafnyPath(), dafnyConfigurationModel.getMonoPath());
-    }
 
-    private void setMonoPathTextFieldListener() {
+        if (dafnyConfigurationModel.isWindows()) dafnyConfigurationWindowView.setWindowsView();
 
-        dafnyConfigurationWindowView.getMonoPathTextField().getDocument().addDocumentListener(new DocumentListener() {
-
-            private void action() {
-                Boolean testResult;
-                dafnyConfigurationModel.setMonoPath(dafnyConfigurationWindowView.getMonoPath());
-                testResult = dafnyConfigurationModel.testMonoPath();
-                dafnyConfigurationWindowView.setMonoTestLEDAndOutput(testResult);
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                action();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                action();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                action();
-            }
-        });
+        dafnyConfigurationWindowView.updatePaths();
     }
 
     private void setPathTextFieldListener() {
         dafnyConfigurationWindowView.getPathTextField().getDocument().addDocumentListener(new DocumentListener() {
 
             private void action() {
-                Boolean testResult;
                 dafnyConfigurationModel.setFilesPath(dafnyConfigurationWindowView.getFilesPath());
-                testResult = dafnyConfigurationModel.testDafnyPath();
-                dafnyConfigurationWindowView.setFilesTestLEDAndOutput(testResult);
+                dafnyConfigurationWindowView.updateTests();
             }
 
             @Override
@@ -107,39 +80,37 @@ public class DafnyConfigurationController {
         });
     }
 
-    private void updateView(String dafnyPath, String monoPath) {
-        dafnyConfigurationWindowView.setPathText(dafnyPath);
-        if (dafnyConfigurationModel.isMac()) dafnyConfigurationWindowView.getMonoPathTextField().setText(monoPath);
-    }
-
     /**
      * Add the Action Listener to the "Test Source" - Button. ->
-     *      Tests if the path in the activated text field is correct and displays the solution on the view.
-     *      If the path is correct, then add the language server to the IntellijLanguageClient Definitions.
+     * Tests if the path in the activated text field is correct and displays the solution on the view.
+     * If the path is correct, then add the language server to the IntellijLanguageClient Definitions.
      */
-    private void setTestSrcButtonListener() {
+    private void setTestFilesButtonListener() {
         dafnyConfigurationWindowView.getTestFilesButton().addActionListener(e -> {
-            boolean testResult = dafnyConfigurationModel.testDafnyPath();
-            dafnyConfigurationWindowView.setFilesTestLEDAndOutput(testResult);
+            dafnyConfigurationWindowView.updatePaths();
         });
     }
 
     /**
      * Add the Action Listener to the "Set Source" - Button. ->
-     *      Opens a File Chooser (DIRECTORIES_ONLY)
-     *      Tests if the path in the activated text field is correct and displays the solution on the view.
-     *      If the path is correct, then add the language server to the IntellijLanguageClient Definitions.
+     * Opens a File Chooser (DIRECTORIES_ONLY)
+     * Tests if the path in the activated text field is correct and displays the solution on the view.
+     * If the path is correct, then add the language server to the IntellijLanguageClient Definitions.
      */
     private void setSetFilesButtonListener() {
         dafnyConfigurationWindowView.getSetFilesButton().addActionListener(e -> {
-            String srcPath = selectDirectory();
-            dafnyConfigurationWindowView.setPathText(srcPath);
+            String path = selectDirectory();
+            if (path != null) {
+                dafnyConfigurationModel.setFilesPath(path);
+                dafnyConfigurationWindowView.updatePaths();
+            }
+
         });
     }
 
     /**
      * Add the action listener to the "Download" - button. ->
-     *      Opens the download site for the files in the default web browser.
+     * Opens the download site for the files in the default web browser.
      */
     private void setDownloadButtonListener() {
         dafnyConfigurationWindowView.getDownloadFilesButton().addActionListener(e -> {
@@ -147,17 +118,46 @@ public class DafnyConfigurationController {
         });
     }
 
+    private void setMonoPathTextFieldListener() {
+
+        dafnyConfigurationWindowView.getMonoPathTextField().getDocument().addDocumentListener(new DocumentListener() {
+
+            private void action() {
+                dafnyConfigurationModel.setMonoPath(dafnyConfigurationWindowView.getMonoPath());
+                dafnyConfigurationWindowView.updateTests();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                action();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                action();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                action();
+            }
+        });
+    }
+
     private void setTestMonoButtonListener() {
         dafnyConfigurationWindowView.getTestMonoButton().addActionListener(e -> {
-            boolean testResult = dafnyConfigurationModel.testMonoPath();
-            dafnyConfigurationWindowView.setMonoTestLEDAndOutput(testResult);
+            dafnyConfigurationWindowView.updatePaths();
         });
     }
 
     private void setSetMonoButtonListener() {
         dafnyConfigurationWindowView.getSetMonoButton().addActionListener(e -> {
-            String srcPath = selectDirectory();
-            dafnyConfigurationWindowView.setMonoPathText(srcPath);
+            String path = selectDirectory();
+            if (path != null) {
+                dafnyConfigurationModel.setMonoPath(path);
+                dafnyConfigurationWindowView.updatePaths();
+            }
+
         });
     }
 
@@ -170,7 +170,7 @@ public class DafnyConfigurationController {
     /**
      * Opens the download site for the files in the default web browser.
      */
-    public void openBrowser(String link) {
+    private void openBrowser(String link) {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {
                 Desktop.getDesktop().browse(new URI(link));
@@ -182,19 +182,21 @@ public class DafnyConfigurationController {
 
     /**
      * Opens a File Chooser (DIRECTORIES_ONLY).
+     *
      * @return the path of the choosen directory.
      */
-    public String selectDirectory() {
+    private String selectDirectory() {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.showDialog(null, DafnyPluginStrings.SET_PATH);
-        return chooser.getSelectedFile().getPath();
+        File choice = chooser.getSelectedFile();
+        return choice == null ? null : choice.getPath();
     }
 
     /**
      * Save the path as a persistent state.
      */
-    public void save() {
+    private void save() {
         dafnyStateService.setPath(dafnyConfigurationModel.getDafnyPath());
         dafnyStateService.setMono(dafnyConfigurationModel.getMonoPath());
         if (dafnyConfigurationModel.testDafnyPath()) addServerDefinition(dafnyConfigurationModel.getDafnyPath());
@@ -202,12 +204,13 @@ public class DafnyConfigurationController {
 
     /**
      * Add a new server definition to the IntellijLanguageClient.
-     * @param srcPath - the path of directory of the language server
+     *
+     * @param filesPath - the path of directory of the language server
      */
-    private void addServerDefinition(String srcPath) {
-        srcPath = srcPath + DafnyPluginStrings.LANGUAGE_SERVER_JAR;
+    private void addServerDefinition(String filesPath) {
+        filesPath = filesPath + DafnyPluginStrings.LANGUAGE_SERVER_JAR;
         IntellijLanguageClient.addServerDefinition(
-                new RawCommandServerDefinition(DafnyPluginStrings.DAFNY_FILE_ABBR, new String[]{DafnyPluginStrings.JAVA, DafnyPluginStrings.COMMAND_JAR, srcPath}));
+                new RawCommandServerDefinition(DafnyPluginStrings.DAFNY_FILE_ABBR, new String[]{DafnyPluginStrings.JAVA, DafnyPluginStrings.COMMAND_JAR, filesPath}));
 
     }
 
@@ -216,7 +219,7 @@ public class DafnyConfigurationController {
         boolean testMonoResult = dafnyConfigurationModel.isMac() ? dafnyConfigurationModel.testMonoPath() : true;
         if (!testFilesResult) {
             throw new ConfigurationException("The path to the Dafny files/Language Server is not valid. Please check it again.", "Unvalid Dafny files/Language Server Path");
-        } else if (dafnyConfigurationModel.isMac() && !testMonoResult) {
+        } else if (!testMonoResult) {
             throw new ConfigurationException("The path to Mono is not valid. Please check it again.", "Unvalid Mono Path");
         } else {
             save();
@@ -230,7 +233,6 @@ public class DafnyConfigurationController {
     public JPanel getConfigurationPanel() {
         return dafnyConfigurationWindowView.getConfigurationPanel();
     }
-
 
 
 }

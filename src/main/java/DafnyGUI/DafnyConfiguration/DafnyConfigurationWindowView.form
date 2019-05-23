@@ -42,7 +42,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="bf619" class="javax.swing.JLabel" binding="pathLabel">
+          <component id="bf619" class="javax.swing.JLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -74,7 +74,7 @@
               <text value="Set Mono Path"/>
             </properties>
           </component>
-          <component id="db291" class="javax.swing.JButton" binding="setSrcButton">
+          <component id="db291" class="javax.swing.JButton" binding="setFilesButton">
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -92,7 +92,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="997ef" class="javax.swing.JButton" binding="testSrcButton">
+          <component id="997ef" class="javax.swing.JButton" binding="testFilesButton">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -161,7 +161,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="f8b78" class="javax.swing.JButton" binding="downloadSrcButton">
+          <component id="f8b78" class="javax.swing.JButton" binding="downloadFilesButton">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
