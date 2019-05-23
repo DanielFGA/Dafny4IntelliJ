@@ -41,14 +41,13 @@ public class DafnyConfigurable implements SearchableConfigurable {
 
     @Override
     public boolean isModified() {
-        //TODO its always true, so the user could click on "Apply" everytime, even there are no modifications.
+        //It is always true, so the user could click on "Apply" everytime, even there are no modifications.
         return true;
     }
 
     @Override
     public void apply() throws ConfigurationException {
-        dafnyConfigurationController.testPath();
-        dafnyConfigurationController.savePathAndOS();
+        dafnyConfigurationController.validate();
     }
 
 

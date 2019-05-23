@@ -1,4 +1,7 @@
+import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
+import DafnyGUI.DafnyConfiguration.DafnyConfigurationModel;
 import DafnyGUI.DafnyConfiguration.DafnyStateService;
+import DafnyGUI.DafnyPluginStrings;
 import com.intellij.openapi.components.ServiceManager;
 import org.wso2.lsp4intellij.IntellijLanguageClient;
 import org.wso2.lsp4intellij.client.languageserver.serverdefinition.RawCommandServerDefinition;
@@ -10,17 +13,13 @@ import org.jetbrains.annotations.NotNull;
 public class DafnyPreloadingActivity extends PreloadingActivity {
     @Override
     public void preload(@NotNull ProgressIndicator indicator) {
-        String path;
-        try {
-            path = ServiceManager.getService(DafnyStateService.class).getPathAndOS()[0] + "\\LanguageServer.jar";
-        } catch(NullPointerException e) {
-            System.out.println("Plugin-Configuration wrong.");
-            path = "";
-        }
 
-        System.out.println(path);
-        IntellijLanguageClient.addServerDefinition(new RawCommandServerDefinition(
-                "dfy",
-                new String[]{"java", "-jar", path}));
+        String path = ServiceManager.getService(DafnyStateService.class).getPath();
+
+        if (new DafnyConfigurationModel(path, "").testDafnyPath()) {
+            IntellijLanguageClient.addServerDefinition(new RawCommandServerDefinition(
+                    "dfy",
+                    new String[]{"java", "-jar", path + DafnyPluginStrings.LANGUAGE_SERVER_JAR}));
+        }
     }
 }

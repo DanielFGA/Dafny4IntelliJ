@@ -23,7 +23,8 @@ public class DafnyStateService implements PersistentStateComponent<DafnyStateSer
     /**
      * The path to the Dafny files/Language Server and the operating system are saved together in an array.
      */
-    private String pathAndOS[];
+    private String path;
+    private String mono;
 
     @Nullable
     @Override
@@ -37,11 +38,19 @@ public class DafnyStateService implements PersistentStateComponent<DafnyStateSer
         XmlSerializerUtil.copyBean(state, this);
     }
 
-    public String[] getPathAndOS() {
-        return pathAndOS;
+    public String getPath() {
+        return path;
     }
 
-    public void setPathAndOS(String[] pathAndOS) {
-        this.pathAndOS = pathAndOS;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getMono() {
+        return mono;
+    }
+
+    public void setMono(String mono) {
+        this.mono = mono;
     }
 }

@@ -30,8 +30,7 @@ public class DafnyModuleWizardStep extends ModuleWizardStep {
      * @return {@code true} if input is valid, {@code false} otherwise
      */
     @Override
-    public boolean validate() {
-        dafnyConfigurationController.savePathAndOS();
-        return dafnyConfigurationController.testPath();
+    public boolean validate()  throws ConfigurationException {
+        return dafnyConfigurationController.validate();
     }
 }
