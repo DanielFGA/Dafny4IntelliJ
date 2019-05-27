@@ -1,20 +1,29 @@
 package DafnyGUI.DafnyConfiguration;
 
 import DafnyGUI.DafnyPluginStrings;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 
 
 /**
- * DafnyConfigurationModel does the calculation and processing for the Dafny-Configurations.
- * DafnyConfigurationController creates and trigger the methods.
+ * DafnyConfigurationModel hold the data for the Dafny-Configurations.
  */
 public class DafnyConfigurationModel {
 
+    /**
+     * The path to the Dafny files and Language Server
+     */
     private String dafnyPath;
+    /**
+     * The path to mono. Can be null, if system is windows.
+     */
+    @Nullable
     private String monoPath;
 
-    public DafnyConfigurationModel(String path, String monoPath) {
+    public DafnyConfigurationModel(String path, @Nullable String monoPath) {
         dafnyPath = path;
+        System.out.println(monoPath);
         if (isMac()) this.monoPath = monoPath;
     }
 
@@ -34,6 +43,14 @@ public class DafnyConfigurationModel {
         return isWindows() || monoExe.exists();
     }
 
+    public boolean isMac() {
+        return System.getProperty("os.name").startsWith("Mac");
+    }
+
+    public boolean isWindows() {
+        return System.getProperty("os.name").startsWith("Windows");
+    }
+
     public String getDafnyPath() {
         return dafnyPath;
     }
@@ -49,15 +66,6 @@ public class DafnyConfigurationModel {
     public void setMonoPath(String monoPath) {
         this.monoPath = monoPath;
     }
-
-    public boolean isMac() {
-        return System.getProperty("os.name").startsWith("Mac");
-    }
-
-    public boolean isWindows() {
-        return System.getProperty("os.name").startsWith("Windows");
-    }
-
 
 
 }

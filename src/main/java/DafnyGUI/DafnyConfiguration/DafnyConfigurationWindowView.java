@@ -37,13 +37,21 @@ public class DafnyConfigurationWindowView {
 
     public DafnyConfigurationWindowView(DafnyConfigurationModel dafnyConfigurationModel) {
         this.dafnyConfigurationModel = dafnyConfigurationModel;
+
+        if (dafnyConfigurationModel.isWindows()) {
+            pathPane.remove(monoLabel);
+            pathPane.remove(monoPathTextField);
+            pathPane.remove(setMonoButton);
+            testPane.remove(testMonoLED);
+            testPane.remove(testMonoButton);
+            testPane.remove(monoTestOutputPane);
+            downloadButtonsPane.remove(downloadMonoButton);
+        }
     }
 
     public void updatePaths() {
-
         pathTextField.setText(dafnyConfigurationModel.getDafnyPath());
-        monoPathTextField.setText(dafnyConfigurationModel.getMonoPath());
-
+        if (dafnyConfigurationModel.isMac()) monoPathTextField.setText(dafnyConfigurationModel.getMonoPath());
     }
 
     public void updateTests() {
@@ -57,35 +65,31 @@ public class DafnyConfigurationWindowView {
             testFilesLED.setForeground(Color.RED);
         }
 
-        if (dafnyConfigurationModel.testMonoPath()) {
-            monoTestOutputPane.setForeground(Color.GREEN);
-            monoTestOutputPane.setText(DafnyPluginStrings.MONO_FOUND);
-            testMonoLED.setForeground(Color.GREEN);
-        } else {
-            monoTestOutputPane.setForeground(Color.RED);
-            monoTestOutputPane.setText(DafnyPluginStrings.MONO_NOT_FOUND);
-            testMonoLED.setForeground(Color.RED);
+        if (dafnyConfigurationModel.isMac()) {
+            if (dafnyConfigurationModel.testMonoPath()) {
+                monoTestOutputPane.setForeground(Color.GREEN);
+                monoTestOutputPane.setText(DafnyPluginStrings.MONO_FOUND);
+                testMonoLED.setForeground(Color.GREEN);
+            } else {
+                monoTestOutputPane.setForeground(Color.RED);
+                monoTestOutputPane.setText(DafnyPluginStrings.MONO_NOT_FOUND);
+                testMonoLED.setForeground(Color.RED);
+            }
         }
     }
 
-    public void setWindowsView() {
-        pathPane.remove(monoLabel);
-        pathPane.remove(monoPathTextField);
-        pathPane.remove(setMonoButton);
-        testPane.remove(testMonoLED);
-        testPane.remove(testMonoButton);
-        testPane.remove(monoTestOutputPane);
-        downloadButtonsPane.remove(downloadMonoButton);
-    }
-
-
     /**
-     * @return - The text on the currently activated text field.
+     * Getter for the text in the path text field.
+     * @return - The text in the path text field.
      */
     public String getFilesPath() {
         return pathTextField.getText();
     }
 
+    /**
+     * Getter for the text in the mono text field.
+     * @return - The text in the mono text field.
+     */
     public String getMonoPath() {
         return monoPathTextField.getText();
     }

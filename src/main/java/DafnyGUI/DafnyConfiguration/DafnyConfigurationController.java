@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
  * DafnyConfigurationController creates the DafnyConfigurationWindowView and DafnyConfigurationModel. It handles the
  * communication between these classes. Notifies the DafnyConfigurationWindowView, if the model has new results, so that
  * the DafnyConfigurationWindowView can update his elements. Notifies the model, if there was an action on the
- * DafnyConfigurationWindowView and need to do some calculations.
+ * DafnyConfigurationWindowView and there is new data. Add action listener to the DafnyConfigurationWindowView components.
  */
 public class DafnyConfigurationController {
 
@@ -32,30 +32,32 @@ public class DafnyConfigurationController {
 
     /**
      * Constructor. Add all necessary action Listener, initialize DafnyConfigurationWindowView and DafnyConfigurationModel
-     * and load the configuration.
+     * and load the configuration. If os is Mac, then four extra listener are added.
      */
     public DafnyConfigurationController() {
         dafnyStateService = ServiceManager.getService(DafnyStateService.class);
         dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(), dafnyStateService.getMono());
         dafnyConfigurationWindowView = new DafnyConfigurationWindowView(dafnyConfigurationModel);
-        setTestFilesButtonListener();
-        setSetFilesButtonListener();
-        setDownloadButtonListener();
-        setPathTextFieldListener();
+        addTestFilesButtonListener();
+        addSetFilesButtonListener();
+        addDownloadButtonListener();
+        addPathTextFieldListener();
 
         if (dafnyConfigurationModel.isMac()) {
-            setSetMonoButtonListener();
-            setTestMonoButtonListener();
-            setMonoPathTextFieldListener();
-            setMonoDownloadButtonListener();
+            addSetMonoButtonListener();
+            addTestMonoButtonListener();
+            addMonoPathTextFieldListener();
+            addMonoDownloadButtonListener();
         }
-
-        if (dafnyConfigurationModel.isWindows()) dafnyConfigurationWindowView.setWindowsView();
 
         dafnyConfigurationWindowView.updatePaths();
     }
 
-    private void setPathTextFieldListener() {
+    /**
+     * Add new DocumentListener to the text field for the files path. With every new input, the model and the view
+     * are updated.
+     */
+    private void addPathTextFieldListener() {
         dafnyConfigurationWindowView.getPathTextField().getDocument().addDocumentListener(new DocumentListener() {
 
             private void action() {
@@ -81,30 +83,27 @@ public class DafnyConfigurationController {
     }
 
     /**
-     * Add the Action Listener to the "Test Source" - Button. ->
-     * Tests if the path in the activated text field is correct and displays the solution on the view.
-     * If the path is correct, then add the language server to the IntellijLanguageClient Definitions.
+     * Add the Action Listener to the "Test Files Path" - Button. -> Updates the paths in the view.
+     * TODO vielleicht rausnehmen?
      */
-    private void setTestFilesButtonListener() {
+    private void addTestFilesButtonListener() {
         dafnyConfigurationWindowView.getTestFilesButton().addActionListener(e -> {
             dafnyConfigurationWindowView.updatePaths();
         });
     }
 
     /**
-     * Add the Action Listener to the "Set Source" - Button. ->
-     * Opens a File Chooser (DIRECTORIES_ONLY)
-     * Tests if the path in the activated text field is correct and displays the solution on the view.
-     * If the path is correct, then add the language server to the IntellijLanguageClient Definitions.
+     * Add the Action Listener to the "Set Files Path" - Button. ->
+     * Opens a File Chooser (DIRECTORIES_ONLY).
+     * Update the model with the selected path and update the view.
      */
-    private void setSetFilesButtonListener() {
+    private void addSetFilesButtonListener() {
         dafnyConfigurationWindowView.getSetFilesButton().addActionListener(e -> {
             String path = selectDirectory();
-            if (path != null) {
+            if (path != null) { //path == null, no path selected.
                 dafnyConfigurationModel.setFilesPath(path);
                 dafnyConfigurationWindowView.updatePaths();
             }
-
         });
     }
 
@@ -112,13 +111,17 @@ public class DafnyConfigurationController {
      * Add the action listener to the "Download" - button. ->
      * Opens the download site for the files in the default web browser.
      */
-    private void setDownloadButtonListener() {
+    private void addDownloadButtonListener() {
         dafnyConfigurationWindowView.getDownloadFilesButton().addActionListener(e -> {
             openBrowser(DafnyPluginStrings.FILES_DOWNLOAD_LINK);
         });
     }
 
-    private void setMonoPathTextFieldListener() {
+    /**
+     * Add new DocumentListener to the text field for the files path. With every new input, the model and the view
+     * are updated.
+     */
+    private void addMonoPathTextFieldListener() {
 
         dafnyConfigurationWindowView.getMonoPathTextField().getDocument().addDocumentListener(new DocumentListener() {
 
@@ -144,13 +147,22 @@ public class DafnyConfigurationController {
         });
     }
 
-    private void setTestMonoButtonListener() {
+    /**
+     * Add the Action Listener to the "Test Mono Path" - Button. -> Updates the paths in the view.
+     * TODO vielleicht rausnehmen?
+     */
+    private void addTestMonoButtonListener() {
         dafnyConfigurationWindowView.getTestMonoButton().addActionListener(e -> {
             dafnyConfigurationWindowView.updatePaths();
         });
     }
 
-    private void setSetMonoButtonListener() {
+    /**
+     * Add the Action Listener to the "Set Mono Path" - Button. ->
+     * Opens a File Chooser (DIRECTORIES_ONLY).
+     * Update the model with the selected path and update the view.
+     */
+    private void addSetMonoButtonListener() {
         dafnyConfigurationWindowView.getSetMonoButton().addActionListener(e -> {
             String path = selectDirectory();
             if (path != null) {
@@ -161,14 +173,18 @@ public class DafnyConfigurationController {
         });
     }
 
-    private void setMonoDownloadButtonListener() {
+    /**
+     * Add the action listener to the "Download" - button. ->
+     * Opens the download site for mono in the default web browser.
+     */
+    private void addMonoDownloadButtonListener() {
         dafnyConfigurationWindowView.getDownloadMonoButton().addActionListener(e -> {
             openBrowser(DafnyPluginStrings.MONO_DOWNLOAD_LINK);
         });
     }
 
     /**
-     * Opens the download site for the files in the default web browser.
+     * Opens the download site for the given link in the default web browser.
      */
     private void openBrowser(String link) {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
@@ -197,25 +213,23 @@ public class DafnyConfigurationController {
      * Save the path as a persistent state.
      */
     private void save() {
+        String filesPath =  dafnyConfigurationModel.getDafnyPath() + DafnyPluginStrings.LANGUAGE_SERVER_JAR;
+        //Save the data
         dafnyStateService.setPath(dafnyConfigurationModel.getDafnyPath());
         dafnyStateService.setMono(dafnyConfigurationModel.getMonoPath());
-        if (dafnyConfigurationModel.testDafnyPath()) addServerDefinition(dafnyConfigurationModel.getDafnyPath());
+        //Register the new server definition to the IntelliJLanguageClient for LSP4IntelliJ.
+        IntellijLanguageClient.addServerDefinition(
+                new RawCommandServerDefinition(DafnyPluginStrings.DAFNY_FILE_ABBR, new String[]{DafnyPluginStrings.JAVA, DafnyPluginStrings.COMMAND_JAR, filesPath}));
     }
 
     /**
-     * Add a new server definition to the IntellijLanguageClient.
-     *
-     * @param filesPath - the path of directory of the language server
+     * Validate the input in the path text fields. If input is valid, the data will be saved.
+     * @return input is valid -> true, else false.
+     * @throws ConfigurationException - If input is not valid, an IntelliJ-specific exception is displayed.
      */
-    private void addServerDefinition(String filesPath) {
-        filesPath = filesPath + DafnyPluginStrings.LANGUAGE_SERVER_JAR;
-        IntellijLanguageClient.addServerDefinition(
-                new RawCommandServerDefinition(DafnyPluginStrings.DAFNY_FILE_ABBR, new String[]{DafnyPluginStrings.JAVA, DafnyPluginStrings.COMMAND_JAR, filesPath}));
-
-    }
-
     public boolean validate() throws ConfigurationException {
         boolean testFilesResult = dafnyConfigurationModel.testDafnyPath();
+        //if os is windows, the mono test result is always true, to skip the second if-statement.
         boolean testMonoResult = dafnyConfigurationModel.isMac() ? dafnyConfigurationModel.testMonoPath() : true;
         if (!testFilesResult) {
             throw new ConfigurationException("The path to the Dafny files/Language Server is not valid. Please check it again.", "Unvalid Dafny files/Language Server Path");
