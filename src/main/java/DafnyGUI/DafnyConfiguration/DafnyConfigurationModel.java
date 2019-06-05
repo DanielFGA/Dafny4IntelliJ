@@ -21,9 +21,11 @@ public class DafnyConfigurationModel {
     @Nullable
     private String monoPath;
 
-    public DafnyConfigurationModel(String path, @Nullable String monoPath) {
-        dafnyPath = path;
-        System.out.println(monoPath);
+    private String os;
+
+    public DafnyConfigurationModel(String dafnyPath, @Nullable String monoPath, String os) {
+        this.dafnyPath = dafnyPath;
+        this.os = os;
         if (isMac()) this.monoPath = monoPath;
     }
 
@@ -43,14 +45,6 @@ public class DafnyConfigurationModel {
         return isWindows() || monoExe.exists();
     }
 
-    public boolean isMac() {
-        return System.getProperty("os.name").startsWith("Mac");
-    }
-
-    public boolean isWindows() {
-        return System.getProperty("os.name").startsWith("Windows");
-    }
-
     public String getDafnyPath() {
         return dafnyPath;
     }
@@ -65,6 +59,14 @@ public class DafnyConfigurationModel {
 
     public void setMonoPath(String monoPath) {
         this.monoPath = monoPath;
+    }
+
+    public boolean isMac() {
+        return os.equals("Mac");
+    }
+
+    public boolean isWindows() {
+        return os.equals("Windows");
     }
 
 

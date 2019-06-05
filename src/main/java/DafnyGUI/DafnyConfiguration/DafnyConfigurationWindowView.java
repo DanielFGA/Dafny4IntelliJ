@@ -13,25 +13,24 @@ public class DafnyConfigurationWindowView {
 
     private JPanel configurationPanel;
 
+    private JPanel pathPane;
     private JTextField pathTextField;
-
     private JButton setFilesButton;
-    private JButton testFilesButton;
-    private JButton downloadFilesButton;
-
-    private JLabel testFilesLED;
-    private JTextPane filesTestOutputPane;
-
     private JLabel monoLabel;
     private JTextField monoPathTextField;
     private JButton setMonoButton;
-    private JPanel pathPane;
-    private JButton testMonoButton;
-    private JLabel testMonoLED;
-    private JTextPane monoTestOutputPane;
-    private JButton downloadMonoButton;
-    private JPanel downloadButtonsPane;
+
     private JPanel testPane;
+    private JLabel testFilesLED;
+    private JButton testFilesButton;
+    private JTextPane filesTestOutputPane;
+    private JLabel testMonoLED;
+    private JButton testMonoButton;
+    private JTextPane monoTestOutputPane;
+
+    private JPanel downloadButtonsPane;
+    private JButton downloadFilesButton;
+    private JButton downloadMonoButton;
 
     private DafnyConfigurationModel dafnyConfigurationModel;
 

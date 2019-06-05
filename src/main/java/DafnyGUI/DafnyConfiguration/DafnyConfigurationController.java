@@ -36,7 +36,7 @@ public class DafnyConfigurationController {
      */
     public DafnyConfigurationController() {
         dafnyStateService = ServiceManager.getService(DafnyStateService.class);
-        dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(), dafnyStateService.getMono());
+        dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(), dafnyStateService.getMono(), System.getProperty("os.name").startsWith("Mac") ? "Mac" : "Windows");
         dafnyConfigurationWindowView = new DafnyConfigurationWindowView(dafnyConfigurationModel);
         addTestFilesButtonListener();
         addSetFilesButtonListener();
@@ -239,6 +239,11 @@ public class DafnyConfigurationController {
             save();
         }
         return testFilesResult;
+    }
+
+    public void reset() {
+        dafnyConfigurationWindowView.getPathTextField().setText(dafnyStateService.getPath());
+        dafnyConfigurationWindowView.getMonoPathTextField().setText(dafnyStateService.getMono());
     }
 
     /**

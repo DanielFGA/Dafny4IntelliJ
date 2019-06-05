@@ -15,4 +15,12 @@ public class DafnyCreateFileAction extends CreateFileAction {
     protected String getDefaultExtension() {
         return DafnyPluginStrings.DAFNY_FILE_ABBR;
     }
+
+    @Override
+    protected String getFileName(String newName) {
+        if (getDefaultExtension() == null || newName.endsWith(".dfy")) {
+            return newName;
+        }
+        return newName + "." + getDefaultExtension();
+    }
 }
