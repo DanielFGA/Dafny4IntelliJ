@@ -37,7 +37,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <moduleType id="DAFNY_MODULE" implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
         <projectConfigurable id="Dafny" groupId="language"
-                             provider="DafnyGUI.DafnyConfigurationProvider.DafnyConfigurationProvider"
+                             provider="DafnyGUI.DafnyConfigurationProvider.DafnyConfigurable"
                              dynamic="false"/>
         <applicationService serviceInterface="DafnyGUI.DafnyConfiguration.DafnyStateService"
                             serviceImplementation="DafnyGUI.DafnyConfiguration.DafnyStateService" />

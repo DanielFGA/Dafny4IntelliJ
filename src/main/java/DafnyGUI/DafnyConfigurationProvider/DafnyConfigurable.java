@@ -3,6 +3,7 @@ package DafnyGUI.DafnyConfigurationProvider;
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import DafnyGUI.DafnyPluginStrings;
 import com.intellij.openapi.options.Configurable;
+import com.intellij.openapi.options.ConfigurableProvider;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
 import org.jetbrains.annotations.Nls;
@@ -14,12 +15,18 @@ import javax.swing.*;
 /**
  * DafnyConfigurable creates the Configuration Window in the IntelliJ Settings. It implements the SearchableConfigurable.
  */
-public class DafnyConfigurable implements Configurable {
+public class DafnyConfigurable extends ConfigurableProvider implements Configurable  {
 
     private DafnyConfigurationController dafnyConfigurationController;
 
     public DafnyConfigurable() {
         dafnyConfigurationController = new DafnyConfigurationController();
+    }
+
+    @Nullable
+    @Override
+    public Configurable createConfigurable() {
+        return this;
     }
 
     @Nls(capitalization = Nls.Capitalization.Title)

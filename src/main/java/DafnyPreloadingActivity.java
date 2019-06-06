@@ -16,7 +16,7 @@ public class DafnyPreloadingActivity extends PreloadingActivity {
 
         String path = ServiceManager.getService(DafnyStateService.class).getPath();
 
-        if (new DafnyConfigurationModel(path, "").testDafnyPath()) {
+        if (new DafnyConfigurationModel(path, "", System.getProperty("os.name").startsWith("Mac") ? "Mac" : "Windows").testDafnyPath()) {
             IntellijLanguageClient.addServerDefinition(new RawCommandServerDefinition(
                     "dfy",
                     new String[]{"java", "-jar", path + DafnyPluginStrings.LANGUAGE_SERVER_JAR}));

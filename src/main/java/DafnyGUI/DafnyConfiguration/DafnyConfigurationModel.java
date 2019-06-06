@@ -62,11 +62,11 @@ public class DafnyConfigurationModel {
     }
 
     public boolean isMac() {
-        return os.equals("Mac");
+        return os.equals(DafnyPluginStrings.OS_MACOS);
     }
 
     public boolean isWindows() {
-        return os.equals("Windows");
+        return os.equals(DafnyPluginStrings.OS_WINDOWS);
     }
 
 

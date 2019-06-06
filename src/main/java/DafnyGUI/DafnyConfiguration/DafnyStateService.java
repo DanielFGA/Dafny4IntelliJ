@@ -21,9 +21,12 @@ import org.jetbrains.annotations.Nullable;
 public class DafnyStateService implements PersistentStateComponent<DafnyStateService> {
 
     /**
-     * The path to the Dafny files/Language Server and the operating system are saved together in an array.
+     * The path to the Dafny files/Language Server.
      */
     private String path;
+    /**
+     * The path to the mono.
+     */
     private String mono;
 
     @Nullable
@@ -32,24 +35,37 @@ public class DafnyStateService implements PersistentStateComponent<DafnyStateSer
         return this;
     }
 
-
     @Override
     public void loadState(@NotNull DafnyStateService state) {
         XmlSerializerUtil.copyBean(state, this);
     }
 
+    /**
+     * @return the path to the Dafny-files/Language Server.
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * Set the path to the Dafny-files/Language Server and save.
+     * @param path - the new path
+     */
     public void setPath(String path) {
         this.path = path;
     }
 
+    /**
+     * @return the path to mono.
+     */
     public String getMono() {
         return mono;
     }
 
+    /**
+     * Set the path to the Dafny-files/Language Server and save.
+     * @param mono - the new mono path
+     */
     public void setMono(String mono) {
         this.mono = mono;
     }

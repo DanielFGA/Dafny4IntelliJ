@@ -84,7 +84,6 @@ public class DafnyConfigurationController {
 
     /**
      * Add the Action Listener to the "Test Files Path" - Button. -> Updates the paths in the view.
-     * TODO vielleicht rausnehmen?
      */
     private void addTestFilesButtonListener() {
         dafnyConfigurationWindowView.getTestFilesButton().addActionListener(e -> {
@@ -149,7 +148,6 @@ public class DafnyConfigurationController {
 
     /**
      * Add the Action Listener to the "Test Mono Path" - Button. -> Updates the paths in the view.
-     * TODO vielleicht rausnehmen?
      */
     private void addTestMonoButtonListener() {
         dafnyConfigurationWindowView.getTestMonoButton().addActionListener(e -> {
@@ -232,15 +230,18 @@ public class DafnyConfigurationController {
         //if os is windows, the mono test result is always true, to skip the second if-statement.
         boolean testMonoResult = dafnyConfigurationModel.isMac() ? dafnyConfigurationModel.testMonoPath() : true;
         if (!testFilesResult) {
-            throw new ConfigurationException("The path to the Dafny files/Language Server is not valid. Please check it again.", "Unvalid Dafny files/Language Server Path");
+            throw new ConfigurationException(DafnyPluginStrings.UNVALID_PATH_MESSAGE, DafnyPluginStrings.UNVALID_PATH_TITLE);
         } else if (!testMonoResult) {
-            throw new ConfigurationException("The path to Mono is not valid. Please check it again.", "Unvalid Mono Path");
+            throw new ConfigurationException(DafnyPluginStrings.UNVALID_MONO_MESSAGE, DafnyPluginStrings.UNVALID_MONO_TITLE);
         } else {
             save();
         }
         return testFilesResult;
     }
 
+    /**
+     * Reset the Model and the View to the last saved data.
+     */
     public void reset() {
         dafnyConfigurationWindowView.getPathTextField().setText(dafnyStateService.getPath());
         dafnyConfigurationWindowView.getMonoPathTextField().setText(dafnyStateService.getMono());

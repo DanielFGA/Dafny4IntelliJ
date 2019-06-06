@@ -35,8 +35,12 @@ public class DafnyPluginStrings {
                     "The Dafny-Verifier and the execution of the Dafny-Programmcode " +
                     "will not work without Mono!";
 
-    public static final String OS_MACOS = "MACOS";
-    public static final String OS_WINDOWS = "WINDOWS";
+    public static final String OS_MACOS = "Mac";
+    public static final String OS_WINDOWS = "Windows";
 
+    public static final String UNVALID_PATH_TITLE = "Unvalid Dafny files/Language Server Path";
+    public static final String UNVALID_PATH_MESSAGE = "The path to the Dafny files/Language Server is not valid. Please check it again.";
+    public static final String UNVALID_MONO_TITLE = "Unvalid Mono Path";
+    public static final String UNVALID_MONO_MESSAGE = "The path to Mono is not valid. Please check it again.";
 
 }
