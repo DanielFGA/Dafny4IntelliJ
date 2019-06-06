@@ -16,12 +16,12 @@ public class DafnyModuleWizardStep extends ModuleWizardStep {
 
     @Override
     public JComponent getComponent() {
-        return dafnyConfigurationController.getConfigurationPanel();
+        return new DafnyConfigurationController().getConfigurationPanel();
     }
 
     @Override
     public void updateDataModel() {
-        //TODO ??
+        //No Implementation needed, because validate() saves the data automatically, if the data is valid.
     }
 
     /**

@@ -43,4 +43,8 @@ public class DafnyPluginStrings {
     public static final String UNVALID_MONO_TITLE = "Unvalid Mono Path";
     public static final String UNVALID_MONO_MESSAGE = "The path to Mono is not valid. Please check it again.";
 
+    public static final String DAFNY_MODULE = "DAFNY_MODULE";
+    public static final String DAFNY_MODULE_DESCRIPTION = "Add support for Dafny";
+    public static final String DAFNY_MODULE_SRC_DIR_NAME = "src";
+
 }
