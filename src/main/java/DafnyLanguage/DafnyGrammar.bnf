@@ -1,5 +1,6 @@
 {
   parserClass="DafnyLanguage.Parser.DafnyParser"
+  parserUtilClass="DafnyLanguage.Parser.DafnyParserUtil"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
@@ -155,7 +156,6 @@
       comment = "regexp:\/\/.*|[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]"
       WHITE_SPACE = 'regexp:\s+'
       EOF = "regexp:\Z";
-
   ]
 
 }

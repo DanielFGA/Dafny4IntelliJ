@@ -135,7 +135,7 @@ Dafny.bnf is the grammar, that is used for this plugin, where only the tokens ar
       lbrace = "regexp:\{"
       rbrace = "regexp:\}"
       lbracket = "regexp:\["
-      rbracket = "regexp:\]"
+      rbracket = "regexp:]"
       openparen = "regexp:\("
       closeparen = "regexp:\)"
       eq = "regexp:=="
@@ -158,7 +158,7 @@ Dafny.bnf is the grammar, that is used for this plugin, where only the tokens ar
       arrayToken_q = "regexp:array([1-9])(([0-9])*)?[?]"
       bvToken = "regexp:bv(0|([1-9])([0-9])* )"
 
-      identdef="regexp:([A-Zb-z?])([A-ZZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*"
+      identdef="regexp:(([A-Zb-z?])([A-ZZa-z_?0-9'])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9'])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9'])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*)"
 
       comment = "regexp:\/\/.*|[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]"
       WHITE_SPACE = 'regexp:\s+'
@@ -173,7 +173,6 @@ Dafny
 ::=
  (include stringToken
  )* (TopDecl)*
- EOF
 
 DeclModifier
 ::= ( abstract
@@ -487,7 +486,7 @@ PossiblyWildExpression
 
 PossiblyWildFrameExpression ::= (star | FrameExpression)
 
-FrameExpression ::= (Expression(backtick Ident)? | backtick Ident)
+FrameExpression ::= Expression (backtick Ident)? | backtick Ident
 
 FunctionBody ::= lbrace Expression rbrace
 
@@ -586,7 +585,7 @@ AlternativeBlock
      | AlternativeBlockCase (AlternativeBlockCase)*
  )
 
-AlternativeBlockCase ::= case (ExistentialGuard | Expression) darrow (Stmt)*
+AlternativeBlockCase ::= case (ExistentialGuard |  ConstAtomExpression | Expression |) darrow (Stmt)*
 
 WhileStmt
 ::=
@@ -630,12 +629,7 @@ CaseStatement
 
 AssertStmt
 ::=
- assert
- (Attribute)*
- (
-     (LabelIdent colon)? Expression (by BlockStmt |semi)
-     | ellipsis semi
- )
+ assert (Attribute)* (LabelIdent colon)? Expression (semi|by BlockStmt) | ellipsis semi
 
 AssumeStmt ::= assume (Attribute)* (Expression | ellipsis) semi
 
@@ -710,7 +704,7 @@ ImpliesExpliesExpression
      )
  )?
 
-ImpliesExpression ::= LogicalExpression (ImpliesOp ImpliesExpression)?
+ImpliesExpression ::= LogicalExpression (ImpliesOp ImpliesExpression)? | LogicalExpression
 
 /*------------------------------------------------------------------------*/
 
@@ -733,10 +727,7 @@ LogicalExpression
 
 RelationalExpression
 ::=
- ShiftTerm
- (
-     RelOp ShiftTerm (RelOp ShiftTerm)*
- )?
+ ShiftTerm (RelOp ShiftTerm (RelOp ShiftTerm)* )? | ShiftTerm
 
 RelOp
 ::=
@@ -793,6 +784,7 @@ BitvectorFactor
          | "^" AsExpression ( "^" AsExpression)*
     )
  )?
+ | verticalbar AsExpression (verticalbar AsExpression )* //MERKEN, WAS GEHT HIER VOR?
 
 /*------------------------------------------------------------------------*/
 
@@ -803,22 +795,38 @@ UnaryExpression
  (
      minus UnaryExpression
      | NegOp UnaryExpression
-     | map MapDisplayExpr (Suffix)*
-     | imap MapDisplayExpr (Suffix)*
-     | iset ISetDisplayExpr (Suffix)*
+     | map MapDisplayExpr Suffix*
+     | imap MapDisplayExpr Suffix*
+     | iset ISetDisplayExpr Suffix*
      | LambdaExpression
      | EndlessExpression
-     | NameSegment (Suffix)*
-     | DisplayExpr (Suffix)*
-     | MultiSetExpr (Suffix)*
-     | ConstAtomExpression (Suffix)*
+     | NameSegment Suffix*
+     | DisplayExpr Suffix*
+     | MultiSetExpr Suffix*
+     | ConstAtomExpression Suffix*
  )
+
+ UnaryExpression2
+ ::=
+  (
+      minus UnaryExpression
+      | NegOp UnaryExpression
+      | map MapDisplayExpr Suffix*
+      | imap MapDisplayExpr Suffix*
+      | iset ISetDisplayExpr Suffix*
+      | EndlessExpression
+      //| LambdaExpression
+      | NameSegment Suffix*
+      | DisplayExpr Suffix*
+      | MultiSetExpr Suffix*
+      | ConstAtomExpression Suffix*
+  )
 
 Lhs
 ::=
  (
-     NameSegment (Suffix)*
-     | ConstAtomExpression Suffix (Suffix)*
+     NameSegment Suffix*
+     | ConstAtomExpression Suffix Suffix*
  )
 
 ConstAtomExpression
@@ -845,15 +853,9 @@ LambdaArrow ::= darrow
 
 LambdaExpression
 ::=
- (
-     WildIdent
-     | openparen ( IdentTypeOptional (comma IdentTypeOptional)* )? closeparen
- )
- (
-     reads PossiblyWildFrameExpression (comma PossiblyWildFrameExpression)*
-     | requires Expression
- )*
- LambdaArrow Expression
+ ( WildIdent Suffix* | openparen ( IdentTypeOptional (comma IdentTypeOptional)* )? closeparen)
+ (reads PossiblyWildFrameExpression (comma PossiblyWildFrameExpression)*| requires Expression)*
+ (LambdaArrow Expression)?
 
 ParensExpression ::=  openparen (Expressions)? closeparen
 
@@ -946,7 +948,7 @@ CasePatternLocal
 
 /*------------------------------------------------------------------------*/
 
-NameSegment ::= Ident (GenericInstantiation|HashCall)?
+NameSegment ::=Ident (GenericInstantiation|HashCall)?
 
 NameSegmentForTypeName::= Ident OptGenericInstantiation
 
@@ -954,14 +956,13 @@ HashCall ::= "#" (GenericInstantiation)? lbracket Expression rbracket openparen 
 
 Suffix
 ::=
-
      lbracket
      (
          Expression
          (
              twoDots (Expression)?
              | gets Expression
-             | colon (Expression ( colon Expression)* (colon)? )?
+             | colon (Expression (colon Expression)* (colon)? )?
              | (comma Expression)*
          )
          | twoDots (Expression)?
@@ -973,7 +974,6 @@ Suffix
                openparen MemberBindingUpdate (comma MemberBindingUpdate)* closeparen
                | DotSuffix (GenericInstantiation|HashCall)?
            )
-
 
 /*------------------------------------------------------------------------*/
 
