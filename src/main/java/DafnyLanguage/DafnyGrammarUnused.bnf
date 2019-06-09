@@ -127,6 +127,7 @@ Dafny.bnf is the grammar, that is used for this plugin, where only the tokens ar
 
       plus = "regexp:\+"
       minus = "regexp:\-"
+      div = "regexpr:/"
       assign = "regexp:="
       boolAnd = "regexp:&&"
       boolOr = "regexp:\|\|"
@@ -158,7 +159,7 @@ Dafny.bnf is the grammar, that is used for this plugin, where only the tokens ar
       arrayToken_q = "regexp:array([1-9])(([0-9])*)?[?]"
       bvToken = "regexp:bv(0|([1-9])([0-9])* )"
 
-      identdef="regexp:(([A-Zb-z?])([A-ZZa-z_?0-9'])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9'])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9'])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*)"
+      identdef="regexp:(([A-Zb-z?_])([A-ZZa-z_?0-9'`])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9'])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9'])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*)"
 
       comment = "regexp:\/\/.*|[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]"
       WHITE_SPACE = 'regexp:\s+'
@@ -770,7 +771,7 @@ AddOp ::= (plus | minus)
 
 Factor ::= BitvectorFactor (MulOp BitvectorFactor)*
 
-MulOp ::= (star| verticalbar | "%")
+MulOp ::= (star| "/" | "%") //change "/" to div
 
 /*------------------------------------------------------------------------*/
 
@@ -853,7 +854,7 @@ LambdaArrow ::= darrow
 
 LambdaExpression
 ::=
- ( WildIdent Suffix* | openparen ( IdentTypeOptional (comma IdentTypeOptional)* )? closeparen)
+ ( WildIdent Suffix* | openparen ( IdentTypeOptional (comma IdentTypeOptional)* )? closeparen Suffix*)
  (reads PossiblyWildFrameExpression (comma PossiblyWildFrameExpression)*| requires Expression)*
  (LambdaArrow Expression)?
 
