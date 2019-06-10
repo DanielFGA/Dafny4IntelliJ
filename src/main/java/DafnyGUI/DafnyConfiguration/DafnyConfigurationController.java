@@ -3,8 +3,6 @@ package DafnyGUI.DafnyConfiguration;
 import DafnyGUI.DafnyPluginStrings;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
-import org.wso2.lsp4intellij.IntellijLanguageClient;
-import org.wso2.lsp4intellij.client.languageserver.serverdefinition.RawCommandServerDefinition;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -216,8 +214,6 @@ public class DafnyConfigurationController {
         dafnyStateService.setPath(dafnyConfigurationModel.getDafnyPath());
         dafnyStateService.setMono(dafnyConfigurationModel.getMonoPath());
         //Register the new server definition to the IntelliJLanguageClient for LSP4IntelliJ.
-        IntellijLanguageClient.addServerDefinition(
-                new RawCommandServerDefinition(DafnyPluginStrings.DAFNY_FILE_ABBR, new String[]{DafnyPluginStrings.JAVA, DafnyPluginStrings.COMMAND_JAR, filesPath}));
     }
 
     /**

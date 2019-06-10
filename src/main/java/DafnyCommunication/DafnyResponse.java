@@ -1,4 +1,4 @@
-package core;
+package DafnyCommunication;
 
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.util.TextRange;

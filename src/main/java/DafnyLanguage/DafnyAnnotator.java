@@ -2,19 +2,12 @@ package DafnyLanguage;
 
 import DafnyGUI.DafnyConfiguration.DafnyStateService;
 import DafnyLanguage.psi.DafnyFile;
-import DafnyLanguage.psi.DafnyTokenType;
-import DafnyLanguage.psi.impl.DafnyTypeImpl;
-import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
-import com.intellij.lang.annotation.ExternalAnnotator;
 import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IFileElementType;
-import core.DafnyConnectionProvider;
-import core.DafnyResponse;
-import org.eclipse.lsp4j.Diagnostic;
+import DafnyCommunication.DafnyConnectionProvider;
+import DafnyCommunication.DafnyResponse;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

@@ -9,18 +9,6 @@
                             id="DafnyPreloadingActivity" />
     </extensions-->
 
-    <application-components>
-        <component>
-            <implementation-class>org.wso2.lsp4intellij.IntellijLanguageClient</implementation-class>
-        </component>
-    </application-components>
-
-    <!--LSP4Intellij -->
-    <extensions defaultExtensionNs="com.intellij">
-        <inspectionToolProvider implementation="org.wso2.lsp4intellij.contributors.inspection.LSPInspectionProvider"
-                                id="LSPInspectionProvider"/>
-    </extensions>
-
     <!--Dafny Tool Window -->
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Dafny" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"></toolWindow>

@@ -1,4 +1,4 @@
-package core;
+package DafnyCommunication;
 
 import com.google.gson.*;
 import java.io.UnsupportedEncodingException;

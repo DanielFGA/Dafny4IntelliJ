@@ -6,7 +6,6 @@ import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import org.jetbrains.annotations.NotNull;
-import org.wso2.lsp4intellij.editor.EditorEventManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +21,6 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("hello");
-                System.out.println(EditorEventManager.getDiagnosticsStatic());
             }
         });
     }
