@@ -10,13 +10,13 @@ import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 %%
 
 %{
-  public _DafnyLexer() {
+  public DafnyLexer() {
     this((java.io.Reader)null);
   }
 %}
 
 %public
-%class DafnyLexer
+%class _DafnyLexer
 %implements FlexLexer
 %function advance
 %type IElementType
@@ -160,7 +160,7 @@ EOF=\Z
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}            { /*ignore*/ }
+  {WHITE_SPACE}            { return WHITE_SPACE;  }
 
 
   {BOOL}                   { return BOOL; }

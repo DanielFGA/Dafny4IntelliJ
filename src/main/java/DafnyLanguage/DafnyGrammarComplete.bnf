@@ -1,0 +1,1026 @@
+/*
+This Grammar is complete but it has some issues, which have to be fixed.
+For the functionality of this plugin, only the tokens are relevant. (Syntax Highlighting)
+But for future extensions, this grammar should be fixed.
+
+Dafny.bnf is the grammar, that is used for this plugin, where only the tokens are defined, but there is only a empty rule.
+
+*/
+{
+  parserClass="DafnyLanguage.Parser.DafnyParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Dafny"
+  psiImplClassSuffix="Impl"
+  psiPackage="DafnyLanguage.psi"
+  psiImplPackage="DafnyLanguage.psi.impl"
+
+  elementTypeHolderClass="DafnyLanguage.psi.impl.DafnyTypeImpl"
+  elementTypeClass="DafnyLanguage.psi.DafnyElementType"
+  tokenTypeClass="DafnyLanguage.psi.DafnyTokenType"
+
+  tokens = [
+
+      bool = "regexp:bool"
+      char = "regexp:char"
+      int = "regexp:int"
+      nattoken = "regexp:nat"
+      real = "regexp:real"
+      ORDINAL = "regexp:ORDINAL"
+      object = "regexp:object"
+      object_q = "regexp:object?"
+      string = "regexp:string"
+      set = "regexp:set"
+      iset = "regexp:iset"
+      multiset = "regexp:multiset"
+      seq = "regexp:seq"
+      map = "regexp:map"
+      imap = "regexp:imap"
+      colon = "regexp::"
+      comma = "regexp:,"
+      verticalbar = "regexp:\|"
+      doublecolon = "regexp:::"
+      gets = "regexp::="
+      boredSmiley = "regexp::\|"
+      bullet = "regexp:\u2022"
+      twoDots = "regexp:\.\."
+      dot = "regexp:\."
+      backtick = "regexp:`"
+      semi = "regexp:;"
+      darrow = "regexp:=>"
+      assume = "regexp:assume"
+      calc = "regexp:calc"
+      case = "regexp:case"
+      then = "regexp:then"
+      else = "regexp:else"
+      as = "regexp:as"
+      by = "regexp:by"
+      in = "regexp:in"
+      decreases = "regexp:decreases"
+      invariant = "regexp:invariant"
+      function = "regexp:function"
+      predicate = "regexp:predicate"
+      inductive = "regexp:inductive"
+      twostate = "regexp:twostate"
+      copredicate = "regexp:copredicate"
+      lemma = "regexp:lemma"
+      static = "regexp:static"
+      protected = "regexp:protected"
+      import = "regexp:import"
+      export = "regexp:export"
+      classToken = "regexp:class"
+      trait = "regexp:trait"
+      datatype = "regexp:datatype"
+      codatatype = "regexp:codatatype"
+      var = "regexp:var"
+      const = "regexp:const"
+      newtype = "regexp:newtype"
+      type = "regexp:type"
+      iterator = "regexp:iterator"
+      method = "regexp:method"
+      colemma = "regexp:colemma"
+      constructor = "regexp:constructor"
+      modifies = "regexp:modifies"
+      reads = "regexp:reads"
+      requires = "regexp:requires"
+      ensures = "regexp:ensures"
+      ghost = "regexp:ghost"
+      witness = "regexp:witness"
+      //new---
+      include = "regexp:include"
+      abstract = "regexp:abstract"
+      module = "regexp:module"
+      refines = "regexp:refines"
+      provides = "regexp:provides"
+      reveals = "regexp:reveals"
+      extends = "regexp:extends"
+      yields = "regexp:yields"
+      returns = "regexp:returns"
+      new = "regexp:new"
+      comethod = "regexp:comethod"
+      free = "regexp:free"
+      label = "regexp:label"
+      break = "regexp:break"
+      if = "regexp:if"
+      while = "regexp:while"
+      match = "regexp:match"
+      assert = "regexp:assert"
+      print = "regexp:print"
+      foralltoken = "regexp:forall"
+      parallel = "regexp:parallel"
+      modify = "regexp:modify"
+      false = "regexp:false"
+      true = "regexp:true"
+      null = "regexp:null"
+      this = "regexp:this"
+      fresh = "regexp:fresh"
+      allocated = "regexp:allocated"
+      unchanged = "regexp:unchanged"
+      old = "regexp:old"
+      existstoken = "regexp:exists"
+      opened = "regexp:opened"
+      ghost = "regexp:ghost"
+      yield = "regexp:yield"
+      where = "regexp:where"
+      return = "regexp:return"
+
+      plus = "regexp:\+"
+      minus = "regexp:\-"
+      div = "regexpr:\/"
+      assign = "regexp:="
+      boolAnd = "regexp:&&"
+      boolOr = "regexp:\|\|"
+      //----
+
+      lbrace = "regexp:\{"
+      rbrace = "regexp:\}"
+      lbracket = "regexp:\["
+      rbracket = "regexp:\]"
+      openparen = "regexp:\("
+      closeparen = "regexp:\)"
+      eq = "regexp:=="
+      neq = "regexp:\!="
+      neqAlt = "regexp:\u2260"
+      star = "regexp:\*"
+      ellipsis = "regexp:\.\.\."
+      reveal = "regexp:reveal"
+      openAngleBracket = "regexp:<"
+      closeAngleBracket = "regexp:>"
+
+      charToken = "regexp:([']([^(\\)(\\\\)\r\n]|\\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])')"
+      stringToken = "regexp:([\"]([^\"\\\\\r\n]|\\'|\\\"|\\\\|\\0|\\n|\\r|\\t|\\u[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f])*)\"|@\"([^\"]|\"\")*\""
+
+      notIn = "regexp:\!in"
+      digits = "regexp:[0-9](_)?([0-9])*"
+      hexdigits = "regexp:0x([0-9A-Fa-f])(_)?([0-9A-Fa-f])*"
+      decimaldigits = "regexp:[0-9][_]?([0-9])*.([0-9])[_]?([0-9])*"
+      arrayToken = "regexp:array([1-9])(([0-9])*)?"
+      arrayToken_q = "regexp:array([1-9])(([0-9])*)?[?]"
+      bvToken = "regexp:bv(0|([1-9])([0-9])* )"
+
+      identdef="regexp:(([A-Zb-z?_])([A-ZZa-z_?0-9'`])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9'])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9'])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*)"
+
+      comment = "regexp:\/\/.*|[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]"
+      WHITE_SPACE = 'regexp:\s+'
+      EOF = "regexp:\Z";
+
+  ]
+
+}
+
+
+Dafny
+::=
+ (include stringToken
+ )* (TopDecl)*
+
+DeclModifier
+::= ( abstract
+ | ghost
+ | static
+ | protected
+ )
+
+TopDecl
+::=
+ (DeclModifier)*
+ (
+     SubModuleDecl
+     | ClassDecl
+     | DatatypeDecl
+     | NewtypeDecl
+     | OtherTypeDecl
+     | IteratorDecl
+     | TraitDecl
+     | ClassMemberDecl
+ )
+
+SubModuleDecl
+::=
+ (
+    module (Attribute)* NoUSIdent (dot NoUSIdent)* (refines ModuleName)? lbrace (TopDecl)* rbrace
+    | import (opened)? ModuleName
+    (
+        assign QualifiedModuleExport
+        | colon QualifiedModuleExport
+        | (QualifiedModuleExportSuffix)?
+    )
+    (semi)?
+    | export (ModuleExport)?
+    (
+        provides
+        (
+            ( ModuleExportSignature (comma ModuleExportSignature)* )
+            | star
+        )
+        | reveals
+        (
+            ( ModuleExportSignature (comma ModuleExportSignature )* )
+            | star
+        )
+        | extends ModuleExport (comma ModuleExport )* )*
+ )
+
+ModuleExportSignature ::= NoUSIdent (dot NoUSIdent)?
+
+ModuleName ::= Ident
+
+ModuleExport ::= DotSuffix
+
+QualifiedModuleExportSuffix
+::=
+ (
+    dot ModuleName (dot ModuleName )*
+    | " " (
+        ModuleExport
+        | lbrace ModuleExport (comma ModuleExport )* rbrace
+    )
+ )
+
+QualifiedModuleExport ::= ModuleName (QualifiedModuleExportSuffix)?
+
+ClassDecl
+::=
+ classToken (Attribute)* NoUSIdent (GenericParameters)?
+ (
+    extends TypeAndToken (comma TypeAndToken )*
+  )?
+  lbrace
+ ( (DeclModifier)* ClassMemberDecl)* rbrace
+
+TraitDecl
+::=
+ trait (Attribute)* NoUSIdent (GenericParameters)? lbrace
+ (
+    (DeclModifier)* ClassMemberDecl
+ )*
+ rbrace
+
+ClassMemberDecl
+::=
+ (
+     FieldDecl
+     | ConstantFieldDecl
+     | FunctionDecl
+     | MethodDecl
+ )
+
+DatatypeDecl
+::=
+ (
+    datatype
+    | codatatype
+ )
+ (Attribute)* NoUSIdent (GenericParameters)? assign (verticalbar)? DatatypeMemberDecl (verticalbar DatatypeMemberDecl)* (semi)?
+
+DatatypeMemberDecl ::= (Attribute)* NoUSIdent (FormalsOptionalIds)?
+
+FieldDecl ::= var (Attribute)* FIdentType (comma FIdentType)* OldSemi
+
+ConstantFieldDecl ::= const (Attribute)* CIdentType (gets Expression)? OldSemi
+
+NewtypeDecl
+::=
+ newtype (Attribute)* NoUSIdent assign
+ (
+     NoUSIdent (colon TypeAndToken)? verticalbar Expression
+     (
+        (ghost)? witness Expression
+     )?
+     | TypeAndToken
+ )
+
+OtherTypeDecl
+::=
+ type (Attribute)* NoUSIdent
+ (TypeParameterCharacteristics)* (GenericParameters)?
+ (assign
+     (
+         NoUSIdent (colon TypeAndToken)? verticalbar Expression
+         (
+            (ghost)? witness Expression
+         )?
+         | TypeAndToken
+        )
+    )?
+ (semi)?
+
+GIdentType ::= (ghost | new)* IdentType
+
+FIdentType ::=( WildIdent|digits) colon TypeAndToken
+
+CIdentType
+::= (WildIdent|digits) (colon TypeAndToken)?
+
+IdentType ::= WildIdent colon TypeAndToken
+
+LocalIdentTypeOptional ::= WildIdent (colon TypeAndToken)?
+
+IdentTypeOptional ::= WildIdent (colon TypeAndToken)?
+
+TypeIdentOptional
+::=
+ (ghost)? (
+    TypeAndToken (colon TypeAndToken)?
+    | digits colon TypeAndToken
+ )
+
+/*------------------------------------------------------------------------*/
+
+IteratorDecl
+::=
+ iterator (Attribute)* NoUSIdent
+ (
+     (GenericParameters)? Formals
+     (( yields |returns) Formals)?
+     | ellipsis
+ )
+ (IteratorSpec)* (BlockStmt)?
+
+/*------------------------------------------------------------------------*/
+
+GenericParameters
+::=
+  openAngleBracket
+    (Variance)? NoUSIdent (TypeParameterCharacteristics)*
+    (comma( Variance)? NoUSIdent (TypeParameterCharacteristics)*)*
+  closeAngleBracket
+
+Variance ::= (star | plus | "!" | minus)
+
+TypeParameterCharacteristics ::= openparen TPCharOption (comma TPCharOption)* closeparen
+
+TPCharOption ::= (eq | digits | "!" new)
+
+/*------------------------------------------------------------------------*/
+
+MethodDecl
+::=
+ (
+    method
+    | lemma
+    | colemma
+    | comethod
+    | inductive lemma
+    | twostate lemma
+    | constructor
+ )
+ (Attribute)* (FuMe_Ident)?
+ (
+    (GenericParameters)? (KType)? Formals (returns Formals)?
+    | ellipsis
+ )
+ (MethodSpec)* (DividedBlockStmt|BlockStmt)?
+
+KType
+::= lbracket ( nattoken | ORDINAL) rbracket
+
+MethodSpec
+::=
+ (
+     modifies( Attribute)* FrameExpression  (comma FrameExpression)* OldSemi
+     |(free)?
+        (
+            requires (Attribute)* (LabelIdent colon)? Expression OldSemi
+            | ensures(Attribute)* Expression OldSemi
+        )
+     | decreases ( Attribute)*DecreasesList OldSemi
+ )
+
+IteratorSpec
+::=
+ (
+     reads ( Attribute)* FrameExpression (comma FrameExpression)* OldSemi
+     | modifies( Attribute)* FrameExpression (comma FrameExpression)* OldSemi
+     |(free)? (yield)?
+     (
+         requires
+         (LabelIdent colon)? Expression OldSemi
+         | ensures( Attribute)* Expression OldSemi
+     )
+     | decreases( Attribute)*DecreasesList OldSemi
+ )
+
+Formals ::= openparen (GIdentType (comma GIdentType)* )? closeparen
+
+FormalsOptionalIds ::= openparen (TypeIdentOptional (comma TypeIdentOptional)* )? closeparen
+
+/*------------------------------------------------------------------------*/
+
+TypeAndToken
+::=
+ (
+     bool
+     | char
+     | int
+     | nattoken
+     | real
+     | ORDINAL
+     | bvToken
+     | set OptGenericInstantiation
+     | iset OptGenericInstantiation
+     | multiset OptGenericInstantiation
+     | seq OptGenericInstantiation
+     | string
+     | object
+     | object_q
+     | map  OptGenericInstantiation
+     | imap  OptGenericInstantiation
+     | arrayToken OptGenericInstantiation
+     | arrayToken_q  OptGenericInstantiation
+     | openparen (TypeAndToken (comma TypeAndToken)* )? closeparen
+     | NameSegmentForTypeName (dot TypeNameOrCtorSuffix OptGenericInstantiation)*
+ )
+ (("~>" | "-->" | "->" ) TypeAndToken)?
+
+OptGenericInstantiation ::= (GenericInstantiation)?
+
+GenericInstantiation ::= openAngleBracket TypeAndToken ( comma TypeAndToken)* closeAngleBracket
+
+/*------------------------------------------------------------------------*/
+
+FunctionDecl
+::=
+ (twostate)? (
+     function (method)? (Attribute)* FuMe_Ident
+     (
+         (GenericParameters)? Formals colon
+         (
+             openparen GIdentType closeparen | TypeAndToken
+         )
+         | ellipsis
+     )
+     | predicate (method)? (Attribute)* NoUSIdent
+     (
+         ellipsis
+         |(GenericParameters)? (Formals)? (colon)?
+     )
+     |
+     inductive predicate (Attribute)* FuMe_Ident
+     (
+         (GenericParameters)? (KType)? Formals (colon)?
+         | ellipsis
+     )
+     |
+     copredicate (Attribute)* NoUSIdent
+     (
+         (GenericParameters)? (KType)? Formals(colon)?
+         | ellipsis
+     )
+ ) (FunctionSpec)* (FunctionBody)?
+
+FunctionSpec
+::=
+ (
+     requires (Attribute)* Expression OldSemi
+     | reads PossiblyWildFrameExpression (comma PossiblyWildFrameExpression)* OldSemi
+     | ensures (Attribute)* Expression OldSemi
+     | decreases DecreasesList OldSemi
+ )
+
+PossiblyWildExpression
+::=
+ ( star
+ | Expression
+ )
+
+PossiblyWildFrameExpression ::= (star | FrameExpression)
+
+FrameExpression ::= Expression (backtick Ident)? | backtick Ident
+
+FunctionBody ::= lbrace Expression rbrace
+
+/*------------------------------------------------------------------------*/
+
+BlockStmt ::= lbrace (Stmt)* rbrace
+
+DividedBlockStmt ::= lbrace (Stmt)* (new semi (Stmt)* )? rbrace
+
+Stmt ::= OneStmt
+
+OneStmt
+::=
+ (
+       BlockStmt
+     | AssertStmt
+     | AssumeStmt
+     | PrintStmt
+     | RevealStmt
+     | UpdateStmt
+     | VarDeclStatement
+     | IfStmt
+     | WhileStmt
+     | MatchStmt
+     | ForallStmt
+     | CalcStmt
+     | ModifyStmt
+     | label LabelIdent colon OneStmt
+     | break ( LabelIdent |(break)*) semi
+     | ReturnStmt
+     | SkeletonStmt
+ )
+
+SkeletonStmt ::= ellipsis (where Ident (comma Ident)* gets Expression (comma Expression)*)? semi
+
+ReturnStmt ::= (return | yield) (Rhs (comma Rhs)* )? semi
+
+UpdateStmt
+::=
+     Lhs (
+     (Attribute)* semi
+     | (comma Lhs)* (gets Rhs (comma Rhs)* | boredSmiley (assume)? Expression) semi
+     | colon
+ )
+
+Rhs
+::=
+ (
+     new
+     (
+         NewArray
+         | TypeAndToken (NewArray | openparen (Expressions)? closeparen )?
+     )
+     | star
+     | Expression
+ )
+ (Attribute)*
+
+NewArray
+::=
+ lbracket
+ (
+     rbracket lbracket (Expressions)? rbracket
+     | Expressions rbracket (openparen Expression closeparen | lbracket (Expressions)? rbracket )?
+ )
+
+VarDeclStatement
+::=
+ (ghost)? var
+ (
+     (Attribute)* LocalIdentTypeOptional (comma (Attribute)* LocalIdentTypeOptional)*
+     (
+         gets Rhs (comma Rhs)* | (Attribute)* boredSmiley (assume)? Expression
+     )?
+     semi
+     |
+     CasePatternLocal (gets |(Attribute)* boredSmiley) Expression semi
+ )
+
+IfStmt
+::=
+ if
+ (
+     AlternativeBlock
+     |(
+         ExistentialGuard
+         | Guard
+         | ellipsis
+     ) BlockStmt (else(IfStmt | BlockStmt))?
+ )
+
+AlternativeBlock
+::=
+ (
+     lbrace (AlternativeBlockCase)* rbrace
+     | AlternativeBlockCase (AlternativeBlockCase)*
+ )
+
+AlternativeBlockCase ::= case (ExistentialGuard |  ConstAtomExpression | Expression |) darrow (Stmt)*
+
+WhileStmt
+::=
+ while
+ (
+     (LoopSpec)* AlternativeBlock
+     |
+     (Guard | ellipsis)(LoopSpec)* (BlockStmt | ellipsis|)
+ )
+
+LoopSpec
+::=
+ (
+     (free)? invariant (Attribute)* Expression OldSemi
+     | decreases (Attribute)* DecreasesList OldSemi
+     | modifies ( Attribute)* FrameExpression (comma FrameExpression)* OldSemi
+ )
+
+DecreasesList ::= PossiblyWildExpression (comma PossiblyWildExpression)*
+
+Guard ::= ( star | openparen star closeparen | Expression)
+
+ExistentialGuard ::= IdentTypeOptional (comma IdentTypeOptional)* (Attribute)* boredSmiley Expression
+
+MatchStmt
+::=
+ match Expression
+ (
+     lbrace (CaseStatement )* rbrace
+     | CaseStatement
+ )*
+
+CaseStatement
+::=
+ case
+ (
+    Ident (openparen (CasePattern (comma CasePattern)* )? closeparen)?
+    | openparen CasePattern (comma CasePattern )* closeparen
+ )
+ darrow (Stmt)*
+
+AssertStmt
+::=
+ assert (Attribute)* (LabelIdent colon)? Expression (semi|by BlockStmt) | ellipsis semi
+
+AssumeStmt ::= assume (Attribute)* (Expression | ellipsis) semi
+
+PrintStmt ::= print Expression (comma Expression)* semi
+
+RevealStmt ::= reveal Expression (comma Expression)* semi
+
+ForallStmt
+::=
+ (foralltoken | parallel)
+ (openparen(QuantifierDomain)?closeparen| (QuantifierDomain)?)
+ ((free)? ensures Expression OldSemi)* (BlockStmt)?
+
+ModifyStmt
+::=
+ modify (Attribute)*
+ (FrameExpression (comma FrameExpression)* | ellipsis)
+ (BlockStmt | semi)
+
+CalcStmt
+::=
+ calc ( Attribute)* (CalcOp)? lbrace
+ (
+     Expression semi (CalcOp)? (BlockStmt| CalcStmt)*
+ )*
+ rbrace
+
+CalcOp
+::=
+ (
+     eq ("#" lbracket Expression rbracket)?
+     | openAngleBracket
+     | closeAngleBracket
+     | darrow
+     | ">?"
+     | assign
+     | neq
+     | 'neqAlt'
+     | '\u2264'
+     | '\u2265'
+     | EquivOp
+     | ImpliesOp
+     | ExpliesOp
+ )
+
+EquivOp ::= "<==>" | '\u21d4'
+ImpliesOp ::= "==>" | '\u21d2'
+ExpliesOp ::= "<==" | '\u21d0'
+AndOp ::= boolAnd | '\u2227'
+OrOp ::= boolOr | '\u2228'
+
+NegOp ::= "!" | '\u00ac'
+Forall ::= foralltoken | '\u2200'
+Exists ::= existstoken | '\u2203'
+QSep ::= doublecolon | 'bullet'
+
+Expression ::= EquivExpression | EquivExpression (semi Expression)?
+
+/*------------------------------------------------------------------------*/
+
+EquivExpression ::= ImpliesExpliesExpression (EquivOp ImpliesExpliesExpression)*
+
+/*------------------------------------------------------------------------*/
+
+ImpliesExpliesExpression
+::=
+ LogicalExpression
+ (
+     (
+         ImpliesOp ImpliesExpression
+         | ExpliesOp LogicalExpression (ExpliesOp LogicalExpression)*
+     )
+ )?
+
+ImpliesExpression ::= LogicalExpression (ImpliesOp ImpliesExpression)? | LogicalExpression
+
+/*------------------------------------------------------------------------*/
+
+LogicalExpression
+::=
+ (
+     AndOp RelationalExpression
+     (AndOp RelationalExpression)*
+     | OrOp RelationalExpression (OrOp RelationalExpression)*
+     | RelationalExpression
+     (
+         (
+             AndOp RelationalExpression (AndOp RelationalExpression)*
+             | OrOp RelationalExpression (OrOp RelationalExpression)*
+         )
+     )?
+ )
+
+/*------------------------------------------------------------------------*/
+
+RelationalExpression
+::=
+ ShiftTerm (RelOp ShiftTerm (RelOp ShiftTerm)* )? | ShiftTerm
+
+RelOp
+::=
+ (
+     eq ("#" lbracket Expression rbracket)?
+     | ">="
+     | "<="
+     | openAngleBracket
+     | closeAngleBracket
+     | darrow
+     | neq ("#" lbracket Expression rbracket)?
+     | in
+     | notIn
+     | "!" ("!")?
+     | 'neqAlt'
+     | '\u2264'
+     | '\u2265'
+ )
+
+/*------------------------------------------------------------------------*/
+
+ShiftTerm
+::=
+ Term
+   (
+     (
+        openAngleBracket openAngleBracket
+        | closeAngleBracket closeAngleBracket
+     )
+     Term
+   )*
+
+/*------------------------------------------------------------------------*/
+
+Term ::= Factor (AddOp Factor)*
+
+AddOp ::= (plus | minus)
+
+/*------------------------------------------------------------------------*/
+
+Factor ::= BitvectorFactor (MulOp BitvectorFactor)*
+
+MulOp ::= (star| div | "%") //change "/" to div?
+
+/*------------------------------------------------------------------------*/
+
+BitvectorFactor
+::=
+ AsExpression
+ (
+     (
+         "&"  AsExpression ( "&" AsExpression)*
+         | verticalbar AsExpression (verticalbar AsExpression )*
+         | "^" AsExpression ( "^" AsExpression)*
+    )
+ )?
+ | verticalbar AsExpression (verticalbar AsExpression )* //MERKEN, WAS GEHT HIER VOR?
+
+/*------------------------------------------------------------------------*/
+
+AsExpression ::= UnaryExpression (as TypeAndToken)*
+
+UnaryExpression
+::=
+ (
+     minus UnaryExpression
+     | NegOp UnaryExpression
+     | map MapDisplayExpr Suffix*
+     | imap MapDisplayExpr Suffix*
+     | iset ISetDisplayExpr Suffix*
+     | LambdaExpression
+     | EndlessExpression
+     | NameSegment Suffix*
+     | DisplayExpr Suffix*
+     | MultiSetExpr Suffix*
+     | ConstAtomExpression Suffix*
+ )
+
+ UnaryExpression2
+ ::=
+  (
+      minus UnaryExpression
+      | NegOp UnaryExpression
+      | map MapDisplayExpr Suffix*
+      | imap MapDisplayExpr Suffix*
+      | iset ISetDisplayExpr Suffix*
+      | EndlessExpression
+      //| LambdaExpression
+      | NameSegment Suffix*
+      | DisplayExpr Suffix*
+      | MultiSetExpr Suffix*
+      | ConstAtomExpression Suffix*
+  )
+
+Lhs
+::=
+ (
+     NameSegment Suffix*
+     | ConstAtomExpression Suffix Suffix*
+ )
+
+ConstAtomExpression
+::=
+ (
+     false
+     | true
+     | null
+     | Nat
+     | Dec
+     | charToken
+     | stringToken
+     | this
+     | fresh openparen Expression closeparen
+     | allocated openparen Expression closeparen
+     | unchanged ("@" LabelIdent)? openparen FrameExpression (comma FrameExpression)* closeparen
+     | old ("@" LabelIdent)? openparen Expression closeparen
+     | verticalbar  Expression verticalbar
+     | ( int | real) openparen Expression closeparen
+     | ParensExpression
+ )
+
+LambdaArrow ::= darrow
+
+LambdaExpression
+::=
+ ( WildIdent Suffix* | openparen ( IdentTypeOptional (comma IdentTypeOptional)* )? closeparen Suffix*)
+ (reads PossiblyWildFrameExpression (comma PossiblyWildFrameExpression)*| requires Expression)*
+ (LambdaArrow Expression)?
+
+ParensExpression ::=  openparen (Expressions)? closeparen
+
+ISetDisplayExpr ::= lbrace (Expressions)? rbrace
+
+DisplayExpr
+::=
+ (
+     lbrace (Expressions)? rbrace
+     | lbracket (Expressions)? rbracket
+ )
+
+MultiSetExpr
+::=
+ multiset
+ (
+     lbrace  (Expressions)? rbrace
+     | openparen Expression closeparen
+ )
+
+MapDisplayExpr ::= lbracket (MapLiteralExpressions)? rbracket
+
+MapLiteralExpressions ::= Expression gets Expression (comma Expression gets Expression)*
+
+MapComprehensionExpr
+::=
+    IdentTypeOptional (comma IdentTypeOptional )*
+    (Attribute)* (verticalbar Expression)? QSep
+    Expression ( gets Expression)?
+
+EndlessExpression
+::=
+ (
+     if (ExistentialGuard | Expression) then Expression else Expression
+     | MatchExpression
+     | QuantifierGuts
+     | set SetComprehensionExpr
+     | iset SetComprehensionExpr
+     | StmtInExpr Expression
+     | LetExpr
+     | map  MapComprehensionExpr
+     | imap MapComprehensionExpr
+     | reveal Expression
+     | NamedExpr
+ )
+
+StmtInExpr ::= (AssertStmt | AssumeStmt | CalcStmt)
+
+LetExpr
+::=
+ (ghost)? var CasePattern (comma CasePattern)*
+ (
+    gets |(Attribute)* boredSmiley
+ )
+ Expression (comma Expression )* semi Expression
+
+NamedExpr ::= label NoUSIdent colon Expression
+
+MatchExpression
+::=
+ match Expression
+ (
+     lbrace (CaseExpression)* rbrace
+     | (CaseExpression)*
+ )
+
+CaseExpression
+::=
+ case (
+    Ident (openparen (CasePattern (comma CasePattern)*)? closeparen)?
+     | openparen  CasePattern (comma CasePattern)* closeparen
+ )
+ darrow Expression
+
+CasePattern
+::=
+ (
+     Ident openparen (CasePattern (comma CasePattern)* )? closeparen
+     | openparen (CasePattern (comma CasePattern)* )? closeparen
+     | IdentTypeOptional
+ )
+
+CasePatternLocal
+::=
+ (
+     Ident  openparen (CasePatternLocal (comma CasePatternLocal)* )? closeparen
+     | openparen (CasePatternLocal (comma CasePatternLocal)* )? closeparen
+     | LocalIdentTypeOptional
+ )
+
+/*------------------------------------------------------------------------*/
+
+NameSegment ::=Ident (GenericInstantiation|HashCall)?
+
+NameSegmentForTypeName::= Ident OptGenericInstantiation
+
+HashCall ::= "#" (GenericInstantiation)? lbracket Expression rbracket openparen (Expressions)? closeparen
+
+Suffix
+::=
+     lbracket
+     (
+         Expression
+         (
+             twoDots (Expression)?
+             | gets Expression
+             | colon (Expression (colon Expression)* (colon)? )?
+             | (comma Expression)*
+         )
+         | twoDots (Expression)?
+     )
+     rbracket
+     | openparen (Expressions)? closeparen
+     | dot
+           (
+               openparen MemberBindingUpdate (comma MemberBindingUpdate)* closeparen
+               | DotSuffix (GenericInstantiation|HashCall)?
+           )
+
+/*------------------------------------------------------------------------*/
+
+QuantifierGuts ::= (Forall | Exists) QuantifierDomain QSep Expression
+
+QuantifierDomain ::= IdentTypeOptional (comma IdentTypeOptional)* (Attribute)* (verticalbar Expression)?
+
+SetComprehensionExpr
+::=
+ IdentTypeOptional (comma IdentTypeOptional)*
+ (Attribute)* verticalbar Expression (QSep Expression)?
+
+Expressions ::= Expression (comma Expression)*
+
+/*------------------------------------------------------------------------*/
+
+Attribute ::= lbrace colon NoUSIdent (Expressions)? rbrace
+
+/*------------------------------------------------------------------------*/
+
+Ident ::= identdef
+
+DotSuffix
+::=
+ (
+     identdef
+     | digits
+     | decimaldigits
+     | requires
+     | reads
+ )
+
+MemberBindingUpdate ::= (identdef | digits) gets Expression
+
+LabelIdent ::= (NoUSIdent | digits)
+
+FuMe_Ident ::= (NoUSIdent | digits)
+
+TypeNameOrCtorSuffix ::= (identdef | digits)
+
+NoUSIdent ::= identdef
+
+WildIdent ::= identdef
+
+OldSemi ::= semi?
+
+Nat ::= ( digits | hexdigits)
+
+Dec ::= (decimaldigits)

@@ -11,8 +11,11 @@ import javax.swing.*;
 
 public class DafnyFile extends PsiFileBase {
 
+    public static DafnyFile INSTANCE;
+
     public DafnyFile(@NotNull FileViewProvider viewProvider) {
         super(viewProvider, DafnyLanguage.INSTANCE);
+        INSTANCE = this;
     }
 
     @NotNull
@@ -29,5 +32,9 @@ public class DafnyFile extends PsiFileBase {
     @Override
     public Icon getIcon(int flags) {
         return super.getIcon(flags);
+    }
+
+    public static DafnyFile getInstance() {
+        return INSTANCE;
     }
 }
