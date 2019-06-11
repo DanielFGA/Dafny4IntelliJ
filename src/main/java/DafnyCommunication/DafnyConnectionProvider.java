@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -27,7 +29,7 @@ public class DafnyConnectionProvider {
 
 	private String dafny;
 	private String mono;
-	private StringBuilder unparsedResponse;
+	private Map<String, StringBuilder> unparsedResponseToFile = new HashMap<>();
 
 	/**
 	 * Konstruktor der Klasse DafnyConnectionProvider, stellt eine Verbindung zu Dafny her
@@ -68,13 +70,13 @@ public class DafnyConnectionProvider {
 	 * @return Liste mit Diagnostic Objekten
 	 */
 	public List<DafnyResponse> sendData(String sourcecode, String filename){
-		
+		System.out.println(filename);
 		DafnyMessage query = new DafnyMessage(sourcecode, false, filename);
 		printWriter.println(query.encode());
 		printWriter.flush();
 		BufferedReader reader = new BufferedReader(inputStreamReader);
 		String line = null;
-		unparsedResponse = new StringBuilder();
+        StringBuilder unparsedResponse = new StringBuilder();
 	    try {
 
 	    	while((line = reader.readLine()) != null) {
@@ -89,6 +91,7 @@ public class DafnyConnectionProvider {
 		} 
 	    // Parser Objekt erstellen
     	DafnyParser parser = new DafnyParser();
+	    unparsedResponseToFile.put(filename, unparsedResponse);
         return parser.parseServerResponse(unparsedResponse.toString(), sourcecode);
     }
 
@@ -106,8 +109,9 @@ public class DafnyConnectionProvider {
 		dafnyProcess.destroyForcibly();
 	}
 
-	public String getUnparsedResponse() {
-		return unparsedResponse.toString();
+	public String getUnparsedResponse(String file) {
+	    if (!unparsedResponseToFile.containsKey(file)) return "Not verified yet. Please try again";
+		return unparsedResponseToFile.get(file).toString();
 	}
 }
 

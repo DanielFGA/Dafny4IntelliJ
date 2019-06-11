@@ -85,9 +85,6 @@ public class DafnyParser {
 
 			textRange = new TextRange(offsetStart, offsetEnd);
 
-			System.out.println("------");
-			System.out.println(textRange);
-			System.out.println("------");
 			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange));
 		}
 	}

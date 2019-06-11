@@ -2,6 +2,10 @@ package DafnyGUI.DafnyToolWindow;
 
 import DafnyCommunication.DafnyResponse;
 import DafnyLanguage.DafnyAnnotator;
+import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataConstants;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
@@ -17,14 +21,22 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
     private DafnyToolWindowView dafnyToolWindowView = new DafnyToolWindowView();
     private DafnyRunner dafnyRunner;
     private Project project;
+    private DafnyAnnotator dafnyAnnotator;
 
     public DafnyToolWindowFactory() {
+
+
         dafnyToolWindowView.testButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dafnyToolWindowView.writeOutput(DafnyAnnotator.unparsedResponse());
+                //TODO DaemonCodeAnalyzer.getInstance(project).restart();
+                dafnyAnnotator = DafnyAnnotator.getINSTANCE();
+                String file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
+                dafnyToolWindowView.writeOutput(dafnyAnnotator.unparsedResponse(file));
             }
         });
+
+
     }
 
     @Override
