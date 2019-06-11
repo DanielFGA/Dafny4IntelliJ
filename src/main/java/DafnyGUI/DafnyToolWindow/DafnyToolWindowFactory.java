@@ -1,5 +1,7 @@
 package DafnyGUI.DafnyToolWindow;
 
+import DafnyCommunication.DafnyResponse;
+import DafnyLanguage.DafnyAnnotator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
@@ -20,7 +22,7 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
         dafnyToolWindowView.testButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("hello");
+                dafnyToolWindowView.writeOutput(DafnyAnnotator.unparsedResponse());
             }
         });
     }

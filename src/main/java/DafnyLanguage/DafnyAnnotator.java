@@ -16,6 +16,7 @@ import java.util.List;
 public class DafnyAnnotator implements Annotator {
 
     private static DafnyConnectionProvider dafnyConnectionProvider;
+    private static List<DafnyResponse> diagnosticList;
 
     public DafnyAnnotator() throws IOException {
         String dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
@@ -26,10 +27,27 @@ public class DafnyAnnotator implements Annotator {
     @Override
     public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {
         if (element.toString().equals(DafnyFile.getInstance().toString())) {
-            List<DafnyResponse> diagnosticList = dafnyConnectionProvider.sendData(element.getText(), element.getContainingFile().getVirtualFile().getPath());
+            diagnosticList = dafnyConnectionProvider.sendData(element.getText(), element.getContainingFile().getVirtualFile().getPath());
             for (DafnyResponse r : diagnosticList) {
                 holder.createAnnotation(r.getHighlightSeverity(), r.getTextRange(), r.getMessage());
             }
         }
+    }
+
+    public static void resetProvider() throws IOException {
+        if (dafnyConnectionProvider != null) {
+            dafnyConnectionProvider.disconnect();
+        }
+        String dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
+        String monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
+        dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
+    }
+
+    public static void isVerifid() {
+        //TODO
+    }
+
+    public static String unparsedResponse() {
+        return dafnyConnectionProvider.getUnparsedResponse();
     }
 }

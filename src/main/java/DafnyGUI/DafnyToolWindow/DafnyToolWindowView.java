@@ -8,7 +8,7 @@ public class DafnyToolWindowView {
     private JPanel dafnyMainPanel;
     public JButton testButton;
 
-    private void writeOutput(String output) {
+    public void writeOutput(String output) {
         dafnyConsole.setText(output);
     }
 

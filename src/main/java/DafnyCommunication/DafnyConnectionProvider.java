@@ -27,7 +27,8 @@ public class DafnyConnectionProvider {
 
 	private String dafny;
 	private String mono;
-	
+	private StringBuilder unparsedResponse;
+
 	/**
 	 * Konstruktor der Klasse DafnyConnectionProvider, stellt eine Verbindung zu Dafny her
 	 */
@@ -73,12 +74,12 @@ public class DafnyConnectionProvider {
 		printWriter.flush();
 		BufferedReader reader = new BufferedReader(inputStreamReader);
 		String line = null;
-		StringBuilder response = new StringBuilder();
+		unparsedResponse = new StringBuilder();
 	    try {
 
 	    	while((line = reader.readLine()) != null) {
-	    	    response.append(line);
-	    	    response.append("\n");
+				unparsedResponse.append(line);
+				unparsedResponse.append("\n");
 	    	    if (line.contains(DAFNY_SERVER_EOM)) {
 	    	    	break;
 	    	    }
@@ -88,7 +89,7 @@ public class DafnyConnectionProvider {
 		} 
 	    // Parser Objekt erstellen
     	DafnyParser parser = new DafnyParser();
-        return parser.parseServerResponse(response.toString(), sourcecode);
+        return parser.parseServerResponse(unparsedResponse.toString(), sourcecode);
     }
 
 	/**
@@ -103,6 +104,10 @@ public class DafnyConnectionProvider {
 			e.printStackTrace();
 		}
 		dafnyProcess.destroyForcibly();
+	}
+
+	public String getUnparsedResponse() {
+		return unparsedResponse.toString();
 	}
 }
 
