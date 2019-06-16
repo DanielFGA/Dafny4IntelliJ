@@ -1,7 +1,7 @@
 package DafnyGUI.DafnyConfigurationProvider;
 
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
-import DafnyGUI.DafnyPluginStrings;
+import Dafny.DafnyPluginStrings;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurableProvider;
 import com.intellij.openapi.options.ConfigurationException;
@@ -28,6 +28,7 @@ public class DafnyConfigurable extends ConfigurableProvider implements Configura
         return this;
     }
 
+
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
@@ -48,6 +49,7 @@ public class DafnyConfigurable extends ConfigurableProvider implements Configura
 
     @Override
     public void apply() throws ConfigurationException {
+
         try {
             dafnyConfigurationController.validate();
         } catch (IOException e) {

@@ -1,9 +1,10 @@
 package DafnyGUI.DafnyConfiguration;
 
-import DafnyGUI.DafnyPluginStrings;
-import org.jetbrains.annotations.Nullable;
+import Dafny.DafnyPluginStrings;
 
 import java.io.File;
+
+import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -12,7 +13,7 @@ import java.io.File;
 public class DafnyConfigurationModel {
 
     /**
-     * The path to the Dafny files and Language Server
+     * The path to the Dafny files
      */
     private String dafnyPath;
     /**
@@ -30,14 +31,14 @@ public class DafnyConfigurationModel {
     }
 
     /**
-     * Checks if ithe files Dafny.exe, Dafny_Sever.exe and DafnyLanguageServer.jar exist in the given path.
+     * Checks if ithe files Dafny.exe and Dafny_Sever.exe exist in the given path.
+     *
      * @return - true if all files exist, false if one file does not exist
      */
     public boolean testDafnyPath() {
         File dafnyExe = new File(dafnyPath + DafnyPluginStrings.DAFNY_EXE);
         File dafnyServer = new File(dafnyPath + DafnyPluginStrings.DAFNY_SERVER_EXE);
-        File dafnyLanguageServer = new File(dafnyPath + DafnyPluginStrings.LANGUAGE_SERVER_JAR);
-        return dafnyExe.exists() && dafnyServer.exists() && dafnyLanguageServer.exists();
+        return dafnyExe.exists() && dafnyServer.exists();
     }
 
     public boolean testMonoPath() {

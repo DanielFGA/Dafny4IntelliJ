@@ -14,7 +14,7 @@ import java.util.Base64;
  */
 public class DafnyMessage {
 
-	public static final String DAFNY_CLIENT_EOM = "[[DAFNY-CLIENT: EOM]]";
+
 	private HashMap<String,Object> query;
 	private Gson gson = new Gson();
 	
@@ -43,14 +43,13 @@ public class DafnyMessage {
 	 */
 	public String encode() {
 		String output = "";
-		byte[] base64encode = Base64.getEncoder().encode(gson.toJson(query).getBytes(StandardCharsets.US_ASCII));
+		byte[] base64encode = new byte[0];
 
-		try {
-			output = new String(base64encode, "US-ASCII");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return "verify" + "\n" + output + "\n" + DAFNY_CLIENT_EOM;
+		base64encode = Base64.getEncoder().encode(gson.toJson(query).getBytes(StandardCharsets.US_ASCII));
+
+		output = new String(base64encode, StandardCharsets.US_ASCII);
+		String s = "verify" + "\n" + output + "\n" + DafnyPluginStrings.DAFNY_CLIENT_EOM;
+		return s;
 	}
 	
 	/**

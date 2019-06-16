@@ -1,53 +1,42 @@
 <idea-plugin>
     <id>DafnyPlugin4Intellij.DafnyPlugin4Intellij</id>
     <name>Dafny4Intellij</name>
-    <vendor email="daniel.figia@stud.th-luebeck.de">Technische Hochschule Lübeck</vendor>
+    <vendor email="daniel.figia@stud.th-luebeck.de/daniel.figia@gmx.de">Technische Hochschule Lübeck</vendor>
     <description>Dafny Support for Intellj with verification and execution.</description>
 
     <application-components>
+        <!--Dafny-->
         <component>
             <implementation-class>Dafny.Dafny</implementation-class>
         </component>
     </application-components>
 
-    <!--Dafny Tool Window -->
-    <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Dafny" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"></toolWindow>
-    </extensions>
 
-    <!--DafnyLanguage -->
     <extensions defaultExtensionNs="com.intellij">
+        <!--Dafny Tool Window -->
+        <toolWindow id="Dafny" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"></toolWindow>
+        <!--DafnyLanguage -->
         <fileTypeFactory implementation="DafnyLanguage.DafnyFileTypeFactory"/>
         <lang.syntaxHighlighterFactory language="Dafny" implementationClass="DafnyLanguage.DafnySyntaxHighlighterFactory"/>
         <lang.parserDefinition language="Dafny" implementationClass="DafnyLanguage.DafnyParserDefinition"/>
         <additionalTextAttributes scheme="Default" file="DafnyColorScheme.xml"/>
         <annotator language="Dafny" implementationClass="DafnyLanguage.DafnyAnnotator"></annotator>
-    </extensions>
-
-    <!--DafnyProjectWizard -->
-    <extensions defaultExtensionNs="com.intellij">
+        <!--DafnyProjectWizard -->
         <moduleType id="DAFNY_MODULE" implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
+        <!--DafnyConfigurableProvider -->
         <projectConfigurable id="Dafny" groupId="language"
                              provider="DafnyGUI.DafnyConfigurationProvider.DafnyConfigurable"
                              dynamic="false"/>
-        <applicationService serviceInterface="DafnyGUI.DafnyConfiguration.DafnyStateService"
-                            serviceImplementation="DafnyGUI.DafnyConfiguration.DafnyStateService" />
+        <!--DafnyStateService -->
+        <applicationService serviceImplementation="DafnyGUI.DafnyConfiguration.DafnyStateService" />
     </extensions>
-    
+
     <actions>
-        <action id="Dafny.NewDafnyFile"
-                class="DafnyGUI.DafnyActions.DafnyCreateFileAction"
-                text="Dafny File"
-                description="Create new Dafny file">
-            <add-to-group group-id="NewGroup"
-                          anchor="before"
-                          relative-to-action="NewFile"/>
+        <!-- DafnyCreateFileAction -->
+        <action id="Dafny.NewDafnyFile" class="DafnyGUI.DafnyActions.DafnyCreateFileAction"
+                text="Dafny File" description="Create new Dafny file">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
         </action>
     </actions>
 
-
-
-
-    <actions>
-    </actions>
 </idea-plugin>

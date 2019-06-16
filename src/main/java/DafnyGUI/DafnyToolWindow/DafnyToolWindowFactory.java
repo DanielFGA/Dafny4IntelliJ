@@ -2,6 +2,9 @@ package DafnyGUI.DafnyToolWindow;
 
 import Dafny.Dafny;
 
+import Dafny.DafnyPluginStrings;
+
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
@@ -20,6 +23,7 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
     private DafnyToolWindowView dafnyToolWindowView = new DafnyToolWindowView();
     private Project project;
+    private Boolean isRunning;
 
     public DafnyToolWindowFactory() {
 
@@ -30,16 +34,18 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
         dafnyToolWindowView.getRunButton().addActionListener(e -> {
 
+            dafnyToolWindowView.writeOutput(DafnyPluginStrings.COMPILING);
+
             if (FileEditorManager.getInstance(project).getSelectedEditor() == null || FileEditorManager.getInstance(project).getSelectedEditor().getFile() == null) {
-                dafnyToolWindowView.writeOutput("No Dafny-File selected");
+                dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
                 return;
             }
             dafnyToolWindowView.getRunButton().setEnabled(false);
             String file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
             String sourcecode = FileEditorManager.getInstance(project).getSelectedTextEditor().getDocument().getText();
 
-            if (!file.endsWith(".dfy")) {
-                dafnyToolWindowView.writeOutput("No Dafny-File selected");
+            if (!file.endsWith(DafnyPluginStrings.DAFNY_FILE)) {
+                dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
                 return;
             }
 
@@ -48,32 +54,42 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
                 dafnyToolWindowView.getRunButton().setEnabled(true);
                 return;
             }
-            try {
-                BufferedReader bufferedReader = Dafny.run(file, sourcecode);
-                String line;
-                String output = "";
-                if (bufferedReader == null) {
-                    dafnyToolWindowView.writeOutput("No Main Method");
-                    deleteFiles(file, new String[]{"pdb", "dfy", "dll"});
-                    dafnyToolWindowView.getRunButton().setEnabled(true);
-                } else {
-                    while ((line = bufferedReader.readLine()) != null) {
-                        output += line + "\n";
-                    }
-                    bufferedReader.close();
-                    dafnyToolWindowView.writeOutput(output.trim());
 
-                    deleteFiles(file, new String[]{"pdb", "dfy", "exe"});
-                    dafnyToolWindowView.getRunButton().setEnabled(true);
+
+            ApplicationManager.getApplication().executeOnPooledThread(() ->
+                    ApplicationManager.getApplication().runReadAction(() -> {
+                try {
+                    isRunning = true;
+                    BufferedReader bufferedReader = Dafny.run(file, sourcecode);
+                    String line;
+                    String output = "";
+                    if (bufferedReader == null) {
+                        dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_MAIN_METHOD);
+                        deleteFiles(file, new String[]{DafnyPluginStrings.PDB_FILE_ABBR, DafnyPluginStrings.DAFNY_FILE_ABBR, DafnyPluginStrings.DLL_FILE_ABBR});
+                        dafnyToolWindowView.getRunButton().setEnabled(true);
+                    } else {
+                        while ((line = bufferedReader.readLine()) != null && isRunning) {
+                            output += line + "\n";
+                        }
+                        if (isRunning) dafnyToolWindowView.writeOutput(output.trim());
+                        bufferedReader.close();
+                        Dafny.endRunProcess();
+                        deleteFiles(file, new String[]{DafnyPluginStrings.PDB_FILE_ABBR, DafnyPluginStrings.DAFNY_FILE_ABBR, DafnyPluginStrings.EXE_FILE_ABBR});
+                        dafnyToolWindowView.getRunButton().setEnabled(true);
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            }));
+
+
         });
 
         dafnyToolWindowView.getResetButton().addActionListener(e -> {
+            if (isRunning) isRunning = false;
             try {
                 Dafny.reset();
+                dafnyToolWindowView.writeOutput(DafnyPluginStrings.DAFNY_RESET);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -83,7 +99,7 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
-        Content content = contentFactory.createContent(dafnyToolWindowView.getDafnyMainPanel(), "Dafny Tool Window", false);
+        Content content = contentFactory.createContent(dafnyToolWindowView.getDafnyMainPanel(), DafnyPluginStrings.DAFNY_TOOL_WINDOW, false);
         toolWindow.getContentManager().addContent(content);
         Dafny.setProject(project);
         this.project = project;
@@ -91,7 +107,7 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
     private void deleteFiles(String file, String[] abbr) {
         for (String abb : abbr) {
-            while(!new File(file.replace(".dfy", "output." + abb)).delete());
+            while(!new File(file.replace(DafnyPluginStrings.DAFNY_FILE, DafnyPluginStrings.OUTPUT_FILE_NAME + abb)).delete());
         }
     }
 }

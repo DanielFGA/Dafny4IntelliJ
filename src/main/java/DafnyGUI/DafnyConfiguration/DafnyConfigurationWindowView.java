@@ -1,6 +1,6 @@
 package DafnyGUI.DafnyConfiguration;
 
-import DafnyGUI.DafnyPluginStrings;
+import Dafny.DafnyPluginStrings;
 
 import java.awt.Color;
 
@@ -20,14 +20,6 @@ public class DafnyConfigurationWindowView {
     private JTextField monoPathTextField;
     private JButton setMonoButton;
 
-    private JPanel testPane;
-    private JLabel testFilesLED;
-    private JButton testFilesButton;
-    private JTextPane filesTestOutputPane;
-    private JLabel testMonoLED;
-    private JButton testMonoButton;
-    private JTextPane monoTestOutputPane;
-
     private JPanel downloadButtonsPane;
     private JButton downloadFilesButton;
     private JButton downloadMonoButton;
@@ -41,41 +33,15 @@ public class DafnyConfigurationWindowView {
             pathPane.remove(monoLabel);
             pathPane.remove(monoPathTextField);
             pathPane.remove(setMonoButton);
-            testPane.remove(testMonoLED);
-            testPane.remove(testMonoButton);
-            testPane.remove(monoTestOutputPane);
             downloadButtonsPane.remove(downloadMonoButton);
         }
     }
 
-    public void updatePaths() {
+    public void update() {
         pathTextField.setText(dafnyConfigurationModel.getDafnyPath());
         if (dafnyConfigurationModel.isMac()) monoPathTextField.setText(dafnyConfigurationModel.getMonoPath());
     }
 
-    public void updateTests() {
-        if (dafnyConfigurationModel.testDafnyPath()) {
-            filesTestOutputPane.setForeground(Color.GREEN);
-            filesTestOutputPane.setText(DafnyPluginStrings.DAFNY_FILES_FOUND);
-            testFilesLED.setForeground(Color.GREEN);
-        } else {
-            filesTestOutputPane.setForeground(Color.RED);
-            filesTestOutputPane.setText(DafnyPluginStrings.DAFNY_FILES_NOT_FOUND);
-            testFilesLED.setForeground(Color.RED);
-        }
-
-        if (dafnyConfigurationModel.isMac()) {
-            if (dafnyConfigurationModel.testMonoPath()) {
-                monoTestOutputPane.setForeground(Color.GREEN);
-                monoTestOutputPane.setText(DafnyPluginStrings.MONO_FOUND);
-                testMonoLED.setForeground(Color.GREEN);
-            } else {
-                monoTestOutputPane.setForeground(Color.RED);
-                monoTestOutputPane.setText(DafnyPluginStrings.MONO_NOT_FOUND);
-                testMonoLED.setForeground(Color.RED);
-            }
-        }
-    }
 
     /**
      * Getter for the text in the path text field.
@@ -97,10 +63,6 @@ public class DafnyConfigurationWindowView {
         return configurationPanel;
     }
 
-    public JButton getTestFilesButton() {
-        return testFilesButton;
-    }
-
     public JButton getSetFilesButton() {
         return setFilesButton;
     }
@@ -111,10 +73,6 @@ public class DafnyConfigurationWindowView {
 
     public JButton getDownloadMonoButton() {
         return downloadMonoButton;
-    }
-
-    public JButton getTestMonoButton() {
-        return testMonoButton;
     }
 
     public JTextField getMonoPathTextField() {

@@ -1,6 +1,6 @@
 package DafnyGUI.DafnyActions;
 
-import DafnyGUI.DafnyPluginStrings;
+import Dafny.DafnyPluginStrings;
 import DafnyLanguage.DafnyIcon;
 import com.intellij.ide.actions.CreateFileAction;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +18,7 @@ public class DafnyCreateFileAction extends CreateFileAction {
 
     @Override
     protected String getFileName(String newName) {
-        if (getDefaultExtension() == null || newName.endsWith(".dfy")) {
+        if (getDefaultExtension() == null || newName.endsWith(DafnyPluginStrings.DAFNY_FILE)) {
             return newName;
         }
         return newName + "." + getDefaultExtension();

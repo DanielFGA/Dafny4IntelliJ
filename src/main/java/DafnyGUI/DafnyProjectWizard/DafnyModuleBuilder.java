@@ -1,6 +1,6 @@
 package DafnyGUI.DafnyProjectWizard;
 
-import DafnyGUI.DafnyPluginStrings;
+import Dafny.DafnyPluginStrings;
 import com.intellij.ide.util.projectWizard.*;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.roots.ContentEntry;

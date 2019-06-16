@@ -1,6 +1,6 @@
 package DafnyGUI.DafnyProjectWizard;
 
-import DafnyGUI.DafnyPluginStrings;
+import Dafny.DafnyPluginStrings;
 import DafnyLanguage.DafnyIcon;
 import com.intellij.openapi.module.ModuleType;
 import org.jetbrains.annotations.NotNull;

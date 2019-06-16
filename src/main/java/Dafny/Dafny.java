@@ -1,5 +1,6 @@
 package Dafny;
 
+import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import DafnyGUI.DafnyConfiguration.DafnyStateService;
 
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
@@ -42,6 +43,8 @@ public class Dafny {
      */
     private static Project project;
 
+    private static Process run;
+
     /**
      * Constructor. Load the path for dafny and mono from DafnyStateService.
      * If the path for dafny is null, then the DafnyConnectionProvider will not be initialize.
@@ -52,7 +55,12 @@ public class Dafny {
         //If the dafnyPath is null, then is no Dafny configuration saved.
         //Without valid configuration a DafnyConnectionProver can not be initialize.
         if (dafnyPath != null) {
-            dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
+
+            if (monoPath != null && DafnyConfigurationController.isMac())
+                dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
+
+            if (!DafnyConfigurationController.isMac())
+                dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
         }
     }
 
@@ -89,8 +97,12 @@ public class Dafny {
         dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
         monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
         if (dafnyPath != null) {
-            dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
-            if (project == null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
+            if (monoPath != null && DafnyConfigurationController.isMac())
+                dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
+
+            if (!DafnyConfigurationController.isMac())
+                dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
+            if (project != null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
         }
     }
 
@@ -101,7 +113,7 @@ public class Dafny {
      * @return unparsed response from the DafnyConnectionProvider.
      */
     public static String unparsedResponse(String file) {
-        if (dafnyConnectionProvider == null) return "Dafny configuration incomplete. Please check the configuration.";
+        if (dafnyConnectionProvider == null) return DafnyPluginStrings.UNVALID_CONFIGURATION;
         DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
         return dafnyConnectionProvider.getUnparsedResponse(file);
     }
@@ -132,7 +144,7 @@ public class Dafny {
 
         InputStreamReader inputStreamReader;
 
-        File file = new File(filepath.replace(".dfy", "output.dfy"));
+        File file = new File(filepath.replace(DafnyPluginStrings.DAFNY_FILE, DafnyPluginStrings.DAFNY_OUTPUT_FILE_NAME));
         FileWriter writer = new FileWriter(file);
 
         //create new file and write the sourcecode into it.
@@ -141,23 +153,22 @@ public class Dafny {
         file.createNewFile();
 
         //create run Dafny.exe and create executable Dafny file
-        if(monoPath != null) {
-            dafnyProcessBuilder = new ProcessBuilder(monoPath + "/mono",dafnyPath + "/Dafny.exe", file.getPath());
-        }
-        else {
-            dafnyProcessBuilder = new ProcessBuilder(dafnyPath + "/Dafny.exe", file.getPath() );
-        }
+        if(DafnyConfigurationController.isMac())
+            dafnyProcessBuilder = new ProcessBuilder(monoPath + DafnyPluginStrings.MONO_EXE, dafnyPath + DafnyPluginStrings.DAFNY_EXE, file.getPath());
+        else
+            dafnyProcessBuilder = new ProcessBuilder(dafnyPath + DafnyPluginStrings.DAFNY_EXE, file.getPath());
+
         dafnyProcess = dafnyProcessBuilder.start();
         while (dafnyProcess.isAlive());
         dafnyProcess.destroy();
 
         //After Dafny.exe, there should be a executable Dafny file in the same directory.
-        compiledExe = new File(file.getPath().replace(".dfy", ".exe"));
+        compiledExe = new File(file.getPath().replace(DafnyPluginStrings.DAFNY_FILE, DafnyPluginStrings.EXE_FILE));
 
         //If the executable Dafny file does not exist, then there is no main method in the sourcecode.
         if (compiledExe.exists()) {
-            if(monoPath != null) {
-                dafnyProcessBuilder = new ProcessBuilder(monoPath + "/mono",compiledExe.getPath());
+            if(DafnyConfigurationController.isMac()) {
+                dafnyProcessBuilder = new ProcessBuilder(monoPath + DafnyPluginStrings.MONO_EXE, compiledExe.getPath());
             }
             else {
                 dafnyProcessBuilder = new ProcessBuilder(compiledExe.getPath());
@@ -166,8 +177,8 @@ public class Dafny {
             return null;
         }
 
-        dafnyProcess = dafnyProcessBuilder.start();
-        inputStreamReader = new InputStreamReader(dafnyProcess.getInputStream());
+        run = dafnyProcessBuilder.start();
+        inputStreamReader = new InputStreamReader(run.getInputStream());
         return new BufferedReader(inputStreamReader);
     }
 
@@ -177,5 +188,10 @@ public class Dafny {
      */
     public static void setProject(Project project) {
         Dafny.project = project;
+    }
+
+    public static void endRunProcess() {
+        run.destroy();
+        run.destroyForcibly();
     }
 }

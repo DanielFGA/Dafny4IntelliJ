@@ -1,5 +1,7 @@
 package Dafny;
 
+import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +22,6 @@ import java.util.Map;
  */
 public class DafnyConnectionProvider {
 
-	public static final String DAFNY_SERVER_EOM = "[[DAFNY-SERVER: EOM]]";
 	private ProcessBuilder builder;
 	private Process dafnyProcess;
 	private InputStream inputstream;
@@ -27,8 +29,7 @@ public class DafnyConnectionProvider {
 	private InputStreamReader inputStreamReader;
 	private PrintWriter printWriter;
 
-	private String dafny;
-	private String mono;
+
 	private Map<String, StringBuilder> unparsedResponseToFile = new HashMap<>();
 
 	/**
@@ -36,16 +37,12 @@ public class DafnyConnectionProvider {
 	 */
 	public DafnyConnectionProvider(String dafny, String mono) throws IOException {
 
-		// Einstellungsdaten holen
-		this.dafny = dafny;
-		this.mono = mono;
-		
 		// Betriebssystem abfragen, macOS und Linux benötigen mono
-		if(System.getProperty("os.name").startsWith("Mac") || System.getProperty("os.name").startsWith("Linux")) {
-			builder = new ProcessBuilder(mono + "/mono",dafny + "/DafnyServer.exe");
+		if(DafnyConfigurationController.isMac()) {
+			builder = new ProcessBuilder(mono + DafnyPluginStrings.MONO_EXE, dafny + DafnyPluginStrings.DAFNY_SERVER_EXE);
 		}
 		else {
-			builder = new ProcessBuilder(dafny + "/DafnyServer.exe");
+			builder = new ProcessBuilder(dafny + DafnyPluginStrings.DAFNY_SERVER_EXE);
 
 		}
 		//builder.redirectErrorStream(true);
@@ -57,11 +54,9 @@ public class DafnyConnectionProvider {
 		inputstream = dafnyProcess.getInputStream();
 		outputstream = dafnyProcess.getOutputStream();
 		printWriter = new PrintWriter(outputstream);
-		try {
-			inputStreamReader = new InputStreamReader(inputstream, "US-ASCII");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+
+		inputStreamReader = new InputStreamReader(inputstream, StandardCharsets.US_ASCII);
+
 	}
 	
 	/**
@@ -82,7 +77,7 @@ public class DafnyConnectionProvider {
 	    	while((line = reader.readLine()) != null) {
 				unparsedResponse.append(line);
 				unparsedResponse.append("\n");
-	    	    if (line.contains(DAFNY_SERVER_EOM)) {
+	    	    if (line.contains(DafnyPluginStrings.DAFNY_SERVER_EOM)) {
 	    	    	break;
 	    	    }
 	    	}
@@ -110,7 +105,7 @@ public class DafnyConnectionProvider {
 	}
 
 	public String getUnparsedResponse(String file) {
-	    if (!unparsedResponseToFile.containsKey(file)) return "Not verified yet. Please try again";
+	    if (!unparsedResponseToFile.containsKey(file)) return DafnyPluginStrings.NOT_VERIFIED_MESSAGE;
 		return unparsedResponseToFile.get(file).toString();
 	}
 }

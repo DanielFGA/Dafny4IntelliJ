@@ -1,9 +1,7 @@
 package DafnyGUI.DafnyConfiguration;
 
 import Dafny.Dafny;
-import DafnyGUI.DafnyPluginStrings;
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.DataKeys;
+import Dafny.DafnyPluginStrings;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
 
@@ -37,21 +35,20 @@ public class DafnyConfigurationController {
      */
     public DafnyConfigurationController() {
         dafnyStateService = ServiceManager.getService(DafnyStateService.class);
-        dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(), dafnyStateService.getMono(), System.getProperty("os.name").startsWith("Mac") ? "Mac" : "Windows");
+        dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(), dafnyStateService.getMono(),
+                isMac() ? DafnyPluginStrings.OS_MACOS : DafnyPluginStrings.OS_WINDOWS);
         dafnyConfigurationWindowView = new DafnyConfigurationWindowView(dafnyConfigurationModel);
-        addTestFilesButtonListener();
         addSetFilesButtonListener();
         addDownloadButtonListener();
         addPathTextFieldListener();
 
         if (dafnyConfigurationModel.isMac()) {
             addSetMonoButtonListener();
-            addTestMonoButtonListener();
             addMonoPathTextFieldListener();
             addMonoDownloadButtonListener();
         }
 
-        dafnyConfigurationWindowView.updatePaths();
+        dafnyConfigurationWindowView.update();
     }
 
     /**
@@ -63,7 +60,6 @@ public class DafnyConfigurationController {
 
             private void action() {
                 dafnyConfigurationModel.setFilesPath(dafnyConfigurationWindowView.getFilesPath());
-                dafnyConfigurationWindowView.updateTests();
             }
 
             @Override
@@ -83,14 +79,6 @@ public class DafnyConfigurationController {
         });
     }
 
-    /**
-     * Add the Action Listener to the "Test Files Path" - Button. -> Updates the paths in the view.
-     */
-    private void addTestFilesButtonListener() {
-        dafnyConfigurationWindowView.getTestFilesButton().addActionListener(e -> {
-            dafnyConfigurationWindowView.updatePaths();
-        });
-    }
 
     /**
      * Add the Action Listener to the "Set Files Path" - Button. ->
@@ -102,7 +90,7 @@ public class DafnyConfigurationController {
             String path = selectDirectory();
             if (path != null) { //path == null, no path selected.
                 dafnyConfigurationModel.setFilesPath(path);
-                dafnyConfigurationWindowView.updatePaths();
+                dafnyConfigurationWindowView.update();
             }
         });
     }
@@ -127,7 +115,6 @@ public class DafnyConfigurationController {
 
             private void action() {
                 dafnyConfigurationModel.setMonoPath(dafnyConfigurationWindowView.getMonoPath());
-                dafnyConfigurationWindowView.updateTests();
             }
 
             @Override
@@ -148,15 +135,6 @@ public class DafnyConfigurationController {
     }
 
     /**
-     * Add the Action Listener to the "Test Mono Path" - Button. -> Updates the paths in the view.
-     */
-    private void addTestMonoButtonListener() {
-        dafnyConfigurationWindowView.getTestMonoButton().addActionListener(e -> {
-            dafnyConfigurationWindowView.updatePaths();
-        });
-    }
-
-    /**
      * Add the Action Listener to the "Set Mono Path" - Button. ->
      * Opens a File Chooser (DIRECTORIES_ONLY).
      * Update the model with the selected path and update the view.
@@ -166,7 +144,7 @@ public class DafnyConfigurationController {
             String path = selectDirectory();
             if (path != null) {
                 dafnyConfigurationModel.setMonoPath(path);
-                dafnyConfigurationWindowView.updatePaths();
+                dafnyConfigurationWindowView.update();
             }
 
         });
@@ -212,7 +190,6 @@ public class DafnyConfigurationController {
      * Save the path as a persistent state.
      */
     private void save()  {
-        String filesPath =  dafnyConfigurationModel.getDafnyPath() + DafnyPluginStrings.LANGUAGE_SERVER_JAR;
         //Save the data
         dafnyStateService.setPath(dafnyConfigurationModel.getDafnyPath());
         dafnyStateService.setMono(dafnyConfigurationModel.getMonoPath());
@@ -255,6 +232,14 @@ public class DafnyConfigurationController {
      */
     public JPanel getConfigurationPanel() {
         return dafnyConfigurationWindowView.getConfigurationPanel();
+    }
+
+    /**
+     * Checks with System.getProperty if the operating system is macOS.
+     * @return If operating systems is mac, then return false, else return false;
+     */
+    public static boolean isMac() {
+        return  System.getProperty("os.name").startsWith(DafnyPluginStrings.OS_MACOS) ? true : false;
     }
 
 

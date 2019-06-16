@@ -36,16 +36,15 @@ public class DafnyParser {
 		System.out.println(response);		
 		parseError(response, sourcecode);
 		//parseObligations(response);
-		DafnyResponse dafnyResponse;
 		// Mitteilung ob der Verifikationsprozess durchgelaufen ist
-		if (response.contains("Verification completed successfully!")) {
+		if (response.contains(DafnyPluginStrings.VERIFIED_MESSAGE)) {
 			HighlightSeverity highlightSeverity = HighlightSeverity.INFORMATION;
-			String message = "Verification completed successfully!";
+			String message = DafnyPluginStrings.VERIFIED_MESSAGE;
 			TextRange textRange = new TextRange(0,0);
 			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange));
 		} else {
 			HighlightSeverity highlightSeverity = HighlightSeverity.ERROR;
-			String message = "Verification completed successfully!";
+			String message = DafnyPluginStrings.VERIFIED_MESSAGE;
 			TextRange textRange = new TextRange(0,0);
 			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange));
 		}
