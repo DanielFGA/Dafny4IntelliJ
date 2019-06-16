@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.io.IOException;
 
 /**
  * DafnyConfigurable creates the Configuration Window in the IntelliJ Settings. It implements the SearchableConfigurable.
@@ -47,7 +48,11 @@ public class DafnyConfigurable extends ConfigurableProvider implements Configura
 
     @Override
     public void apply() throws ConfigurationException {
-        dafnyConfigurationController.validate();
+        try {
+            dafnyConfigurationController.validate();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

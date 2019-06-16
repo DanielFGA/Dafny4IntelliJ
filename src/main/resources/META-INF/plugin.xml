@@ -4,10 +4,11 @@
     <vendor email="daniel.figia@stud.th-luebeck.de">Technische Hochschule Lübeck</vendor>
     <description>Dafny Support for Intellj with verification and execution.</description>
 
-    <!--extensions defaultExtensionNs="com.intellij">
-        <preloadingActivity implementation="DafnyPreloadingActivity"
-                            id="DafnyPreloadingActivity" />
-    </extensions-->
+    <application-components>
+        <component>
+            <implementation-class>Dafny.Dafny</implementation-class>
+        </component>
+    </application-components>
 
     <!--Dafny Tool Window -->
     <extensions defaultExtensionNs="com.intellij">
@@ -23,7 +24,7 @@
         <annotator language="Dafny" implementationClass="DafnyLanguage.DafnyAnnotator"></annotator>
     </extensions>
 
-    <!--DafnyGUI.DafnyProjectWizard -->
+    <!--DafnyProjectWizard -->
     <extensions defaultExtensionNs="com.intellij">
         <moduleType id="DAFNY_MODULE" implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
         <projectConfigurable id="Dafny" groupId="language"

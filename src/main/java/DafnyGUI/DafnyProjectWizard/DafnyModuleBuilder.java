@@ -23,9 +23,9 @@ public class DafnyModuleBuilder extends ModuleBuilder {
         ContentEntry contentEntry = doAddContentEntry(modifiableRootModel);
         if (contentEntry != null) {
             List<Pair<String, String>> sourcePaths = new ArrayList<>();
-            String path = getContentEntryPath() + File.separator + DafnyPluginStrings.DAFNY_MODULE_SRC_DIR_NAME;
-            new File(path).mkdirs();
-            sourcePaths.add(Pair.create(path, ""));
+            String srcPath = getContentEntryPath() + File.separator + DafnyPluginStrings.DAFNY_MODULE_SRC_DIR_NAME;
+            //new File(srcPath).mkdirs();
+            sourcePaths.add(Pair.create(srcPath, ""));
             if (sourcePaths != null) {
                 for (Pair<String, String> sourcePath : sourcePaths) {
                     String first = sourcePath.first;

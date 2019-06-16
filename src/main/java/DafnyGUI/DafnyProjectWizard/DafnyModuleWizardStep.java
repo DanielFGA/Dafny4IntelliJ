@@ -5,6 +5,7 @@ import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.openapi.options.ConfigurationException;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class DafnyModuleWizardStep extends ModuleWizardStep {
 
@@ -31,6 +32,11 @@ public class DafnyModuleWizardStep extends ModuleWizardStep {
      */
     @Override
     public boolean validate()  throws ConfigurationException {
-        return dafnyConfigurationController.validate();
+        try {
+            return dafnyConfigurationController.validate();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

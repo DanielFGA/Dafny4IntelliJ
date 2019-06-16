@@ -1,6 +1,9 @@
 package DafnyGUI.DafnyConfiguration;
 
+import Dafny.Dafny;
 import DafnyGUI.DafnyPluginStrings;
+import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
 
@@ -208,12 +211,16 @@ public class DafnyConfigurationController {
     /**
      * Save the path as a persistent state.
      */
-    private void save() {
+    private void save()  {
         String filesPath =  dafnyConfigurationModel.getDafnyPath() + DafnyPluginStrings.LANGUAGE_SERVER_JAR;
         //Save the data
         dafnyStateService.setPath(dafnyConfigurationModel.getDafnyPath());
         dafnyStateService.setMono(dafnyConfigurationModel.getMonoPath());
-        //Register the new server definition to the IntelliJLanguageClient for LSP4IntelliJ.
+        try {
+            Dafny.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -221,7 +228,7 @@ public class DafnyConfigurationController {
      * @return input is valid -> true, else false.
      * @throws ConfigurationException - If input is not valid, an IntelliJ-specific exception is displayed.
      */
-    public boolean validate() throws ConfigurationException {
+    public boolean validate() throws ConfigurationException, IOException {
         boolean testFilesResult = dafnyConfigurationModel.testDafnyPath();
         //if os is windows, the mono test result is always true, to skip the second if-statement.
         boolean testMonoResult = dafnyConfigurationModel.isMac() ? dafnyConfigurationModel.testMonoPath() : true;

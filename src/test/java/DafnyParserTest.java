@@ -9,4 +9,5 @@ public class DafnyParserTest extends ParsingTestCase {
     protected DafnyParserTest(@NotNull String dataPath, @NotNull String fileExt, @NotNull ParserDefinition... definitions) {
         super("dafnyTestData", "dfy", new DafnyParserDefinition());
     }
+}
 
