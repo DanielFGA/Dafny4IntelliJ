@@ -2,17 +2,20 @@ package Dafny;
 
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.util.TextRange;
+import org.jetbrains.annotations.NotNull;
 
-public class DafnyResponse {
+public class DafnyResponse implements Comparable<DafnyResponse> {
 
     private HighlightSeverity highlightSeverity;
     private String message;
     private TextRange textRange;
+    private Integer line;
 
-    public DafnyResponse(HighlightSeverity highlightSeverity, String message, TextRange textRange) {
+    public DafnyResponse(HighlightSeverity highlightSeverity, String message, TextRange textRange, Integer line) {
         this.highlightSeverity = highlightSeverity;
         this.message = message;
         this.textRange = textRange;
+        this.line = line;
     }
 
     public HighlightSeverity getHighlightSeverity() {
@@ -25,5 +28,22 @@ public class DafnyResponse {
 
     public TextRange getTextRange() {
         return textRange;
+    }
+
+    public Integer getLine() {
+        return line;
+    }
+
+    @Override
+    public String toString() {
+        if (line == 0) return highlightSeverity.getName() + ": " + message + "\n";
+        return highlightSeverity.getName() + " at line " + line + ": " + message + "\n";
+    }
+
+    @Override
+    public int compareTo(@NotNull DafnyResponse dafnyResponse) {
+        if (dafnyResponse.highlightSeverity.compareTo(highlightSeverity) != 0) return dafnyResponse.highlightSeverity.compareTo(highlightSeverity);
+        if (message.equals(DafnyPluginStrings.VERIFIED_MESSAGE)) return 1;
+        return line - dafnyResponse.line;
     }
 }

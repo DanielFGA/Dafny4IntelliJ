@@ -33,7 +33,6 @@ public class DafnyParser {
 	 */
 	public List<DafnyResponse> parseServerResponse(String response, String sourcecode) {
 		// Debug der Ausgabe
-		System.out.println(response);		
 		parseError(response, sourcecode);
 		//parseObligations(response);
 		// Mitteilung ob der Verifikationsprozess durchgelaufen ist
@@ -41,12 +40,12 @@ public class DafnyParser {
 			HighlightSeverity highlightSeverity = HighlightSeverity.INFORMATION;
 			String message = DafnyPluginStrings.VERIFIED_MESSAGE;
 			TextRange textRange = new TextRange(0,0);
-			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange));
+			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange, 0));
 		} else {
 			HighlightSeverity highlightSeverity = HighlightSeverity.ERROR;
 			String message = DafnyPluginStrings.VERIFIED_MESSAGE;
 			TextRange textRange = new TextRange(0,0);
-			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange));
+			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange, 0));
 		}
 		
 		return diagnostic_list;
@@ -82,7 +81,7 @@ public class DafnyParser {
 
 			textRange = new TextRange(offsetStart, offsetEnd);
 
-			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange));
+			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange, Integer.parseInt(matcher.group(1))));
 		}
 	}
 	
@@ -101,7 +100,7 @@ public class DafnyParser {
 			String message = "Methode: " + matcher.group(2) + " [" + matcher.group(3) + " proof obligations] " + matcher.group(5);
 			TextRange textRange = new TextRange(0, 0);
 
-			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange));
+			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange, Integer.parseInt(matcher.group(1))));
 		}
 	}
 

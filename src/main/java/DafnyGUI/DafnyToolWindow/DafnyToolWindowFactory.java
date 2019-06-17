@@ -1,8 +1,8 @@
 package DafnyGUI.DafnyToolWindow;
 
 import Dafny.Dafny;
-
 import Dafny.DafnyPluginStrings;
+import Dafny.DafnyResponse;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -16,20 +16,21 @@ import org.jetbrains.annotations.NotNull;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DafnyToolWindowFactory implements ToolWindowFactory {
 
     private DafnyToolWindowView dafnyToolWindowView = new DafnyToolWindowView();
     private Project project;
-    private Boolean isRunning;
+    private Boolean isRunning = false;
 
     public DafnyToolWindowFactory() {
 
         dafnyToolWindowView.getVerifyButton().addActionListener(e -> {
             String file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
-            dafnyToolWindowView.writeOutput(Dafny.unparsedResponse(file).trim());
+            dafnyToolWindowView.writeOutput(getOutput(file));
         });
 
         dafnyToolWindowView.getRunButton().addActionListener(e -> {
@@ -50,7 +51,8 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
             }
 
             if (!Dafny.fileIsVerified(file)) {
-                dafnyToolWindowView.writeOutput(Dafny.unparsedResponse(file).trim());
+                dafnyToolWindowView.writeOutput(getOutput(file));
+                //dafnyToolWindowView.writeOutput(Dafny.unparsedResponse(file).trim());
                 dafnyToolWindowView.getRunButton().setEnabled(true);
                 return;
             }
@@ -109,5 +111,18 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
         for (String abb : abbr) {
             while(!new File(file.replace(DafnyPluginStrings.DAFNY_FILE, DafnyPluginStrings.OUTPUT_FILE_NAME + abb)).delete());
         }
+    }
+
+    private String getOutput(String file) {
+        String output = "";
+        List<DafnyResponse> dafnyResponseList = Dafny.getDafnyResponse(file);
+
+        if (dafnyResponseList.isEmpty()) output = DafnyPluginStrings.NOT_VERIFIED_MESSAGE;
+        else {
+            for (DafnyResponse response : dafnyResponseList) {
+                output+=response;
+            }
+        }
+        return output;
     }
 }

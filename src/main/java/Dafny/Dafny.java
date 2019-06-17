@@ -9,10 +9,7 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Dafny {
 
@@ -27,6 +24,8 @@ public class Dafny {
      * True for no errors during the verification, false if at least one error occurred.
      */
     private static Map<String, Boolean> fileToVerifiedState = new HashMap<>();
+
+    private static Map<String, List<DafnyResponse>> fileToDafnyResponse = new HashMap<>();
 
     /**
      * The path to the Dafny files.
@@ -76,11 +75,20 @@ public class Dafny {
         if (dafnyConnectionProvider == null) return new ArrayList<>();
         List<DafnyResponse> dafnyResponses = dafnyConnectionProvider.sendData(sourcecode,filename);
 
+        Collections.sort(dafnyResponses);
+
         //Update fileToVerifiedState
         fileToVerifiedState.put(filename, true);
         for (DafnyResponse d : dafnyResponses) {
             if (d.getHighlightSeverity().equals(HighlightSeverity.ERROR))
                 fileToVerifiedState.put(filename, false);
+        }
+
+        if (fileToDafnyResponse.containsKey(filename)) {
+            fileToDafnyResponse.get(filename).clear();
+            fileToDafnyResponse.get(filename).addAll(dafnyResponses);
+        } else {
+            fileToDafnyResponse.put(filename, dafnyResponses);
         }
 
         return dafnyResponses;
@@ -193,5 +201,9 @@ public class Dafny {
     public static void endRunProcess() {
         run.destroy();
         run.destroyForcibly();
+    }
+
+    public static List<DafnyResponse> getDafnyResponse(String file) {
+        return fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>();
     }
 }
