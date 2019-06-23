@@ -153,7 +153,21 @@ DECIMALDIGITS=[0-9][_]?([0-9])*.([0-9])[_]?([0-9])*
 ARRAYTOKEN=array([1-9])(([0-9])*)?
 ARRAYTOKEN_Q=array([1-9])(([0-9])*)?[?]
 BVTOKEN=bv(0|([1-9])([0-9])* )
-IDENTDEF=([A-Zb-z?])([A-ZZa-z_?0-9])*|a(([A-Za-z_?0-9])([A-Za-z_?0-9])*)?|ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9])*)?|arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|array([A-Za-z_?0])([A-Za-z_?0-9])*|array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|'([A-Za-z_?0-9])?|'[A-Za-z_?0-9][A-Za-z_?0-9]|'[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*
+IDENTDEF=(([A-Zb-z?_])([A-ZZa-z_?0-9'`])*|
+        a(([A-Za-qs-z_?0-9'])([A-Za-z_?0-9'])*)?|
+        ar(([A-Za-qs-z_?0-9])([A-Za-z_?0-9'])*)?|
+        arr(([A-Zb-z_?0-9])([A-Za-z_?0-9])*)?|
+        arra(([A-Za-xz_?0-9])([A-Za-yz_?0-9])*)?|
+        array([A-Za-z_?0])([A-Za-z_?0-9])*|
+        array?([A-Za-z_?0-9])([A-Za-z_?0-9])*|
+        array([1-9])([0-9])*([A-Za-z_])([A-Za-z_?0-9])*|
+        array([1-9])([0-9])*?([A-Za-z_?0-9])([A-Za-z_?0-9])*|
+        b(([A-Za-uwxyz_?0-9])([A-Za-z_?0-9])*)?|bv(([A-Za-z_?])([A-Za-z_?0-9])*)?|
+        bv0([A-Za-z_?0-9])([A-Za-z_?0-9])*|
+        bv([1-9])([A-Za-z_?0-9])*([A-Za-z_?])([A-Za-z_?0-9])*|
+        '([A-Za-z_?0-9])?|
+        '[A-Za-z_?0-9][A-Za-z_?0-9]|
+        '[A-Za-z_?0-9][A-Za-z'_?0-9][A-Za-z_?0-9]([A-Za-z_?0-9])*)
 COMMENT=\/\/.*|[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 
@@ -292,6 +306,7 @@ WHITE_SPACE=[ \t\n\x0B\f\r]+
   {BVTOKEN}                { return BVTOKEN; }
   {IDENTDEF}               { return IDENTDEF; }
   {COMMENT}                { return COMMENT; }
+  {WHITE_SPACE}            { return WHITE_SPACE; }
 
 }
 

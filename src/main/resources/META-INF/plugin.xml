@@ -18,9 +18,8 @@
         <!--DafnyLanguage -->
         <fileTypeFactory implementation="DafnyLanguage.DafnyFileTypeFactory"/>
         <lang.syntaxHighlighterFactory language="Dafny" implementationClass="DafnyLanguage.DafnySyntaxHighlighterFactory"/>
-        <lang.parserDefinition language="Dafny" implementationClass="DafnyLanguage.DafnyParserDefinition"/>
         <additionalTextAttributes scheme="Default" file="DafnyColorScheme.xml"/>
-        <annotator language="Dafny" implementationClass="DafnyLanguage.DafnyAnnotator"></annotator>
+        <externalAnnotator language="Dafny" implementationClass="DafnyLanguage.DafnyExternalAnnotator"></externalAnnotator>
         <!--DafnyProjectWizard -->
         <moduleType id="DAFNY_MODULE" implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
         <!--DafnyConfigurableProvider -->

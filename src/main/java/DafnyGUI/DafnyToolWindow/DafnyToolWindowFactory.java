@@ -30,6 +30,12 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
         dafnyToolWindowView.getVerifyButton().addActionListener(e -> {
             String file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
+
+            if (!file.endsWith(DafnyPluginStrings.DAFNY_FILE)) {
+                dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
+                return;
+            }
+
             dafnyToolWindowView.writeOutput(getOutput(file));
         });
 
@@ -41,7 +47,7 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
                 dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
                 return;
             }
-            dafnyToolWindowView.getRunButton().setEnabled(false);
+
             String file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
             String sourcecode = FileEditorManager.getInstance(project).getSelectedTextEditor().getDocument().getText();
 
@@ -49,6 +55,8 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
                 dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
                 return;
             }
+
+            dafnyToolWindowView.getRunButton().setEnabled(false);
 
             if (!Dafny.fileIsVerified(file)) {
                 dafnyToolWindowView.writeOutput(getOutput(file));

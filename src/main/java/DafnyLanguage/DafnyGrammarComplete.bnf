@@ -413,8 +413,8 @@ TypeAndToken
  (
      bool
      | char
-     | int
      | nattoken
+     | int
      | real
      | ORDINAL
      | bvToken
@@ -494,6 +494,8 @@ FunctionBody ::= lbrace Expression rbrace
 /*------------------------------------------------------------------------*/
 
 BlockStmt ::= lbrace (Stmt)* rbrace
+
+
 
 DividedBlockStmt ::= lbrace (Stmt)* (new semi (Stmt)* )? rbrace
 
@@ -586,7 +588,8 @@ AlternativeBlock
      | AlternativeBlockCase (AlternativeBlockCase)*
  )
 
-AlternativeBlockCase ::= case (ExistentialGuard |  ConstAtomExpression | Expression |) darrow (Stmt)*
+
+AlternativeBlockCase ::= case (ExistentialGuard|ConstAtomExpression|Expression)? darrow (Stmt)*
 
 WhileStmt
 ::=
@@ -728,7 +731,7 @@ LogicalExpression
 
 RelationalExpression
 ::=
- ShiftTerm (RelOp ShiftTerm (RelOp ShiftTerm)* )? | ShiftTerm
+  ShiftTerm (RelOp ShiftTerm (RelOp ShiftTerm)*)?
 
 RelOp
 ::=
@@ -738,7 +741,6 @@ RelOp
      | "<="
      | openAngleBracket
      | closeAngleBracket
-     | darrow
      | neq ("#" lbracket Expression rbracket)?
      | in
      | notIn
@@ -746,7 +748,9 @@ RelOp
      | 'neqAlt'
      | '\u2264'
      | '\u2265'
+     | darrow
  )
+
 
 /*------------------------------------------------------------------------*/
 
@@ -755,8 +759,7 @@ ShiftTerm
  Term
    (
      (
-        openAngleBracket openAngleBracket
-        | closeAngleBracket closeAngleBracket
+        "<<" | ">>"
      )
      Term
    )*
@@ -771,7 +774,7 @@ AddOp ::= (plus | minus)
 
 Factor ::= BitvectorFactor (MulOp BitvectorFactor)*
 
-MulOp ::= (star| div | "%") //change "/" to div?
+MulOp ::= (star| "/" | "%") //change "/" to div?
 
 /*------------------------------------------------------------------------*/
 
@@ -807,22 +810,6 @@ UnaryExpression
      | ConstAtomExpression Suffix*
  )
 
- UnaryExpression2
- ::=
-  (
-      minus UnaryExpression
-      | NegOp UnaryExpression
-      | map MapDisplayExpr Suffix*
-      | imap MapDisplayExpr Suffix*
-      | iset ISetDisplayExpr Suffix*
-      | EndlessExpression
-      //| LambdaExpression
-      | NameSegment Suffix*
-      | DisplayExpr Suffix*
-      | MultiSetExpr Suffix*
-      | ConstAtomExpression Suffix*
-  )
-
 Lhs
 ::=
  (
@@ -850,13 +837,11 @@ ConstAtomExpression
      | ParensExpression
  )
 
-LambdaArrow ::= darrow
-
 LambdaExpression
 ::=
- ( WildIdent Suffix* | openparen ( IdentTypeOptional (comma IdentTypeOptional)* )? closeparen Suffix*)
+ (NameSegment Suffix* | openparen ( IdentTypeOptional (comma IdentTypeOptional)* )? closeparen Suffix*)
  (reads PossiblyWildFrameExpression (comma PossiblyWildFrameExpression)*| requires Expression)*
- (LambdaArrow Expression)?
+ (darrow Expression)?
 
 ParensExpression ::=  openparen (Expressions)? closeparen
 
@@ -926,8 +911,9 @@ MatchExpression
 CaseExpression
 ::=
  case (
-    Ident (openparen (CasePattern (comma CasePattern)*)? closeparen)?
+     Ident (openparen (CasePattern (comma CasePattern)*)? closeparen)?
      | openparen  CasePattern (comma CasePattern)* closeparen
+
  )
  darrow Expression
 
@@ -1021,6 +1007,6 @@ WildIdent ::= identdef
 
 OldSemi ::= semi?
 
-Nat ::= ( digits | hexdigits)
+Nat ::= (hexdigits|digits)
 
 Dec ::= (decimaldigits)
