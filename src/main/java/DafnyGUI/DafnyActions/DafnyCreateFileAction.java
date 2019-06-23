@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 public class DafnyCreateFileAction extends CreateFileAction {
 
     public DafnyCreateFileAction() {
-        super(DafnyPluginStrings.DAFNY_FILE, "", DafnyIcon.FILE);
+        super(DafnyPluginStrings.DAFNY, "", DafnyIcon.FILE);
     }
 
     @Nullable
