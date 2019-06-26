@@ -23,6 +23,9 @@ public class DafnyParser {
 	
 	// Liste für Diagnostic-Objekte
 	private List<DafnyResponse> diagnostic_list = new ArrayList<>();
+
+	private HighlightSeverity VERIFED = new HighlightSeverity("INFORMATION", 1);
+	private HighlightSeverity PROOF_OBLIGATION = new HighlightSeverity("PROOF OBLIGATION", 2);
 	
 	/**
 	 * Antwort von Dafny wird geparst und gibt eine Liste mit Diagnostic Objekten
@@ -34,10 +37,10 @@ public class DafnyParser {
 	public List<DafnyResponse> parseServerResponse(String response, String sourcecode) {
 		// Debug der Ausgabe
 		parseError(response, sourcecode);
-		//parseObligations(response);
+		parseObligations(response);
 		// Mitteilung ob der Verifikationsprozess durchgelaufen ist
 		if (response.contains(DafnyPluginStrings.VERIFIED_MESSAGE)) {
-			HighlightSeverity highlightSeverity = HighlightSeverity.INFORMATION;
+			HighlightSeverity highlightSeverity = VERIFED;
 			String message = DafnyPluginStrings.VERIFIED_MESSAGE;
 			TextRange textRange = new TextRange(0,0);
 			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange, 0));
@@ -95,12 +98,11 @@ public class DafnyParser {
 		Matcher matcher = pattern.matcher(response);
 		while (matcher.find()) {
 
-
-			HighlightSeverity highlightSeverity = HighlightSeverity.INFORMATION;
+			HighlightSeverity highlightSeverity = PROOF_OBLIGATION;
 			String message = "Methode: " + matcher.group(2) + " [" + matcher.group(3) + " proof obligations] " + matcher.group(5);
 			TextRange textRange = new TextRange(0, 0);
 
-			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange, Integer.parseInt(matcher.group(1))));
+			diagnostic_list.add(new DafnyResponse(highlightSeverity, message, textRange, 0));
 		}
 	}
 

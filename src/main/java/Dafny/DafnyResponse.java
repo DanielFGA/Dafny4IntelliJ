@@ -43,7 +43,6 @@ public class DafnyResponse implements Comparable<DafnyResponse> {
     @Override
     public int compareTo(@NotNull DafnyResponse dafnyResponse) {
         if (dafnyResponse.highlightSeverity.compareTo(highlightSeverity) != 0) return dafnyResponse.highlightSeverity.compareTo(highlightSeverity);
-        if (message.equals(DafnyPluginStrings.VERIFIED_MESSAGE)) return 1;
         return line - dafnyResponse.line;
     }
 }

@@ -108,6 +108,10 @@ public class DafnyConnectionProvider {
 	    if (!unparsedResponseToFile.containsKey(file)) return DafnyPluginStrings.NOT_VERIFIED_MESSAGE;
 		return unparsedResponseToFile.get(file).toString();
 	}
+
+	public boolean isConnected() {
+		return dafnyProcess == null ? false : dafnyProcess.isAlive();
+	}
 }
 
 				

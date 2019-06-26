@@ -36,14 +36,17 @@ public class DafnyConfigurationModel {
      * @return - true if all files exist, false if one file does not exist
      */
     public boolean testDafnyPath() {
+        if (dafnyPath == null) return false;
         File dafnyExe = new File(dafnyPath + DafnyPluginStrings.DAFNY_EXE);
         File dafnyServer = new File(dafnyPath + DafnyPluginStrings.DAFNY_SERVER_EXE);
         return dafnyExe.exists() && dafnyServer.exists();
     }
 
     public boolean testMonoPath() {
+        if (isWindows()) return true;
+        if (monoPath == null && isMac()) return false;
         File monoExe = new File(monoPath + DafnyPluginStrings.MONO_EXE);
-        return isWindows() || monoExe.exists();
+        return monoExe.exists();
     }
 
     public String getDafnyPath() {

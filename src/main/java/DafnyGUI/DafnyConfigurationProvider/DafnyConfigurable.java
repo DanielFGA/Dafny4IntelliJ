@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.io.IOException;
 
 /**
- * DafnyConfigurable creates the Configuration Window in the IntelliJ Settings. It implements the SearchableConfigurable.
+ * DafnyConfigurable creates the Configuration Window in the IntelliJ Settings. It implements the Configurable.
  */
 public class DafnyConfigurable extends ConfigurableProvider implements Configurable  {
 

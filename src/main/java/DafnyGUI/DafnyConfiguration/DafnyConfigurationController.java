@@ -3,7 +3,16 @@ package DafnyGUI.DafnyConfiguration;
 import Dafny.Dafny;
 import Dafny.DafnyPluginStrings;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.fileChooser.FileChooser;
+import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.Consumer;
+import com.intellij.util.download.DownloadableFileDescription;
+import com.intellij.util.download.DownloadableFileService;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -13,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * DafnyConfigurationController creates the DafnyConfigurationWindowView and DafnyConfigurationModel. It handles the
@@ -102,7 +113,9 @@ public class DafnyConfigurationController {
     private void addDownloadButtonListener() {
         dafnyConfigurationWindowView.getDownloadFilesButton().addActionListener(e -> {
             openBrowser(DafnyPluginStrings.FILES_DOWNLOAD_LINK);
+
         });
+
     }
 
     /**
@@ -240,6 +253,11 @@ public class DafnyConfigurationController {
      */
     public static boolean isMac() {
         return  System.getProperty("os.name").startsWith(DafnyPluginStrings.OS_MACOS) ? true : false;
+    }
+
+    public static boolean pathAreValid(String dafny, String mono) {
+        DafnyConfigurationModel testPathModel = new DafnyConfigurationModel(dafny, mono, isMac() ? DafnyPluginStrings.OS_MACOS : DafnyPluginStrings.OS_WINDOWS);
+        return testPathModel.testDafnyPath() && testPathModel.testMonoPath();
     }
 
 

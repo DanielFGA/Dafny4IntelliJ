@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,6 +28,15 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
     public DafnyToolWindowFactory() {
 
         dafnyToolWindowView.getVerifyButton().addActionListener(e -> {
+            if (!Dafny.isConnected()) {
+                dafnyToolWindowView.writeOutput(DafnyPluginStrings.UNVALID_CONFIGURATION);
+                return;
+            }
+            if (!dafnyFileSelected()) {
+                dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
+                return;
+            }
+
             String file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
 
             if (!file.endsWith(DafnyPluginStrings.DAFNY_FILE)) {
@@ -41,9 +49,14 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
         dafnyToolWindowView.getRunButton().addActionListener(e -> {
 
+            if (!Dafny.isConnected()) {
+                dafnyToolWindowView.writeOutput(DafnyPluginStrings.UNVALID_CONFIGURATION);
+                return;
+            }
+
             dafnyToolWindowView.writeOutput(DafnyPluginStrings.COMPILING);
 
-            if (FileEditorManager.getInstance(project).getSelectedEditor() == null || FileEditorManager.getInstance(project).getSelectedEditor().getFile() == null) {
+            if (!dafnyFileSelected()) {
                 dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
                 return;
             }
@@ -96,14 +109,25 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
         });
 
         dafnyToolWindowView.getResetButton().addActionListener(e -> {
+
             if (isRunning) isRunning = false;
             try {
                 Dafny.reset();
-                dafnyToolWindowView.writeOutput(DafnyPluginStrings.DAFNY_RESET);
+                dafnyToolWindowView.writeOutput(DafnyPluginStrings.DAFNY_RESET_END);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+
+            if (!Dafny.isConnected()) {
+                dafnyToolWindowView.writeOutput(DafnyPluginStrings.UNVALID_CONFIGURATION);
+                return;
+            }
+
         });
+
+        if (!Dafny.isConnected()) {
+            dafnyToolWindowView.writeOutput(DafnyPluginStrings.UNVALID_CONFIGURATION);
+        }
     }
 
     @Override
@@ -132,5 +156,9 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
             }
         }
         return output;
+    }
+
+    private boolean dafnyFileSelected() {
+        return !(FileEditorManager.getInstance(project).getSelectedEditor() == null || FileEditorManager.getInstance(project).getSelectedEditor().getFile() == null);
     }
 }

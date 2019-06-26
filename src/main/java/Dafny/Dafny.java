@@ -6,7 +6,9 @@ import DafnyGUI.DafnyConfiguration.DafnyStateService;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.impl.file.impl.FileManager;
 
 import java.io.*;
 import java.util.*;
@@ -25,6 +27,9 @@ public class Dafny {
      */
     private static Map<String, Boolean> fileToVerifiedState = new HashMap<>();
 
+    /**
+     * TODO
+     */
     private static Map<String, List<DafnyResponse>> fileToDafnyResponse = new HashMap<>();
 
     /**
@@ -42,7 +47,12 @@ public class Dafny {
      */
     private static Project project;
 
-    private static Process run;
+    /**
+     * TODO
+     */
+    private static Process dafnyRunProcess;
+
+        private static boolean isVerifying;
 
     /**
      * Constructor. Load the path for dafny and mono from DafnyStateService.
@@ -53,13 +63,8 @@ public class Dafny {
         monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
         //If the dafnyPath is null, then is no Dafny configuration saved.
         //Without valid configuration a DafnyConnectionProver can not be initialize.
-        if (dafnyPath != null) {
-
-            if (monoPath != null && DafnyConfigurationController.isMac())
-                dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
-
-            if (!DafnyConfigurationController.isMac())
-                dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
+        if (DafnyConfigurationController.pathAreValid(dafnyPath, monoPath)) {
+            dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
         }
     }
 
@@ -73,6 +78,7 @@ public class Dafny {
      */
     public static List<DafnyResponse> getDiagnosticList(String sourcecode, String filename) {
         if (dafnyConnectionProvider == null) return new ArrayList<>();
+        isVerifying = true;
         List<DafnyResponse> dafnyResponses = dafnyConnectionProvider.sendData(sourcecode,filename);
 
         Collections.sort(dafnyResponses);
@@ -90,7 +96,7 @@ public class Dafny {
         } else {
             fileToDafnyResponse.put(filename, dafnyResponses);
         }
-
+        isVerifying = false;
         return dafnyResponses;
     }
 
@@ -104,26 +110,14 @@ public class Dafny {
         }
         dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
         monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
-        if (dafnyPath != null) {
-            if (monoPath != null && DafnyConfigurationController.isMac())
-                dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
 
-            if (!DafnyConfigurationController.isMac())
-                dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
-            if (project != null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
+        if (DafnyConfigurationController.pathAreValid(dafnyPath, monoPath)) {
+            dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
         }
-    }
 
-    /**
-     * Get the unparsed response from the DafnyConnectionProvider for a given file.
-     * If the DafnyConnectionProvider is null, then return a error message.
-     * @param file - the given file.
-     * @return unparsed response from the DafnyConnectionProvider.
-     */
-    public static String unparsedResponse(String file) {
-        if (dafnyConnectionProvider == null) return DafnyPluginStrings.UNVALID_CONFIGURATION;
-        DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
-        return dafnyConnectionProvider.getUnparsedResponse(file);
+        fileToDafnyResponse.clear();
+        fileToVerifiedState.clear();
+        if (project != null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
     }
 
     /**
@@ -146,7 +140,6 @@ public class Dafny {
      */
     public static BufferedReader run(String filepath, String sourcecode) throws IOException {
 
-        Process dafnyProcess;
         ProcessBuilder dafnyProcessBuilder;
         File compiledExe;
 
@@ -166,9 +159,9 @@ public class Dafny {
         else
             dafnyProcessBuilder = new ProcessBuilder(dafnyPath + DafnyPluginStrings.DAFNY_EXE, file.getPath());
 
-        dafnyProcess = dafnyProcessBuilder.start();
-        while (dafnyProcess.isAlive());
-        dafnyProcess.destroy();
+        dafnyRunProcess = dafnyProcessBuilder.start();
+        while (dafnyRunProcess.isAlive());
+        dafnyRunProcess.destroy();
 
         //After Dafny.exe, there should be a executable Dafny file in the same directory.
         compiledExe = new File(file.getPath().replace(DafnyPluginStrings.DAFNY_FILE, DafnyPluginStrings.EXE_FILE));
@@ -185,8 +178,8 @@ public class Dafny {
             return null;
         }
 
-        run = dafnyProcessBuilder.start();
-        inputStreamReader = new InputStreamReader(run.getInputStream());
+        dafnyRunProcess = dafnyProcessBuilder.start();
+        inputStreamReader = new InputStreamReader(dafnyRunProcess.getInputStream());
         return new BufferedReader(inputStreamReader);
     }
 
@@ -199,11 +192,15 @@ public class Dafny {
     }
 
     public static void endRunProcess() {
-        run.destroy();
-        run.destroyForcibly();
+        dafnyRunProcess.destroy();
+        dafnyRunProcess.destroyForcibly();
     }
 
     public static List<DafnyResponse> getDafnyResponse(String file) {
-        return fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>();
+        return !isVerifying ? (fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>()) : new ArrayList<>();
+    }
+
+    public static boolean isConnected() {
+        return dafnyConnectionProvider == null ? false : dafnyConnectionProvider.isConnected();
     }
 }

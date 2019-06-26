@@ -10,7 +10,6 @@ public class DafnyFileType extends LanguageFileType{
 
     public static final DafnyFileType INSTANCE = new DafnyFileType();
 
-
     protected DafnyFileType() {
         super(DafnyLanguage.INSTANCE);
     }
