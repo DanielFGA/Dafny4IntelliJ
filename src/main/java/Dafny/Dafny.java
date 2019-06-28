@@ -6,9 +6,7 @@ import DafnyGUI.DafnyConfiguration.DafnyStateService;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.impl.file.impl.FileManager;
 
 import java.io.*;
 import java.util.*;
@@ -52,8 +50,6 @@ public class Dafny {
      */
     private static Process dafnyRunProcess;
 
-        private static boolean isVerifying;
-
     /**
      * Constructor. Load the path for dafny and mono from DafnyStateService.
      * If the path for dafny is null, then the DafnyConnectionProvider will not be initialize.
@@ -77,8 +73,10 @@ public class Dafny {
      * @return a list with every parsed response from the Dafny Server.
      */
     public static List<DafnyResponse> getDiagnosticList(String sourcecode, String filename) {
-        if (dafnyConnectionProvider == null) return new ArrayList<>();
-        isVerifying = true;
+        if (dafnyConnectionProvider == null) {
+            return new ArrayList<>();
+        }
+
         List<DafnyResponse> dafnyResponses = dafnyConnectionProvider.sendData(sourcecode,filename);
 
         Collections.sort(dafnyResponses);
@@ -96,7 +94,6 @@ public class Dafny {
         } else {
             fileToDafnyResponse.put(filename, dafnyResponses);
         }
-        isVerifying = false;
         return dafnyResponses;
     }
 
@@ -104,7 +101,7 @@ public class Dafny {
      * Shutdown the current DafnyConnectionProvider and initialize a new one.
      * @throws IOException
      */
-    public static void reset() throws IOException {
+    public static boolean reset() throws IOException {
         if (dafnyConnectionProvider != null) {
             dafnyConnectionProvider.disconnect();
         }
@@ -118,6 +115,7 @@ public class Dafny {
         fileToDafnyResponse.clear();
         fileToVerifiedState.clear();
         if (project != null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
+        return true;
     }
 
     /**
@@ -197,10 +195,10 @@ public class Dafny {
     }
 
     public static List<DafnyResponse> getDafnyResponse(String file) {
-        return !isVerifying ? (fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>()) : new ArrayList<>();
+        return fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>();
     }
 
     public static boolean isConnected() {
-        return dafnyConnectionProvider == null ? false : dafnyConnectionProvider.isConnected();
+        return dafnyConnectionProvider != null && dafnyConnectionProvider.isConnected();
     }
 }

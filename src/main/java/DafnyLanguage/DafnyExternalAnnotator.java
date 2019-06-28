@@ -2,9 +2,11 @@ package DafnyLanguage;
 
 import Dafny.Dafny;
 import Dafny.DafnyResponse;
+import com.intellij.debugger.actions.ArrayFilterAction;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.ExternalAnnotator;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.psi.PsiFile;
 import gherkin.lexer.Da;
 import org.jetbrains.annotations.NotNull;
@@ -17,9 +19,7 @@ public class DafnyExternalAnnotator extends ExternalAnnotator<List<DafnyResponse
 
     @Override
     public List<DafnyResponse> collectInformation(@NotNull PsiFile file, @NotNull Editor editor, boolean hasErrors) {
-        System.out.println("------------------------------------------");
         if (file.getVirtualFile().getExtension().equals("dfy")) {
-            System.out.println("Document: " + editor.getDocument().getText());
             return Dafny.getDiagnosticList(editor.getDocument().getText(), file.getVirtualFile().getPath());
 
         }
@@ -34,7 +34,6 @@ public class DafnyExternalAnnotator extends ExternalAnnotator<List<DafnyResponse
 
     public void apply(@NotNull PsiFile file, List<DafnyResponse> annotationResult, @NotNull AnnotationHolder holder) {
         for (DafnyResponse r : annotationResult) {
-            System.out.println(r);
             holder.createAnnotation(r.getHighlightSeverity(), r.getTextRange(), r.getMessage());
         }
     }

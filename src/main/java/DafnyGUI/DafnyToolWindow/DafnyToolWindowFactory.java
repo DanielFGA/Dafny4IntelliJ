@@ -109,8 +109,8 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
         });
 
         dafnyToolWindowView.getResetButton().addActionListener(e -> {
-
             if (isRunning) isRunning = false;
+
             try {
                 Dafny.reset();
                 dafnyToolWindowView.writeOutput(DafnyPluginStrings.DAFNY_RESET_END);
@@ -122,7 +122,6 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
                 dafnyToolWindowView.writeOutput(DafnyPluginStrings.UNVALID_CONFIGURATION);
                 return;
             }
-
         });
 
         if (!Dafny.isConnected()) {

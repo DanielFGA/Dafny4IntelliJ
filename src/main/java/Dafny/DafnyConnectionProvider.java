@@ -29,9 +29,6 @@ public class DafnyConnectionProvider {
 	private InputStreamReader inputStreamReader;
 	private PrintWriter printWriter;
 
-
-	private Map<String, StringBuilder> unparsedResponseToFile = new HashMap<>();
-
 	/**
 	 * Konstruktor der Klasse DafnyConnectionProvider, stellt eine Verbindung zu Dafny her
 	 */
@@ -70,7 +67,7 @@ public class DafnyConnectionProvider {
 		printWriter.println(query.encode());
 		printWriter.flush();
 		BufferedReader reader = new BufferedReader(inputStreamReader);
-		String line = null;
+		String line;
         StringBuilder unparsedResponse = new StringBuilder();
 	    try {
 
@@ -86,7 +83,6 @@ public class DafnyConnectionProvider {
 		} 
 	    // Parser Objekt erstellen
     	DafnyParser parser = new DafnyParser();
-	    unparsedResponseToFile.put(filename, unparsedResponse);
         return parser.parseServerResponse(unparsedResponse.toString(), sourcecode);
     }
 
@@ -102,11 +98,6 @@ public class DafnyConnectionProvider {
 			e.printStackTrace();
 		}
 		dafnyProcess.destroyForcibly();
-	}
-
-	public String getUnparsedResponse(String file) {
-	    if (!unparsedResponseToFile.containsKey(file)) return DafnyPluginStrings.NOT_VERIFIED_MESSAGE;
-		return unparsedResponseToFile.get(file).toString();
 	}
 
 	public boolean isConnected() {
