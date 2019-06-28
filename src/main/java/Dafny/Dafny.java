@@ -3,9 +3,11 @@ package Dafny;
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import DafnyGUI.DafnyConfiguration.DafnyStateService;
 
+import com.intellij.codeInsight.ExternalAnnotation;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 
 import java.io.*;
@@ -17,38 +19,38 @@ public class Dafny {
      * The DafnyConnectionProvider provides a connection to the Dafny Server (DafnyServer.exe).
      * The DafnyConnectionProvider receive a filename and sourcecode and send it to the Dafny Server for the verification.
      */
-    private static DafnyConnectionProvider dafnyConnectionProvider;
+    private DafnyConnectionProvider dafnyConnectionProvider;
 
     /**
      * Every file, which was send to the DafnyConnectionProver will be mapped to his verification state.
      * True for no errors during the verification, false if at least one error occurred.
      */
-    private static Map<String, Boolean> fileToVerifiedState = new HashMap<>();
+    private Map<String, Boolean> fileToVerifiedState = new HashMap<>();
 
     /**
      * TODO
      */
-    private static Map<String, List<DafnyResponse>> fileToDafnyResponse = new HashMap<>();
+    private Map<String, List<DafnyResponse>> fileToDafnyResponse = new HashMap<>();
 
     /**
      * The path to the Dafny files.
      */
-    private static String dafnyPath;
+    private String dafnyPath;
 
     /**
      * The path to Mono. (for macOS users)
      */
-    private static String monoPath;
+    private String monoPath;
 
     /**
      * The current project.
      */
-    private static Project project;
+    private Project project;
 
     /**
      * TODO
      */
-    private static Process dafnyRunProcess;
+    private Process dafnyRunProcess;
 
     /**
      * Constructor. Load the path for dafny and mono from DafnyStateService.
@@ -72,7 +74,7 @@ public class Dafny {
      * @param filename - the name of the file
      * @return a list with every parsed response from the Dafny Server.
      */
-    public static List<DafnyResponse> getDiagnosticList(String sourcecode, String filename) {
+    public List<DafnyResponse> getResponseList(String sourcecode, String filename) {
         if (dafnyConnectionProvider == null) {
             return new ArrayList<>();
         }
@@ -101,7 +103,7 @@ public class Dafny {
      * Shutdown the current DafnyConnectionProvider and initialize a new one.
      * @throws IOException
      */
-    public static boolean reset() throws IOException {
+    public void reset() throws IOException {
         if (dafnyConnectionProvider != null) {
             dafnyConnectionProvider.disconnect();
         }
@@ -115,7 +117,6 @@ public class Dafny {
         fileToDafnyResponse.clear();
         fileToVerifiedState.clear();
         if (project != null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
-        return true;
     }
 
     /**
@@ -123,7 +124,7 @@ public class Dafny {
      * @param file - the file to be checked.
      * @return false if DafnyConnectionProvider is null or file is not verified, true if the file is verified.
      */
-    public static boolean fileIsVerified(String file) {
+    public boolean fileIsVerified(String file) {
         return (dafnyConnectionProvider != null) && (!fileToVerifiedState.containsKey(file) ? false : fileToVerifiedState.get(file));
     }
 
@@ -136,7 +137,7 @@ public class Dafny {
      * @return the BufferReader, which is connected to the executable dafny file.
      * @throws IOException
      */
-    public static BufferedReader run(String filepath, String sourcecode) throws IOException {
+    public BufferedReader run(String filepath, String sourcecode) throws IOException {
 
         ProcessBuilder dafnyProcessBuilder;
         File compiledExe;
@@ -185,20 +186,21 @@ public class Dafny {
      * Setter for project.
      * @param project the new project.
      */
-    public static void setProject(Project project) {
-        Dafny.project = project;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    public static void endRunProcess() {
+    public void endRunProcess() {
         dafnyRunProcess.destroy();
         dafnyRunProcess.destroyForcibly();
     }
 
-    public static List<DafnyResponse> getDafnyResponse(String file) {
+    public List<DafnyResponse> getDafnyResponse(String file) {
         return fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>();
     }
 
-    public static boolean isConnected() {
+    public boolean isConnected() {
         return dafnyConnectionProvider != null && dafnyConnectionProvider.isConnected();
     }
+
 }

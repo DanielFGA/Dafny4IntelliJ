@@ -207,7 +207,7 @@ public class DafnyConfigurationController {
         dafnyStateService.setPath(dafnyConfigurationModel.getDafnyPath());
         dafnyStateService.setMono(dafnyConfigurationModel.getMonoPath());
         try {
-            Dafny.reset();
+            ServiceManager.getService(Dafny.class).reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
