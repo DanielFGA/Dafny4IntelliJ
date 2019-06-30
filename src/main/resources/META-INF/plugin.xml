@@ -13,13 +13,14 @@
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <!--Dafny Tool Window -->
-        <toolWindow id="Dafny" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"></toolWindow>
+
         <!--DafnyLanguage -->
         <fileTypeFactory implementation="DafnyLanguage.DafnyFileTypeFactory"/>
         <lang.syntaxHighlighterFactory language="Dafny" implementationClass="DafnyLanguage.DafnySyntaxHighlighterFactory"/>
         <additionalTextAttributes scheme="Default" file="DafnyColorScheme.xml"/>
         <externalAnnotator language="Dafny" implementationClass="DafnyLanguage.DafnyExternalAnnotator"></externalAnnotator>
+        <!--Dafny Tool Window -->
+        <toolWindow id="Dafny" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"></toolWindow>
         <!--DafnyProjectWizard -->
         <moduleType id="DAFNY_MODULE" implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
         <!--DafnyConfigurableProvider -->

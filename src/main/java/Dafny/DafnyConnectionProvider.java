@@ -62,7 +62,6 @@ public class DafnyConnectionProvider {
 	 * @return Liste mit Diagnostic Objekten
 	 */
 	public List<DafnyResponse> sendData(String sourcecode, String filename){
-		System.out.println(filename);
 		DafnyMessage query = new DafnyMessage(sourcecode, false, filename);
 		printWriter.println(query.encode());
 		printWriter.flush();

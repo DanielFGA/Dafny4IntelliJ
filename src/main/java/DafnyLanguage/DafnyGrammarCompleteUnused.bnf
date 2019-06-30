@@ -748,7 +748,6 @@ RelOp
      | 'neqAlt'
      | '\u2264'
      | '\u2265'
-     | darrow
  )
 
 
@@ -837,11 +836,20 @@ ConstAtomExpression
      | ParensExpression
  )
 
+LambdaArrow ::= "=>"
+
 LambdaExpression
 ::=
  (NameSegment Suffix* | openparen ( IdentTypeOptional (comma IdentTypeOptional)* )? closeparen Suffix*)
  (reads PossiblyWildFrameExpression (comma PossiblyWildFrameExpression)*| requires Expression)*
- (darrow Expression)?
+ (LambdaArrow (Stmt |Expression))?
+
+
+ LambdaExpression
+ ::=
+   ( WildIdent  | "("   ( IdentTypeOptional ( "," IdentTypeOptional)* )? ")" )
+   ( "reads" PossiblyWildFrameExpression ( "," PossiblyWildFrameExpression  )* | "requires" Expression )*
+   LambdaArrow Expression
 
 ParensExpression ::=  openparen (Expressions)? closeparen
 

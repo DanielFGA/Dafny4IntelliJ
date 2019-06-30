@@ -252,7 +252,7 @@ public class DafnyConfigurationController {
      * @return If operating systems is mac, then return false, else return false;
      */
     public static boolean isMac() {
-        return  System.getProperty("os.name").startsWith(DafnyPluginStrings.OS_MACOS) ? true : false;
+        return !System.getProperty("os.name").startsWith(DafnyPluginStrings.OS_MACOS) ? true : false;
     }
 
     public static boolean pathAreValid(String dafny, String mono) {

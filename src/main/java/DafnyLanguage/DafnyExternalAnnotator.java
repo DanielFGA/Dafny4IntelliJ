@@ -10,22 +10,23 @@ import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DafnyExternalAnnotator extends ExternalAnnotator<List<DafnyResponse>, List<DafnyResponse>> {
+public class DafnyExternalAnnotator extends ExternalAnnotator<String[], List<DafnyResponse>> {
 
     @Override
-    public List<DafnyResponse> collectInformation(@NotNull PsiFile file, @NotNull Editor editor, boolean hasErrors) {
+    public String[] collectInformation(@NotNull PsiFile file, @NotNull Editor editor, boolean hasErrors) {
         if (file.getVirtualFile().getExtension().equals("dfy")) {
-            return ServiceManager.getService(Dafny.class).getResponseList(editor.getDocument().getText(), file.getVirtualFile().getPath());
+            return new String[]{editor.getDocument().getText(), file.getVirtualFile().getPath()};
         }
         return null;
     }
 
     @Nullable
     @Override
-    public List<DafnyResponse> doAnnotate(List<DafnyResponse> collectedInfo) {
-        return collectedInfo;
+    public List<DafnyResponse> doAnnotate(String[] collectedInfo) {
+        return ServiceManager.getService(Dafny.class).getResponseList(collectedInfo[0], collectedInfo[1]);
     }
 
     public void apply(@NotNull PsiFile file, List<DafnyResponse> annotationResult, @NotNull AnnotationHolder holder) {
@@ -33,4 +34,5 @@ public class DafnyExternalAnnotator extends ExternalAnnotator<List<DafnyResponse
             holder.createAnnotation(r.getHighlightSeverity(), r.getTextRange(), r.getMessage());
         }
     }
+
 }

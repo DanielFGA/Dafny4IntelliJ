@@ -9,6 +9,8 @@ public class DafnyPluginStrings {
     public static final String DAFNY = "Dafny";
     public static final String DAFNY_FILE_ABBR = "dfy";
     public static final String PDB_FILE_ABBR  = "pdb";
+    public static final String DLL_MDB_FILE_ABBR  = "dll.mdb";
+    public static final String EXE_MDB_FILE_ABBR  = "exe.mdb";
     public static final String EXE_FILE_ABBR  = "exe";
     public static final String DLL_FILE_ABBR  = "dll";
     public static final String DAFNY_FILE = "." + DAFNY_FILE_ABBR;
@@ -35,6 +37,7 @@ public class DafnyPluginStrings {
     public static final String DAFNY_MODULE_SRC_DIR_NAME = "src";
 
     public static final String DAFNY_TOOL_WINDOW = "Dafny Tool Window";
+    public static final String VERIFYING = "Verifying, please wait...";
     public static final String COMPILING = "Compiling, please wait...";
     public static final String COMPILING_CANCEL = "Cancel Compiling, please wait...";
     public static final String NO_SELECTED_FILE = "No Dafny-File selected";

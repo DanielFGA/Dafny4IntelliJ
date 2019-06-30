@@ -96,6 +96,7 @@ public class Dafny {
         } else {
             fileToDafnyResponse.put(filename, dafnyResponses);
         }
+
         return dafnyResponses;
     }
 
@@ -195,8 +196,9 @@ public class Dafny {
         dafnyRunProcess.destroyForcibly();
     }
 
-    public List<DafnyResponse> getDafnyResponse(String file) {
-        return fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>();
+    public List<DafnyResponse> getDafnyResponse(String file, String sourcecode) {
+        //return fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>();
+        return getResponseList(sourcecode, file);
     }
 
     public boolean isConnected() {
