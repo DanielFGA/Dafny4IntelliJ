@@ -1,9 +1,5 @@
 package DafnyGUI.DafnyConfiguration;
 
-import Dafny.DafnyPluginStrings;
-
-import java.awt.Color;
-
 import javax.swing.*;
 
 /**
@@ -86,8 +82,5 @@ public class DafnyConfigurationWindowView {
     public JTextField getPathTextField() {
         return pathTextField;
     }
-
-
-
 
 }

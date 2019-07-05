@@ -7,7 +7,7 @@
     <application-components>
         <!--Dafny-->
         <component>
-            <implementation-class>Dafny.Dafny</implementation-class>
+            <implementation-class>DafnyCommunication.Dafny</implementation-class>
         </component>
     </application-components>
 
@@ -33,7 +33,7 @@
 
     <actions>
         <!-- DafnyCreateFileAction -->
-        <action id="Dafny.NewDafnyFile" class="DafnyGUI.DafnyActions.DafnyCreateFileAction"
+        <action id="DafnyCommunication.NewDafnyFile" class="DafnyGUI.DafnyActions.DafnyCreateFileAction"
                 text="Dafny File" description="Create new Dafny file">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
         </action>

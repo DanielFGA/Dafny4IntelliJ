@@ -1,6 +1,6 @@
 package DafnyGUI.DafnyConfiguration;
 
-import Dafny.DafnyPluginStrings;
+import DafnyCommunication.DafnyPluginStrings;
 
 import java.io.File;
 
@@ -53,6 +53,7 @@ public class DafnyConfigurationModel {
         return dafnyPath;
     }
 
+    @Nullable
     public String getMonoPath() {
         return monoPath;
     }

@@ -1,6 +1,6 @@
 package DafnyGUI.DafnyConfiguration;
 
-import Dafny.DafnyPluginStrings;
+import DafnyCommunication.DafnyPluginStrings;
 import com.intellij.openapi.components.*;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;

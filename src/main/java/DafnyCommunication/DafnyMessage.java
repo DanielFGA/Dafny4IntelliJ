@@ -1,7 +1,7 @@
-package Dafny;
+package DafnyCommunication;
 
 import com.google.gson.*;
-import java.io.UnsupportedEncodingException;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;

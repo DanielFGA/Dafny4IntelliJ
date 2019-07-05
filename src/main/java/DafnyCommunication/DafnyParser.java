@@ -1,4 +1,4 @@
-package Dafny;
+package DafnyCommunication;
 
 import java.util.ArrayList;
 import java.util.List;

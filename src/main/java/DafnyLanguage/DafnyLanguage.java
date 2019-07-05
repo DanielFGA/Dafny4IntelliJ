@@ -1,7 +1,6 @@
 package DafnyLanguage;
 
 import com.intellij.lang.Language;
-import org.jetbrains.annotations.NotNull;
 
 public class DafnyLanguage extends Language {
 

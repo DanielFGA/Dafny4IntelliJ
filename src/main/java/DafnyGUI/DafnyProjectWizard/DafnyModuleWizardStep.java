@@ -17,7 +17,7 @@ public class DafnyModuleWizardStep extends ModuleWizardStep {
 
     @Override
     public JComponent getComponent() {
-        return new DafnyConfigurationController().getConfigurationPanel();
+        return dafnyConfigurationController.getConfigurationPanel();
     }
 
     @Override

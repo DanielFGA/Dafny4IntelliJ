@@ -1,4 +1,4 @@
-package Dafny;
+package DafnyCommunication;
 
 public class DafnyPluginStrings {
 

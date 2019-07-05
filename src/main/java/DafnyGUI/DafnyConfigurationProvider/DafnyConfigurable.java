@@ -1,7 +1,7 @@
 package DafnyGUI.DafnyConfigurationProvider;
 
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
-import Dafny.DafnyPluginStrings;
+import DafnyCommunication.DafnyPluginStrings;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurableProvider;
 import com.intellij.openapi.options.ConfigurationException;
