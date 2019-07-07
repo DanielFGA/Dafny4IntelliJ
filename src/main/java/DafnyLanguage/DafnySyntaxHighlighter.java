@@ -65,7 +65,7 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
         return new TextAttributesKey[0];
     }
 
-    public void registerKeyWords() {
+    void registerKeyWords() {
 
         VAR_KEY_SET.add(DafnyTypeImpl.BOOL);
         VAR_KEY_SET.add(DafnyTypeImpl.CHAR);

@@ -1,7 +1,6 @@
 package DafnyGUI.DafnyToolWindow;
 
 import DafnyCommunication.Dafny;
-import DafnyCommunication.DafnyPluginStrings;
 import DafnyCommunication.DafnyResponse;
 
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
@@ -20,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static DafnyCommunication.DafnyPluginStrings.*;
 
 public class DafnyToolWindowFactory implements ToolWindowFactory {
 
@@ -35,28 +35,28 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
         addVerifyButtonListener();
         addRunButtonListener();
         addResetButtonListener();
-        
+
         if (!dafny.isConnected()) {
-            dafnyToolWindowView.writeOutput(DafnyPluginStrings.UNVALID_CONFIGURATION);
+            dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
         }
     }
 
     private void addResetButtonListener() {
         dafnyToolWindowView.getResetButton().addActionListener(e -> {
 
-            dafnyToolWindowView.writeOutput(DafnyPluginStrings.DAFNY_RESET_START);
+            dafnyToolWindowView.writeOutput(DAFNY_RESET_START);
 
             if (isRunning) isRunning = false;
 
             try {
                 dafny.reset();
-                dafnyToolWindowView.writeOutput(DafnyPluginStrings.DAFNY_RESET_END);
+                dafnyToolWindowView.writeOutput(DAFNY_RESET_END);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
 
             if (!dafny.isConnected()) {
-                dafnyToolWindowView.writeOutput(DafnyPluginStrings.UNVALID_CONFIGURATION);
+                dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
                 return;
             }
         });
@@ -65,26 +65,24 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
     private void addVerifyButtonListener() {
         dafnyToolWindowView.getVerifyButton().addActionListener(e -> {
             String file;
-            String sourcecode;
 
             if (!dafny.isConnected()) {
-                dafnyToolWindowView.writeOutput(DafnyPluginStrings.UNVALID_CONFIGURATION);
+                dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
                 return;
             }
             if (!dafnyFileSelected()) {
-                dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
+                dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
                 return;
             }
 
             file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
-            sourcecode = FileEditorManager.getInstance(project).getSelectedTextEditor().getDocument().getText();
 
-            if (!file.endsWith(DafnyPluginStrings.DAFNY_FILE)) {
-                dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
+            if (!file.endsWith(DAFNY_FILE)) {
+                dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
                 return;
             }
 
-            dafnyToolWindowView.writeOutput(getOutput(file, sourcecode));
+            dafnyToolWindowView.writeOutput(getOutput(file));
         });
     }
 
@@ -95,14 +93,14 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
             String sourcecode;
 
             if (!dafny.isConnected()) {
-                dafnyToolWindowView.writeOutput(DafnyPluginStrings.UNVALID_CONFIGURATION);
+                dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
                 return;
             }
 
-            dafnyToolWindowView.writeOutput(DafnyPluginStrings.COMPILING);
+            dafnyToolWindowView.writeOutput(COMPILING);
 
             if (!dafnyFileSelected()) {
-                dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
+                dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
                 return;
             }
 
@@ -111,8 +109,8 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
             System.out.println(sourcecode);
 
-            if (!file.endsWith(DafnyPluginStrings.DAFNY_FILE)) {
-                dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_SELECTED_FILE);
+            if (!file.endsWith(DAFNY_FILE)) {
+                dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
                 return;
             }
 
@@ -120,56 +118,58 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
             dafnyToolWindowView.getVerifyButton().setEnabled(false);
 
             if (!dafny.fileIsVerified(file)) {
-                dafnyToolWindowView.writeOutput(getOutput(file, sourcecode));
+                dafnyToolWindowView.writeOutput(getOutput(file));
                 dafnyToolWindowView.getRunButton().setEnabled(true);
                 dafnyToolWindowView.getVerifyButton().setEnabled(true);
                 return;
             }
 
-            ApplicationManager.getApplication().executeOnPooledThread(() ->
-                    ApplicationManager.getApplication().runReadAction(() -> {
-                        try {
-                            isRunning = true;
-                            BufferedReader bufferedReader = dafny.run(file, sourcecode);
-                            String line;
-                            String output = "";
-                            if (bufferedReader == null) {
-                                dafnyToolWindowView.writeOutput(DafnyPluginStrings.NO_MAIN_METHOD);
-                                if (DafnyConfigurationController.isMac()) {
-                                    deleteFiles(file, new String[]{DafnyPluginStrings.DLL_MDB_FILE_ABBR, DafnyPluginStrings.DAFNY_FILE_ABBR, DafnyPluginStrings.DLL_FILE_ABBR});
-                                } else {
-                                    deleteFiles(file, new String[]{DafnyPluginStrings.PDB_FILE_ABBR, DafnyPluginStrings.DAFNY_FILE_ABBR, DafnyPluginStrings.DLL_FILE_ABBR});
-                                }
-                                dafnyToolWindowView.getRunButton().setEnabled(true);
-                                dafnyToolWindowView.getVerifyButton().setEnabled(true);
-                            } else {
-                                while ((line = bufferedReader.readLine()) != null && isRunning) {
-                                    output += line + "\n";
-                                }
-                                if (isRunning) dafnyToolWindowView.writeOutput(output.trim());
-                                else dafnyToolWindowView.writeOutput(DafnyPluginStrings.COMPILING_CANCEL);
-                                bufferedReader.close();
-                                dafny.endRunProcess();
-                                if (DafnyConfigurationController.isMac()) {
-                                    deleteFiles(file, new String[]{DafnyPluginStrings.EXE_MDB_FILE_ABBR, DafnyPluginStrings.DAFNY_FILE_ABBR, DafnyPluginStrings.EXE_FILE_ABBR});
-                                } else {
-                                    deleteFiles(file, new String[]{DafnyPluginStrings.PDB_FILE_ABBR, DafnyPluginStrings.DAFNY_FILE_ABBR, DafnyPluginStrings.EXE_FILE_ABBR});
-                                }
-
-                                dafnyToolWindowView.getRunButton().setEnabled(true);
-                                dafnyToolWindowView.getVerifyButton().setEnabled(true);
-                            }
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
+            ApplicationManager.getApplication().executeOnPooledThread(() -> {
+                try {
+                    isRunning = true;
+                    BufferedReader bufferedReader = dafny.run(file, sourcecode);
+                    String line;
+                    String output = "";
+                    if (bufferedReader == null) {
+                        dafnyToolWindowView.writeOutput(NO_MAIN_METHOD);
+                        if (DafnyConfigurationController.isMac()) {
+                            deleteFiles(file, new String[]{DLL_MDB_FILE_ABBR, DAFNY_FILE_ABBR, DLL_FILE_ABBR});
+                        } else {
+                            deleteFiles(file, new String[]{PDB_FILE_ABBR, DAFNY_FILE_ABBR, DLL_FILE_ABBR});
                         }
-                    }));
+                        dafnyToolWindowView.getRunButton().setEnabled(true);
+                        dafnyToolWindowView.getVerifyButton().setEnabled(true);
+                    } else {
+                        while ((line = bufferedReader.readLine()) != null && isRunning) {
+                            output += line + "\n";
+                        }
+                        if (isRunning) dafnyToolWindowView.writeOutput(output.trim());
+                        else
+                            dafnyToolWindowView.writeOutput(COMPILING_CANCEL);
+                        bufferedReader.close();
+                        dafny.endRunProcess();
+                        if (DafnyConfigurationController.isMac()) {
+                            deleteFiles(file, new String[]{EXE_MDB_FILE_ABBR, DAFNY_FILE_ABBR, EXE_FILE_ABBR});
+                        } else {
+                            deleteFiles(file, new String[]{PDB_FILE_ABBR, DAFNY_FILE_ABBR, EXE_FILE_ABBR});
+                        }
+
+                        dafnyToolWindowView.getRunButton().setEnabled(true);
+                        dafnyToolWindowView.getVerifyButton().setEnabled(true);
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            });
         });
     }
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
-        Content content = contentFactory.createContent(dafnyToolWindowView.getDafnyMainPanel(), DafnyPluginStrings.DAFNY_TOOL_WINDOW, false);
+        Content content = contentFactory.createContent(dafnyToolWindowView.getDafnyMainPanel(), DAFNY_TOOL_WINDOW, false);
         toolWindow.getContentManager().addContent(content);
         dafny.setProject(project);
         this.project = project;
@@ -177,21 +177,21 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
     private void deleteFiles(String file, String[] abbr) {
         for (String abb : abbr) {
-            System.out.println(file.replace(DafnyPluginStrings.DAFNY_FILE, DafnyPluginStrings.OUTPUT_FILE_NAME + abb));
-            File actualFile = new File(file.replace(DafnyPluginStrings.DAFNY_FILE, DafnyPluginStrings.OUTPUT_FILE_NAME + abb));
-            while(actualFile.exists()) actualFile.delete();
+            System.out.println(file.replace(DAFNY_FILE, OUTPUT_FILE_NAME + abb));
+            File actualFile = new File(file.replace(DAFNY_FILE, OUTPUT_FILE_NAME + abb));
+            while (actualFile.exists()) actualFile.delete();
         }
     }
 
-    private String getOutput(String file, String sourcecode) {
-        dafnyToolWindowView.writeOutput(DafnyPluginStrings.VERIFYING);
+    private String getOutput(String file) {
+        dafnyToolWindowView.writeOutput(VERIFYING);
         String output = "";
-        List<DafnyResponse> dafnyResponseList = dafny.getDafnyResponse(file, sourcecode);
+        List<DafnyResponse> dafnyResponseList = dafny.getDafnyResponse(file);
 
-        if (dafnyResponseList.isEmpty()) output = DafnyPluginStrings.NOT_VERIFIED_MESSAGE;
+        if (dafnyResponseList.isEmpty()) output = NOT_VERIFIED_MESSAGE;
         else {
             for (DafnyResponse response : dafnyResponseList) {
-                output+=response;
+                output += response;
             }
         }
         return output;

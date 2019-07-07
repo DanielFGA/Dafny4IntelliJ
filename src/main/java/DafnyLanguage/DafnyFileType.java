@@ -6,6 +6,8 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
+import static DafnyCommunication.DafnyPluginStrings.*;
+
 public class DafnyFileType extends LanguageFileType{
 
     public static final DafnyFileType INSTANCE = new DafnyFileType();
@@ -17,19 +19,19 @@ public class DafnyFileType extends LanguageFileType{
     @NotNull
     @Override
     public String getName() {
-        return "Dafny File";
+        return FILE_TYPE;
     }
 
     @NotNull
     @Override
     public String getDescription() {
-        return "Dafny language file";
+        return FILE_TYPE_DESCRIPTION;
     }
 
     @NotNull
     @Override
     public String getDefaultExtension() {
-        return "dfy";
+        return DAFNY_FILE_ABBR;
     }
 
     @Nullable

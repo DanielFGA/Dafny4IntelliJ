@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Base64;
 
 /**
- * Repärsentiert eine Nachricht an den DafnyServer
+ * Represents a message to the DafnyServer
+ * Translated by Daniel Figia
  * @author Jannik Kühnemundt
  *
  */
@@ -19,16 +20,15 @@ public class DafnyMessage {
 	private Gson gson = new Gson();
 	
 	/**
-	 * Konstruktor einer DafnyMessage
-	 * @param source Quellcode von einem Dafny Programm oder der Pfad zu einem Dafny-Programm
-	 * @param sourceisfile Ein boolescher Wert, der angibt ob ’source’ der Quellcode oder diePfadangabe zum Dafny-Programm ist.
-	 * @param filename Der Name der Datei
+	 * Constructor
+	 * @param source Sourecode from a dafny prorgram or a path to a dafny program sourcecode file
+	 * @param sourceisfile A boolean, that indicate, if the source is just sourcecode or a path to a dafny program sourcecode file
+	 * @param filename The name of the file
 	 */
 	public DafnyMessage(String source, boolean sourceisfile, String filename) {		
-		
-		// TODO In Zukunft könnten weitere Argumente über die Einstellungen unterstützt werden.
+
 		ArrayList<String> temp = new ArrayList<String>();
-		// Cachingbug umgehen https://github.com/Microsoft/dafny/issues/143
+		// Cachingbug avoid https://github.com/Microsoft/dafny/issues/143
 		temp.add("/verifySnapshots:2");
 		query = new HashMap<>();
 		query.put("args", temp);
@@ -38,8 +38,8 @@ public class DafnyMessage {
 	}
 	
 	/**
-	 * Konvertiert eine HashMap in einen Base64 kodierten String
-	 * @return Base64 kodierter JSON String
+	 * Convert a map in a Base64 coded string
+	 * @return Base64 coded JSON String
 	 */
 	public String encode() {
 		String output = "";
@@ -53,11 +53,10 @@ public class DafnyMessage {
 	}
 	
 	/**
-	 * Stringrepräsentation
-	 * @return Gibt einen String des Objekts aus
+	 * String representation
+	 * @return Returns a string of the object
 	 */
 	public String toString() {
         return (gson.toJson(query));
-		
 	}
 }

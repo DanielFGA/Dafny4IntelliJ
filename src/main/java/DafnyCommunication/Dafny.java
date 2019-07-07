@@ -11,11 +11,17 @@ import com.intellij.openapi.project.Project;
 import java.io.*;
 import java.util.*;
 
+import static DafnyCommunication.DafnyPluginStrings.*;
+
+/**
+ * Provides the connection to the DafnyServer and Dafny. Handles the verification and the running.
+ */
 public class Dafny {
 
     /**
      * The DafnyConnectionProvider provides a connection to the Dafny Server (DafnyServer.exe).
-     * The DafnyConnectionProvider receive a filename and sourcecode and send it to the Dafny Server for the verification.
+     * The DafnyConnectionProvider receive a filename and sourcecode and
+     * send it to the Dafny Server for the verification.
      */
     private DafnyConnectionProvider dafnyConnectionProvider;
 
@@ -26,7 +32,7 @@ public class Dafny {
     private Map<String, Boolean> fileToVerifiedState = new HashMap<>();
 
     /**
-     * TODO
+     * Saves the responses from the DafnyServer in a map grouped by the filename.
      */
     private Map<String, List<DafnyResponse>> fileToDafnyResponse = new HashMap<>();
 
@@ -46,7 +52,7 @@ public class Dafny {
     private Project project;
 
     /**
-     * TODO
+     * The process of running dafny programs.
      */
     private Process dafnyRunProcess;
 
@@ -55,13 +61,23 @@ public class Dafny {
      * If the path for dafny is null, then the DafnyConnectionProvider will not be initialize.
      */
     public Dafny() throws IOException {
-        dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
-        monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
-        //If the dafnyPath is null, then is no Dafny configuration saved.
-        //Without valid configuration a DafnyConnectionProver can not be initialize.
-        if (DafnyConfigurationController.pathAreValid(dafnyPath, monoPath)) {
-            dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
+        initDafnyConnectionProvider();
+    }
+
+    /**
+     * Shutdown the current DafnyConnectionProvider and initialize a new one.
+     * @throws IOException
+     */
+    public void reset() throws IOException {
+        if (dafnyConnectionProvider != null) {
+            dafnyConnectionProvider.disconnect();
         }
+
+        initDafnyConnectionProvider();
+
+        fileToDafnyResponse.clear();
+        fileToVerifiedState.clear();
+        if (project != null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
     }
 
     /**
@@ -99,26 +115,6 @@ public class Dafny {
     }
 
     /**
-     * Shutdown the current DafnyConnectionProvider and initialize a new one.
-     * @throws IOException
-     */
-    public void reset() throws IOException {
-        if (dafnyConnectionProvider != null) {
-            dafnyConnectionProvider.disconnect();
-        }
-        dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
-        monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
-
-        if (DafnyConfigurationController.pathAreValid(dafnyPath, monoPath)) {
-            dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
-        }
-
-        fileToDafnyResponse.clear();
-        fileToVerifiedState.clear();
-        if (project != null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
-    }
-
-    /**
      * Checks if a file is verified.
      * @param file - the file to be checked.
      * @return false if DafnyConnectionProvider is null or file is not verified, true if the file is verified.
@@ -136,14 +132,12 @@ public class Dafny {
      * @return the BufferReader, which is connected to the executable dafny file.
      * @throws IOException
      */
-    public BufferedReader run(String filepath, String sourcecode) throws IOException {
+    public BufferedReader run(String filepath, String sourcecode) throws IOException, InterruptedException {
 
         ProcessBuilder dafnyProcessBuilder;
         File compiledExe;
-
         InputStreamReader inputStreamReader;
-
-        File file = new File(filepath.replace(DafnyPluginStrings.DAFNY_FILE, DafnyPluginStrings.DAFNY_OUTPUT_FILE_NAME));
+        File file = new File(filepath.replace(DAFNY_FILE, DAFNY_OUTPUT_FILE_NAME));
         FileWriter writer = new FileWriter(file);
 
         //create new file and write the sourcecode into it.
@@ -153,21 +147,22 @@ public class Dafny {
 
         //create run Dafny.exe and create executable Dafny file
         if(DafnyConfigurationController.isMac())
-            dafnyProcessBuilder = new ProcessBuilder(monoPath + DafnyPluginStrings.MONO_EXE, dafnyPath + DafnyPluginStrings.DAFNY_EXE, file.getPath());
+            dafnyProcessBuilder = new ProcessBuilder(monoPath + MONO_EXE, dafnyPath + DAFNY_EXE, file.getPath());
         else
-            dafnyProcessBuilder = new ProcessBuilder(dafnyPath + DafnyPluginStrings.DAFNY_EXE, file.getPath());
+            dafnyProcessBuilder = new ProcessBuilder(dafnyPath + DAFNY_EXE, file.getPath());
 
         dafnyRunProcess = dafnyProcessBuilder.start();
         while (dafnyRunProcess.isAlive());
+        //dafnyRunProcess.waitFor();
         dafnyRunProcess.destroy();
 
         //After Dafny.exe, there should be a executable Dafny file in the same directory.
-        compiledExe = new File(file.getPath().replace(DafnyPluginStrings.DAFNY_FILE, DafnyPluginStrings.EXE_FILE));
+        compiledExe = new File(file.getPath().replace(DAFNY_FILE, EXE_FILE));
 
         //If the executable Dafny file does not exist, then there is no main method in the sourcecode.
         if (compiledExe.exists()) {
             if(DafnyConfigurationController.isMac()) {
-                dafnyProcessBuilder = new ProcessBuilder(monoPath + DafnyPluginStrings.MONO_EXE, compiledExe.getPath());
+                dafnyProcessBuilder = new ProcessBuilder(monoPath + MONO_EXE, compiledExe.getPath());
             }
             else {
                 dafnyProcessBuilder = new ProcessBuilder(compiledExe.getPath());
@@ -189,18 +184,38 @@ public class Dafny {
         this.project = project;
     }
 
+    /**
+     * Method for properly end the dafnyRunProcess.
+     */
     public void endRunProcess() {
         dafnyRunProcess.destroy();
         dafnyRunProcess.destroyForcibly();
     }
 
-    public List<DafnyResponse> getDafnyResponse(String file, String sourcecode) {
-        //return fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>();
-        return getResponseList(sourcecode, file);
+    /**
+     * Checks if a file is verified.
+     * @param file the file to be checked
+     * @return if the file is verified true, else false.
+     */
+    public List<DafnyResponse> getDafnyResponse(String file) {
+        return fileToDafnyResponse.containsKey(file) ? fileToDafnyResponse.get(file) : new ArrayList<>();
     }
 
+    /**
+     * Checks if the connection to the DafnyServer is valid.
+     * @return true if the connection is valid, else false.
+     */
     public boolean isConnected() {
         return dafnyConnectionProvider != null && dafnyConnectionProvider.isConnected();
+    }
+
+    private void initDafnyConnectionProvider() throws IOException {
+        dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
+        monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
+
+        if (DafnyConfigurationController.pathAreValid(dafnyPath, monoPath)) {
+            dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
+        }
     }
 
 }

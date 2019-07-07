@@ -16,6 +16,11 @@ public class DafnyPluginStrings {
     public static final String DAFNY_FILE = "." + DAFNY_FILE_ABBR;
     public static final String EXE_FILE  = "." + EXE_FILE_ABBR;
 
+    public static final String FILE_TYPE = "Dafny File";
+    public static final String FILE_TYPE_DESCRIPTION = "Dafny language file";
+
+    public static final String ICON_PATH = "dafny.png";
+
     public static final String SET_PATH = "Set Path";
 
     public static final String FILES_DOWNLOAD_LINK = "https://github.com/microsoft/dafny/releases/tag/v2.3.0";
