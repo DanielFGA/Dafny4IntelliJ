@@ -27,7 +27,7 @@ public class DafnyMessage {
 	 */
 	public DafnyMessage(String source, boolean sourceisfile, String filename) {		
 
-		ArrayList<String> temp = new ArrayList<String>();
+		ArrayList<String> temp = new ArrayList<>();
 		// Cachingbug avoid https://github.com/Microsoft/dafny/issues/143
 		temp.add("/verifySnapshots:2");
 		query = new HashMap<>();
@@ -48,8 +48,7 @@ public class DafnyMessage {
 		base64encode = Base64.getEncoder().encode(gson.toJson(query).getBytes(StandardCharsets.US_ASCII));
 
 		output = new String(base64encode, StandardCharsets.US_ASCII);
-		String s = "verify" + "\n" + output + "\n" + DafnyPluginStrings.DAFNY_CLIENT_EOM;
-		return s;
+		return "verify" + "\n" + output + "\n" + DafnyPluginStrings.DAFNY_CLIENT_EOM;
 	}
 	
 	/**

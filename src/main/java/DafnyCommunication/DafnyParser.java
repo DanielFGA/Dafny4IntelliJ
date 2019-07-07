@@ -59,7 +59,6 @@ public class DafnyParser {
 	/**
 	 * Search with the pattern REGEXP_ERROR and saved the found patterns as DafnyResponses.
 	 * @param response Answer from DafnyServer
-	 * @return  List with DafnyResponses
 	 */
 	private void parseError(String response, String sourcecode) {
 		Pattern pattern = Pattern.compile(REGEXP_ERROR);
@@ -94,7 +93,6 @@ public class DafnyParser {
 
 	 /** Count proof obligations
 	 * @param response Answer from DafnyServer
-	 * @return List with DafnyResponses
 	 */
 	private void parseObligations(String response) {
 		Pattern pattern = Pattern.compile(REGEXP_OBLIGATIONS);

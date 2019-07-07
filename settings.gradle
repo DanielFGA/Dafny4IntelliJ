@@ -1,3 +1,1 @@
 rootProject.name = 'DafnyPlugin4Intellij'
-include 'DafnyLanguageServer'
-

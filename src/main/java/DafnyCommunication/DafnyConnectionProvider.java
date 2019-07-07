@@ -97,7 +97,7 @@ public class DafnyConnectionProvider {
 	}
 
 	public boolean isConnected() {
-		return dafnyProcess == null ? false : dafnyProcess.isAlive();
+		return dafnyProcess != null && dafnyProcess.isAlive();
 	}
 }
 

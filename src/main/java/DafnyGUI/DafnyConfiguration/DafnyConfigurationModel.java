@@ -62,7 +62,7 @@ public class DafnyConfigurationModel {
         this.dafnyPath = filesPath;
     }
 
-    public void setMonoPath(String monoPath) {
+    public void setMonoPath(@Nullable String monoPath) {
         this.monoPath = monoPath;
     }
 

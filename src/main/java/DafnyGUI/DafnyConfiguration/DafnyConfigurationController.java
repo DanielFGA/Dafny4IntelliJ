@@ -154,9 +154,7 @@ public class DafnyConfigurationController {
      * Opens the download site for mono in the default web browser.
      */
     private void addMonoDownloadButtonListener() {
-        dafnyConfigurationWindowView.getDownloadMonoButton().addActionListener(e -> {
-            openBrowser(DafnyPluginStrings.MONO_DOWNLOAD_LINK);
-        });
+        dafnyConfigurationWindowView.getDownloadMonoButton().addActionListener(e -> openBrowser(DafnyPluginStrings.MONO_DOWNLOAD_LINK));
     }
 
     /**
@@ -238,7 +236,7 @@ public class DafnyConfigurationController {
      * @return If operating systems is mac, then return false, else return false;
      */
     public static boolean isMac() {
-        return System.getProperty("os.name").startsWith(DafnyPluginStrings.OS_MACOS) ? true : false;
+        return System.getProperty("os.name").startsWith(DafnyPluginStrings.OS_MACOS);
     }
 
     public static boolean pathAreValid(String dafny, String mono) {

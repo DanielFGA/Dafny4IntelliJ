@@ -3,6 +3,7 @@
     <name>Dafny4Intellij</name>
     <vendor email="daniel.figia@stud.th-luebeck.de/daniel.figia@gmx.de">Technische Hochschule Lübeck</vendor>
     <description>Dafny Support for Intellj with verification and execution.</description>
+    <idea-version since-build="IU-191"/>
 
     <application-components>
         <!--Dafny-->

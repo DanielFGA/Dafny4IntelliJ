@@ -152,8 +152,8 @@ public class Dafny {
             dafnyProcessBuilder = new ProcessBuilder(dafnyPath + DAFNY_EXE, file.getPath());
 
         dafnyRunProcess = dafnyProcessBuilder.start();
-        while (dafnyRunProcess.isAlive());
-        //dafnyRunProcess.waitFor();
+        //while (dafnyRunProcess.isAlive());
+        dafnyRunProcess.waitFor();
         dafnyRunProcess.destroy();
 
         //After Dafny.exe, there should be a executable Dafny file in the same directory.

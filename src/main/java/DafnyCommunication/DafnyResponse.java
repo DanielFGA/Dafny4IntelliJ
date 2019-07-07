@@ -30,10 +30,6 @@ public class DafnyResponse implements Comparable<DafnyResponse> {
         return textRange;
     }
 
-    public Integer getLine() {
-        return line;
-    }
-
     @Override
     public String toString() {
         if (line == 0) return highlightSeverity.getName() + ": " + message + "\n";

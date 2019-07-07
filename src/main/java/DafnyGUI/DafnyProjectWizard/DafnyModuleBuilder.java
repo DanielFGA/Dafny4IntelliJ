@@ -19,7 +19,7 @@ import java.util.List;
 public class DafnyModuleBuilder extends ModuleBuilder {
 
     @Override
-    public void setupRootModel(ModifiableRootModel modifiableRootModel) {
+    public void setupRootModel(@NotNull ModifiableRootModel modifiableRootModel) {
         ContentEntry contentEntry = doAddContentEntry(modifiableRootModel);
         if (contentEntry != null) {
             List<Pair<String, String>> sourcePaths = new ArrayList<>();

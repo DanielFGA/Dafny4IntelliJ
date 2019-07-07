@@ -29,7 +29,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Path to Dafny files:"/>
+              <text resource-bundle="GUI" key="PATH_DAFNY"/>
             </properties>
           </component>
           <component id="78e78" class="javax.swing.JLabel" binding="monoLabel">
@@ -37,7 +37,7 @@
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Path to mono:"/>
+              <text resource-bundle="GUI" key="PATH_MONO"/>
             </properties>
           </component>
           <component id="b2eb9" class="javax.swing.JTextField" binding="monoPathTextField">
@@ -53,7 +53,7 @@
               <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Set Mono Path"/>
+              <text resource-bundle="GUI" key="SET_MONO"/>
             </properties>
           </component>
           <component id="db291" class="javax.swing.JButton" binding="setFilesButton">
@@ -61,7 +61,7 @@
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Set Dafny files Path"/>
+              <text resource-bundle="GUI" key="SET_DAFNY"/>
             </properties>
           </component>
         </children>
@@ -85,7 +85,7 @@
             </constraints>
             <properties>
               <hideActionText value="false"/>
-              <text value="Dafny Download"/>
+              <text resource-bundle="GUI" key="DAFNY_DOWNLOAD"/>
             </properties>
           </component>
           <component id="863d6" class="javax.swing.JButton" binding="downloadMonoButton" default-binding="true">
@@ -93,7 +93,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Mono Download"/>
+              <text resource-bundle="GUI" key="MONO_DOWNLOAD"/>
             </properties>
           </component>
           <hspacer id="5309">

@@ -11,13 +11,6 @@ import org.jetbrains.annotations.Nullable;
         storages = @Storage(DafnyPluginStrings.DAFNY_CONFIGURATION_XML)
 )
 
-/**
- * DafnyStateService is responsible for saving the configuration data. It implements the PersistentStateComponent from IntelliJ OpenAPI and
- * save the data as a persistent state. The data is saved in the xml file DafnyConfiguration.xml.
- * The data, which get saved, is the path to the Dafny files and the selected operating system.
- *
- * DafnyConfigurationProvider is registered in the plugin.xml as a Application Service.
- */
 public class DafnyStateService implements PersistentStateComponent<DafnyStateService> {
 
     /**
