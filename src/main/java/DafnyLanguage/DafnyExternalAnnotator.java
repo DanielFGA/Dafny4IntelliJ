@@ -1,7 +1,6 @@
 package DafnyLanguage;
 
 import DafnyCommunication.Dafny;
-import DafnyCommunication.DafnyPluginStrings;
 import DafnyCommunication.DafnyResponse;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.ExternalAnnotator;

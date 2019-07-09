@@ -1,7 +1,8 @@
 package DafnyGUI.DafnyProjectWizard;
 
-import DafnyCommunication.DafnyPluginStrings;
-import com.intellij.ide.util.projectWizard.*;
+import com.intellij.ide.util.projectWizard.ModuleBuilder;
+import com.intellij.ide.util.projectWizard.ModuleWizardStep;
+import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.roots.ModifiableRootModel;
@@ -16,6 +17,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static DafnyCommunication.DafnyPluginStrings.*;
+
 public class DafnyModuleBuilder extends ModuleBuilder {
 
     @Override
@@ -23,17 +26,15 @@ public class DafnyModuleBuilder extends ModuleBuilder {
         ContentEntry contentEntry = doAddContentEntry(modifiableRootModel);
         if (contentEntry != null) {
             List<Pair<String, String>> sourcePaths = new ArrayList<>();
-            String srcPath = getContentEntryPath() + File.separator + DafnyPluginStrings.DAFNY_MODULE_SRC_DIR_NAME;
+            String srcPath = getContentEntryPath() + File.separator + DAFNY_MODULE_SRC_DIR_NAME;
             sourcePaths.add(Pair.create(srcPath, ""));
-            if (sourcePaths != null) {
-                for (Pair<String, String> sourcePath : sourcePaths) {
-                    String first = sourcePath.first;
-                    new File(first).mkdirs();
-                    VirtualFile sourceRoot = LocalFileSystem.getInstance()
-                            .refreshAndFindFileByPath(FileUtil.toSystemIndependentName(first));
-                    if (sourceRoot != null) {
-                        contentEntry.addSourceFolder(sourceRoot, false, sourcePath.second);
-                    }
+            for (Pair<String, String> sourcePath : sourcePaths) {
+                String first = sourcePath.first;
+                new File(first).mkdirs();
+                VirtualFile sourceRoot = LocalFileSystem.getInstance()
+                        .refreshAndFindFileByPath(FileUtil.toSystemIndependentName(first));
+                if (sourceRoot != null) {
+                    contentEntry.addSourceFolder(sourceRoot, false, sourcePath.second);
                 }
             }
         }

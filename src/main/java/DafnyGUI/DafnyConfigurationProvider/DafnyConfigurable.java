@@ -1,7 +1,7 @@
 package DafnyGUI.DafnyConfigurationProvider;
 
-import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import DafnyCommunication.DafnyPluginStrings;
+import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurableProvider;
 import com.intellij.openapi.options.ConfigurationException;
@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.io.IOException;
 
 /**
  * DafnyConfigurable creates the Configuration Window in the IntelliJ Settings. It implements the Configurable.

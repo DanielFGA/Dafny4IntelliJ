@@ -1,12 +1,12 @@
 package DafnyCommunication;
 
+import com.intellij.lang.annotation.HighlightSeverity;
+import com.intellij.openapi.util.TextRange;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.intellij.lang.annotation.HighlightSeverity;
-import com.intellij.openapi.util.TextRange;
 
 /**
  * This class parses a answer from the DafnyServer into a List of DafnyRespones.

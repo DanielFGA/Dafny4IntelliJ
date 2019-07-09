@@ -1,8 +1,8 @@
 package DafnyGUI.DafnyConfiguration;
 
-import java.io.File;
-
 import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
 
 import static DafnyCommunication.DafnyPluginStrings.*;
 

@@ -1,10 +1,8 @@
 package DafnyGUI.DafnyConfiguration;
 
 import DafnyCommunication.Dafny;
-import com.intellij.notification.Notification;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.ui.DialogBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -167,7 +165,7 @@ public class DafnyConfigurationController {
         } else {
             save();
         }
-        return testFilesResult;
+        return true;
     }
 
     /**

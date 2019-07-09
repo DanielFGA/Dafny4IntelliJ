@@ -5,9 +5,9 @@ package DafnyLanguage;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
+import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
-import static DafnyLanguage.psi.impl.DafnyTypeImpl.*;
 
 
 /**

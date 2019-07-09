@@ -2,7 +2,6 @@ package DafnyGUI.DafnyToolWindow;
 
 import DafnyCommunication.Dafny;
 import DafnyCommunication.DafnyResponse;
-
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;

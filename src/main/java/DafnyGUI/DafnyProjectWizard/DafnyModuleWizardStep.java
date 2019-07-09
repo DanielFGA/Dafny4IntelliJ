@@ -5,7 +5,6 @@ import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.openapi.options.ConfigurationException;
 
 import javax.swing.*;
-import java.io.IOException;
 
 public class DafnyModuleWizardStep extends ModuleWizardStep {
 
