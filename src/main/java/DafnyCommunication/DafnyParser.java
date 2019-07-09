@@ -81,10 +81,7 @@ public class DafnyParser {
 			message = matcher.group(4);
 
 			//Adjust the range
-			int offsetStart = lineToOffset(Integer.parseInt(matcher.group(1)), sourcecode, false);
-			int offsetEnd = lineToOffset(Integer.parseInt(matcher.group(1)), sourcecode, true);
-
-			textRange = new TextRange(offsetStart, offsetEnd);
+			textRange = lineToTextRange(Integer.parseInt(matcher.group(1)), sourcecode);
 
 			dafnyResponseList.add(new DafnyResponse(highlightSeverity, message, textRange, Integer.parseInt(matcher.group(1))));
 		}
@@ -112,18 +109,29 @@ public class DafnyParser {
 	 * If end is true: Finds out at which position in the specified sourcecode the specified line ends.
 	 * @param line The specified line
 	 * @param sorucecode The specified sourcecode
-	 * @param end True -> find first non-space char position, false -> find end of line
 	 * @return The position.
 	 */
-	private int lineToOffset(int line, String sorucecode, boolean end) {
-		int counter = 1;
-		int offset = 0;
+	private TextRange lineToTextRange(int line, String sorucecode) {
+
+		if (line < 1) return new TextRange(0,0);
+
+		int currentLine = 1;
+		int currentCharIndex = 0;
+
+		int start = -1;
+		int end = -1;
+
 		for (Character c : sorucecode.toCharArray()) {
-			if (counter == line && !end && !c.equals(' ')) return offset;
-			if (counter == line && end && c.equals('\n')) return offset;
-			offset++;
-			if (c.equals('\n')) counter++;
+			if (currentLine == line) {
+				if (!c.equals(' ') && start == -1) start = currentCharIndex;
+				if (c.equals('\n') && end == -1) end = currentCharIndex;
+			}
+			currentCharIndex++;
+			if (c.equals('\n')) currentLine++;
 		}
-		return sorucecode.length()-1;
+
+		return (start == -1 || end == -1) ?
+				new TextRange(sorucecode.length()-1, sorucecode.length()-1) :
+				new TextRange(start, end);
 	}
 }

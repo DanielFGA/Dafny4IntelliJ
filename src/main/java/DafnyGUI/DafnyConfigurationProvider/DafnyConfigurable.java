@@ -49,12 +49,7 @@ public class DafnyConfigurable extends ConfigurableProvider implements Configura
 
     @Override
     public void apply() throws ConfigurationException {
-
-        try {
-            dafnyConfigurationController.validate();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dafnyConfigurationController.validate();
     }
 
     @Override

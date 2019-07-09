@@ -18,9 +18,7 @@ public class DafnyCreateFileAction extends CreateFileAction {
 
     @Override
     protected String getFileName(String newName) {
-        if (newName.endsWith(DafnyPluginStrings.DAFNY_FILE)) {
-            return newName;
-        }
+        if (newName.endsWith(DafnyPluginStrings.DAFNY_FILE)) return newName;
         return newName + DafnyPluginStrings.DAFNY_FILE;
     }
 }

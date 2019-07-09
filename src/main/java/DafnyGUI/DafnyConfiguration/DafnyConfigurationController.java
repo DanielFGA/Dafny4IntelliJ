@@ -1,18 +1,19 @@
 package DafnyGUI.DafnyConfiguration;
 
 import DafnyCommunication.Dafny;
-import DafnyCommunication.DafnyPluginStrings;
+import com.intellij.notification.Notification;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.ui.DialogBuilder;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import static DafnyCommunication.DafnyPluginStrings.*;
 
 /**
  * DafnyConfigurationController creates the DafnyConfigurationWindowView and DafnyConfigurationModel. It handles the
@@ -22,8 +23,16 @@ import java.net.URISyntaxException;
  */
 public class DafnyConfigurationController {
 
+    /**
+     * TODO erklärung
+     */
     private DafnyConfigurationWindowView dafnyConfigurationWindowView;
+
+    /**
+     * TODO erklärung
+     */
     private DafnyConfigurationModel dafnyConfigurationModel;
+
     /**
      * The DafnyStateService is responsible for saving data (persistent state).
      */
@@ -35,50 +44,22 @@ public class DafnyConfigurationController {
      */
     public DafnyConfigurationController() {
         dafnyStateService = ServiceManager.getService(DafnyStateService.class);
-        dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(), dafnyStateService.getMono(),
-                isMac() ? DafnyPluginStrings.OS_MACOS : DafnyPluginStrings.OS_WINDOWS);
+        if (isMac())
+            dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(), dafnyStateService.getMono(), OS_MACOS);
+        else
+            dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(),null, OS_WINDOWS);
         dafnyConfigurationWindowView = new DafnyConfigurationWindowView(dafnyConfigurationModel);
+
         addSetFilesButtonListener();
         addDownloadButtonListener();
-        addPathTextFieldListener();
 
         if (dafnyConfigurationModel.isMac()) {
             addSetMonoButtonListener();
-            addMonoPathTextFieldListener();
             addMonoDownloadButtonListener();
         }
 
         dafnyConfigurationWindowView.update();
     }
-
-    /**
-     * Add new DocumentListener to the text field for the files path. With every new input, the model and the view
-     * are updated.
-     */
-    private void addPathTextFieldListener() {
-        dafnyConfigurationWindowView.getPathTextField().getDocument().addDocumentListener(new DocumentListener() {
-
-            private void action() {
-                dafnyConfigurationModel.setFilesPath(dafnyConfigurationWindowView.getFilesPath());
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                action();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                action();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                action();
-            }
-        });
-    }
-
 
     /**
      * Add the Action Listener to the "Set Files Path" - Button. ->
@@ -100,37 +81,8 @@ public class DafnyConfigurationController {
      * Opens the download site for the files in the default web browser.
      */
     private void addDownloadButtonListener() {
-        dafnyConfigurationWindowView.getDownloadFilesButton().addActionListener(e -> openBrowser(DafnyPluginStrings.FILES_DOWNLOAD_LINK));
+        dafnyConfigurationWindowView.getDownloadFilesButton().addActionListener(e -> openBrowser(FILES_DOWNLOAD_LINK));
 
-    }
-
-    /**
-     * Add new DocumentListener to the text field for the files path. With every new input, the model and the view
-     * are updated.
-     */
-    private void addMonoPathTextFieldListener() {
-
-        dafnyConfigurationWindowView.getMonoPathTextField().getDocument().addDocumentListener(new DocumentListener() {
-
-            private void action() {
-                dafnyConfigurationModel.setMonoPath(dafnyConfigurationWindowView.getMonoPath());
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                action();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                action();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                action();
-            }
-        });
     }
 
     /**
@@ -154,7 +106,7 @@ public class DafnyConfigurationController {
      * Opens the download site for mono in the default web browser.
      */
     private void addMonoDownloadButtonListener() {
-        dafnyConfigurationWindowView.getDownloadMonoButton().addActionListener(e -> openBrowser(DafnyPluginStrings.MONO_DOWNLOAD_LINK));
+        dafnyConfigurationWindowView.getDownloadMonoButton().addActionListener(e -> openBrowser(MONO_DOWNLOAD_LINK));
     }
 
     /**
@@ -178,7 +130,7 @@ public class DafnyConfigurationController {
     private String selectDirectory() {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.showDialog(null, DafnyPluginStrings.SET_PATH);
+        chooser.showDialog(null, SET_PATH);
         File choice = chooser.getSelectedFile();
         return choice == null ? null : choice.getPath();
     }
@@ -202,14 +154,16 @@ public class DafnyConfigurationController {
      * @return input is valid -> true, else false.
      * @throws ConfigurationException - If input is not valid, an IntelliJ-specific exception is displayed.
      */
-    public boolean validate() throws ConfigurationException, IOException {
+    public boolean validate() throws ConfigurationException {
+        dafnyConfigurationModel.setMonoPath(dafnyConfigurationWindowView.getMonoPath());
+        dafnyConfigurationModel.setFilesPath(dafnyConfigurationWindowView.getFilesPath());
         boolean testFilesResult = dafnyConfigurationModel.testDafnyPath();
         //if os is windows, the mono test result is always true, to skip the second if-statement.
-        boolean testMonoResult = !dafnyConfigurationModel.isMac() || dafnyConfigurationModel.testMonoPath();
+        boolean testMonoResult = dafnyConfigurationModel.testMonoPath();
         if (!testFilesResult) {
-            throw new ConfigurationException(DafnyPluginStrings.UNVALID_PATH_MESSAGE, DafnyPluginStrings.UNVALID_PATH_TITLE);
+            throw new ConfigurationException(UNVALID_PATH_MESSAGE, UNVALID_PATH_TITLE);
         } else if (!testMonoResult) {
-            throw new ConfigurationException(DafnyPluginStrings.UNVALID_MONO_MESSAGE, DafnyPluginStrings.UNVALID_MONO_TITLE);
+            throw new ConfigurationException(UNVALID_MONO_MESSAGE, UNVALID_MONO_TITLE);
         } else {
             save();
         }
@@ -236,11 +190,11 @@ public class DafnyConfigurationController {
      * @return If operating systems is mac, then return false, else return false;
      */
     public static boolean isMac() {
-        return System.getProperty("os.name").startsWith(DafnyPluginStrings.OS_MACOS);
+        return System.getProperty("os.name").startsWith(OS_MACOS);
     }
 
-    public static boolean pathAreValid(String dafny, String mono) {
-        DafnyConfigurationModel testPathModel = new DafnyConfigurationModel(dafny, mono, isMac() ? DafnyPluginStrings.OS_MACOS : DafnyPluginStrings.OS_WINDOWS);
+    public static boolean pathsAreValid(String dafny, String mono) {
+        DafnyConfigurationModel testPathModel = new DafnyConfigurationModel(dafny, mono, isMac() ? OS_MACOS : OS_WINDOWS);
         return testPathModel.testDafnyPath() && testPathModel.testMonoPath();
     }
 

@@ -15,14 +15,11 @@ import java.util.List;
 
 public class DafnyExternalAnnotator extends ExternalAnnotator<String[], List<DafnyResponse>> {
 
-    private Dafny dafny =  ServiceManager.getService(Dafny.class);
+    private Dafny dafny = ServiceManager.getService(Dafny.class);
 
     @Override
     public String[] collectInformation(@NotNull PsiFile file, @NotNull Editor editor, boolean hasErrors) {
-        if (file.getVirtualFile().getExtension().equals(DafnyPluginStrings.DAFNY_FILE_ABBR)) {
-            return new String[]{editor.getDocument().getText(), file.getVirtualFile().getPath()};
-        }
-        return null;
+        return new String[]{editor.getDocument().getText(), file.getVirtualFile().getPath()};
     }
 
     @Nullable
@@ -32,9 +29,8 @@ public class DafnyExternalAnnotator extends ExternalAnnotator<String[], List<Daf
     }
 
     public void apply(@NotNull PsiFile file, List<DafnyResponse> annotationResult, @NotNull AnnotationHolder holder) {
-        for (DafnyResponse r : annotationResult) {
+        for (DafnyResponse r : annotationResult)
             holder.createAnnotation(r.getHighlightSeverity(), r.getTextRange(), r.getMessage());
-        }
     }
 
 }

@@ -32,11 +32,6 @@ public class DafnyModuleWizardStep extends ModuleWizardStep {
      */
     @Override
     public boolean validate()  throws ConfigurationException {
-        try {
-            return dafnyConfigurationController.validate();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
+       return dafnyConfigurationController.validate();
     }
 }

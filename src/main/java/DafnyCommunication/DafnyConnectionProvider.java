@@ -13,7 +13,8 @@ import java.util.List;
 
 
 /**
- * Stellt Komponenten bereit um mit dem DafnyServer zu kommunizieren
+ * Provides components for the communication with the Dafny Server
+ * Comments translated and Code-Adaptation by Daniel Figia
  * @author Jannik Kühnemundt
  *
  */
@@ -27,11 +28,11 @@ public class DafnyConnectionProvider {
 	private PrintWriter printWriter;
 
 	/**
-	 * Konstruktor der Klasse DafnyConnectionProvider, stellt eine Verbindung zu Dafny her
+	 * Constructor for DafnyConnectionProvider. Provides a connection to the Dafny Server.
 	 */
 	public DafnyConnectionProvider(String dafny, String mono) throws IOException {
 
-		// Betriebssystem abfragen, macOS und Linux benötigen mono
+		//Check if operating system is macOS oder Linux, because they need mono
 		if(DafnyConfigurationController.isMac()) {
 			builder = new ProcessBuilder(mono + DafnyPluginStrings.MONO_EXE, dafny + DafnyPluginStrings.DAFNY_SERVER_EXE);
 		}
@@ -43,8 +44,7 @@ public class DafnyConnectionProvider {
 		
 		dafnyProcess = builder.start();
 
-		
-		// Streams vom Prozess holen
+		// Get Streams from process
 		inputstream = dafnyProcess.getInputStream();
 		outputstream = dafnyProcess.getOutputStream();
 		printWriter = new PrintWriter(outputstream);
@@ -54,9 +54,9 @@ public class DafnyConnectionProvider {
 	}
 	
 	/**
-	 * Sendet Daten an den Dafny-Prozess
-	 * @param sourcecode Quellcode
-	 * @return Liste mit Diagnostic Objekten
+	 * Send data to the Dafny Server
+	 * @param sourcecode sourcecode
+	 * @return List with DafnyResponse-Objects
 	 */
 	public List<DafnyResponse> sendData(String sourcecode, String filename){
 		DafnyMessage query = new DafnyMessage(sourcecode, false, filename);
@@ -77,13 +77,13 @@ public class DafnyConnectionProvider {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-	    // Parser Objekt erstellen
+	    // create parser object
     	DafnyParser parser = new DafnyParser();
         return parser.parseServerResponse(unparsedResponse.toString(), sourcecode);
     }
 
 	/**
-	 * Schließt den Stream und beendet den Prozess
+	 * Close the stream and shutdown the process.
 	 */
 	public void disconnect() {
 		try {
@@ -96,6 +96,10 @@ public class DafnyConnectionProvider {
 		dafnyProcess.destroyForcibly();
 	}
 
+	/**
+	 * Checks if the process is alive.
+	 * @return
+	 */
 	public boolean isConnected() {
 		return dafnyProcess != null && dafnyProcess.isAlive();
 	}

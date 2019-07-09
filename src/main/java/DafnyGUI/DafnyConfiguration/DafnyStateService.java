@@ -1,14 +1,15 @@
 package DafnyGUI.DafnyConfiguration;
 
-import DafnyCommunication.DafnyPluginStrings;
 import com.intellij.openapi.components.*;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static DafnyCommunication.DafnyPluginStrings.*;
+
 @State(
-        name = DafnyPluginStrings.DAFNY,
-        storages = @Storage(DafnyPluginStrings.DAFNY_CONFIGURATION_XML)
+        name = DAFNY,
+        storages = @Storage(DAFNY_CONFIGURATION_XML)
 )
 
 public class DafnyStateService implements PersistentStateComponent<DafnyStateService> {

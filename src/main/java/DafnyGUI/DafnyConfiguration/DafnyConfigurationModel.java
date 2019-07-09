@@ -1,10 +1,10 @@
 package DafnyGUI.DafnyConfiguration;
 
-import DafnyCommunication.DafnyPluginStrings;
-
 import java.io.File;
 
 import org.jetbrains.annotations.Nullable;
+
+import static DafnyCommunication.DafnyPluginStrings.*;
 
 
 /**
@@ -27,25 +27,30 @@ public class DafnyConfigurationModel {
     public DafnyConfigurationModel(String dafnyPath, @Nullable String monoPath, String os) {
         this.dafnyPath = dafnyPath;
         this.os = os;
-        if (isMac()) this.monoPath = monoPath;
+        this.monoPath = monoPath;
     }
 
     /**
-     * Checks if ithe files Dafny.exe and Dafny_Sever.exe exist in the given path.
+     * Checks if the dafny path is valid and if the files Dafny.exe and Dafny_Sever.exe exist in the given path.
      *
      * @return - true if all files exist, false if one file does not exist
      */
     public boolean testDafnyPath() {
         if (dafnyPath == null) return false;
-        File dafnyExe = new File(dafnyPath + DafnyPluginStrings.DAFNY_EXE);
-        File dafnyServer = new File(dafnyPath + DafnyPluginStrings.DAFNY_SERVER_EXE);
+        File dafnyExe = new File(dafnyPath + DAFNY_EXE);
+        File dafnyServer = new File(dafnyPath + DAFNY_SERVER_EXE);
         return dafnyExe.exists() && dafnyServer.exists();
     }
 
+    /**
+     * Checks if the mono path is valid and if the file mono.exe exist in the given path.
+     *
+     * @return - true if the file exist, false if one file does not exist
+     */
     public boolean testMonoPath() {
         if (isWindows()) return true;
         if (monoPath == null && isMac()) return false;
-        File monoExe = new File(monoPath + DafnyPluginStrings.MONO_EXE);
+        File monoExe = new File(monoPath + MONO_EXE);
         return monoExe.exists();
     }
 
@@ -67,11 +72,11 @@ public class DafnyConfigurationModel {
     }
 
     public boolean isMac() {
-        return os.equals(DafnyPluginStrings.OS_MACOS);
+        return os.equals(OS_MACOS);
     }
 
     public boolean isWindows() {
-        return os.equals(DafnyPluginStrings.OS_WINDOWS);
+        return os.equals(OS_WINDOWS);
     }
 
 

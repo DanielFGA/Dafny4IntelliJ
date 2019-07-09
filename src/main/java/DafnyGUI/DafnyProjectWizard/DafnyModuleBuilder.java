@@ -24,7 +24,6 @@ public class DafnyModuleBuilder extends ModuleBuilder {
         if (contentEntry != null) {
             List<Pair<String, String>> sourcePaths = new ArrayList<>();
             String srcPath = getContentEntryPath() + File.separator + DafnyPluginStrings.DAFNY_MODULE_SRC_DIR_NAME;
-            //new File(srcPath).mkdirs();
             sourcePaths.add(Pair.create(srcPath, ""));
             if (sourcePaths != null) {
                 for (Pair<String, String> sourcePath : sourcePaths) {

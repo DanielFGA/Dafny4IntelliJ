@@ -37,6 +37,10 @@ public class DafnyPluginStrings {
     public static final String UNVALID_MONO_MESSAGE = "The path to Mono is not valid. Please check it again.";
     public static final String UNVALID_CONFIGURATION = "Dafny is not connected. Maybe the Dafny configuration is incomplete.\n Please check the configuration (Settings/Language and Frameworks/Dafny) and/or restart Dafny.";
 
+    public static final String CANNOT_USE_BROWSER_TITLE = "Cannot open Browser.";
+    public static final String CANNOT_USE_BROWSER_MESSAGE = "Cannot open Browser. Please open manually: ";
+
+
     public static final String DAFNY_MODULE = "DAFNY_MODULE";
     public static final String DAFNY_MODULE_DESCRIPTION = "Add support for Dafny";
     public static final String DAFNY_MODULE_SRC_DIR_NAME = "src";

@@ -25,6 +25,7 @@ public class DafnyConfigurationWindowView {
     public DafnyConfigurationWindowView(DafnyConfigurationModel dafnyConfigurationModel) {
         this.dafnyConfigurationModel = dafnyConfigurationModel;
 
+        //If os is Windows, the monospecific elements are removed.
         if (dafnyConfigurationModel.isWindows()) {
             pathPane.remove(monoLabel);
             pathPane.remove(monoPathTextField);

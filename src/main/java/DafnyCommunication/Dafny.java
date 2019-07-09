@@ -100,8 +100,11 @@ public class Dafny {
         //Update fileToVerifiedState
         fileToVerifiedState.put(filename, true);
         for (DafnyResponse d : dafnyResponses) {
-            if (d.getHighlightSeverity().equals(HighlightSeverity.ERROR))
+            if (d.getHighlightSeverity().equals(HighlightSeverity.ERROR)) {
                 fileToVerifiedState.put(filename, false);
+                break; //Because, if one error is found, there is no need check the other responses
+            }
+
         }
 
         if (fileToDafnyResponse.containsKey(filename)) {
@@ -145,14 +148,13 @@ public class Dafny {
         writer.close();
         file.createNewFile();
 
-        //create run Dafny.exe and create executable Dafny file
+        //run Dafny.exe and create executable Dafny file
         if(DafnyConfigurationController.isMac())
             dafnyProcessBuilder = new ProcessBuilder(monoPath + MONO_EXE, dafnyPath + DAFNY_EXE, file.getPath());
         else
             dafnyProcessBuilder = new ProcessBuilder(dafnyPath + DAFNY_EXE, file.getPath());
 
         dafnyRunProcess = dafnyProcessBuilder.start();
-        //while (dafnyRunProcess.isAlive());
         dafnyRunProcess.waitFor();
         dafnyRunProcess.destroy();
 
@@ -161,15 +163,10 @@ public class Dafny {
 
         //If the executable Dafny file does not exist, then there is no main method in the sourcecode.
         if (compiledExe.exists()) {
-            if(DafnyConfigurationController.isMac()) {
+            if(DafnyConfigurationController.isMac())
                 dafnyProcessBuilder = new ProcessBuilder(monoPath + MONO_EXE, compiledExe.getPath());
-            }
-            else {
-                dafnyProcessBuilder = new ProcessBuilder(compiledExe.getPath());
-            }
-        } else {
-            return null;
-        }
+            else dafnyProcessBuilder = new ProcessBuilder(compiledExe.getPath());
+        } else return null;
 
         dafnyRunProcess = dafnyProcessBuilder.start();
         inputStreamReader = new InputStreamReader(dafnyRunProcess.getInputStream());
@@ -213,7 +210,7 @@ public class Dafny {
         dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
         monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
 
-        if (DafnyConfigurationController.pathAreValid(dafnyPath, monoPath)) {
+        if (DafnyConfigurationController.pathsAreValid(dafnyPath, monoPath)) {
             dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
         }
     }
