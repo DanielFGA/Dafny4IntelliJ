@@ -7,7 +7,6 @@ import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
-import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -23,20 +22,21 @@ public class DafnyModuleBuilder extends ModuleBuilder {
 
     @Override
     public void setupRootModel(@NotNull ModifiableRootModel modifiableRootModel) {
+        //Create root folder for new module
         ContentEntry contentEntry = doAddContentEntry(modifiableRootModel);
         if (contentEntry != null) {
-            List<Pair<String, String>> sourcePaths = new ArrayList<>();
+
+            //Create new folder
             String srcPath = getContentEntryPath() + File.separator + DAFNY_MODULE_SRC_DIR_NAME;
-            sourcePaths.add(Pair.create(srcPath, ""));
-            for (Pair<String, String> sourcePath : sourcePaths) {
-                String first = sourcePath.first;
-                new File(first).mkdirs();
-                VirtualFile sourceRoot = LocalFileSystem.getInstance()
-                        .refreshAndFindFileByPath(FileUtil.toSystemIndependentName(first));
-                if (sourceRoot != null) {
-                    contentEntry.addSourceFolder(sourceRoot, false, sourcePath.second);
-                }
+            new File(srcPath).mkdirs();
+
+            VirtualFile sourceRoot = LocalFileSystem.getInstance()
+                    .refreshAndFindFileByPath(FileUtil.toSystemIndependentName(srcPath));
+            if (sourceRoot != null) {
+                //add new folder as source folder
+                contentEntry.addSourceFolder(sourceRoot, false);
             }
+
         }
     }
 
