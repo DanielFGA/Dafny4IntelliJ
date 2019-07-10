@@ -61,6 +61,7 @@ public class DafnyPluginStrings {
     public static final String NOT_VERIFIED_MESSAGE = "Not verified yet. Please try again.";
     public static final String VERIFIED_MESSAGE = "Verification completed successfully!";
 
-
+    public static final String VERIFIED = "Verified";
+    public static final String NOT_VERIFIED = "Not Verified";
 
 }

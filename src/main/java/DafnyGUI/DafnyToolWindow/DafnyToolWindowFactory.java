@@ -3,6 +3,7 @@ package DafnyGUI.DafnyToolWindow;
 import DafnyCommunication.Dafny;
 import DafnyCommunication.DafnyResponse;
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
+import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -26,10 +27,12 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
     private Project project;
     private Boolean isRunning = false;
     private Dafny dafny;
+    private DafnyEditorManagerListener dafnyEditorManagerListener;
 
     public DafnyToolWindowFactory() {
 
         dafny = ServiceManager.getService(Dafny.class);
+        dafny.setToolWindow(this);
 
         addVerifyButtonListener();
         addRunButtonListener();
@@ -81,7 +84,7 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
                 return;
             }
 
-            dafnyToolWindowView.writeOutput(getOutput(file));
+            setVerifiedOutput(file);
         });
     }
 
@@ -106,8 +109,6 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
             file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
             sourcecode = FileEditorManager.getInstance(project).getSelectedTextEditor().getDocument().getText();
 
-            System.out.println(sourcecode);
-
             if (!file.endsWith(DAFNY_FILE)) {
                 dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
                 return;
@@ -117,7 +118,7 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
             dafnyToolWindowView.getVerifyButton().setEnabled(false);
 
             if (!dafny.fileIsVerified(file)) {
-                dafnyToolWindowView.writeOutput(getOutput(file));
+                setVerifiedOutput(file);
                 dafnyToolWindowView.getRunButton().setEnabled(true);
                 dafnyToolWindowView.getVerifyButton().setEnabled(true);
                 return;
@@ -128,9 +129,9 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
                     isRunning = true;
                     BufferedReader bufferedReader = dafny.run(file, sourcecode);
                     String line;
-                    String output = "";
+                    String output = "Output for file " + file + ":\n\n";
                     if (bufferedReader == null) {
-                        dafnyToolWindowView.writeOutput(NO_MAIN_METHOD);
+                        setRunOutput(file, output + NO_MAIN_METHOD);
                         if (DafnyConfigurationController.isMac()) {
                             deleteFiles(file, new String[]{DLL_MDB_FILE_ABBR, DAFNY_FILE_ABBR, DLL_FILE_ABBR});
                         } else {
@@ -142,9 +143,9 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
                         while ((line = bufferedReader.readLine()) != null && isRunning) {
                             output += line + "\n";
                         }
-                        if (isRunning) dafnyToolWindowView.writeOutput(output.trim());
+                        if (isRunning) setRunOutput(file, output);
                         else
-                            dafnyToolWindowView.writeOutput(COMPILING_CANCEL);
+                            setRunOutput(file, output + COMPILING_CANCEL);
                         bufferedReader.close();
                         dafny.endRunProcess();
                         if (DafnyConfigurationController.isMac()) {
@@ -170,20 +171,27 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
         toolWindow.getContentManager().addContent(content);
         dafny.setProject(project);
         this.project = project;
+
+        dafnyEditorManagerListener = new DafnyEditorManagerListener(project, dafnyToolWindowView);
     }
 
     private void deleteFiles(String file, String[] abbr) {
         for (String abb : abbr) {
-            System.out.println(file.replace(DAFNY_FILE, OUTPUT_FILE_NAME + abb));
             File actualFile = new File(file.replace(DAFNY_FILE, OUTPUT_FILE_NAME + abb));
             while (actualFile.exists()) actualFile.delete();
         }
     }
 
-    private String getOutput(String file) {
+    public void setVerfiedStart(String filename) {
         dafnyToolWindowView.writeOutput(VERIFYING);
-        String output = "";
+        dafnyEditorManagerListener.updateState(filename, VERIFYING, false);
+    }
+
+    public void setVerifiedOutput(String file) {
+        dafnyToolWindowView.writeOutput(VERIFYING);
+        String output = "Verifying Result for file " + file + ":\n\n";
         List<DafnyResponse> dafnyResponseList = dafny.getDafnyResponse(file);
+        String currentOpenFile = dafnyFileSelected() ? FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() : "";
 
         if (dafnyResponseList.isEmpty()) output = NOT_VERIFIED_MESSAGE;
         else {
@@ -191,10 +199,22 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
                 output += response;
             }
         }
-        return output;
+
+        if (file.equals(currentOpenFile)) {
+            dafnyToolWindowView.writeOutput(output);
+            dafnyToolWindowView.setVerifiedState(dafny.fileIsVerified(file));
+        }
+        dafnyEditorManagerListener.updateState(file, output, dafny.fileIsVerified(file));
+    }
+
+    private void setRunOutput(String file, String output) {
+        String currentOpenFile = dafnyFileSelected() ? FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() : "";
+        if (file.equals(currentOpenFile)) dafnyToolWindowView.writeOutput(output);
+        dafnyEditorManagerListener.updateState(file, output, dafny.fileIsVerified(file));
     }
 
     private boolean dafnyFileSelected() {
         return !(FileEditorManager.getInstance(project).getSelectedEditor() == null || FileEditorManager.getInstance(project).getSelectedEditor().getFile() == null);
     }
+
 }

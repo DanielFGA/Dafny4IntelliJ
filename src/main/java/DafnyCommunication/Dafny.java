@@ -2,6 +2,7 @@ package DafnyCommunication;
 
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import DafnyGUI.DafnyConfiguration.DafnyStateService;
+import DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.components.ServiceManager;
@@ -55,6 +56,8 @@ public class Dafny {
      */
     private Process dafnyRunProcess;
 
+    private DafnyToolWindowFactory dafnyToolWindowFactory;
+
     /**
      * Constructor. Load the path for dafny and mono from DafnyStateService.
      * If the path for dafny is null, then the DafnyConnectionProvider will not be initialize.
@@ -88,11 +91,13 @@ public class Dafny {
      * @return a list with every parsed response from the Dafny Server.
      */
     public List<DafnyResponse> getResponseList(String sourcecode, String filename) {
+        dafnyToolWindowFactory.setVerfiedStart(filename);
+
         if (dafnyConnectionProvider == null) {
             return new ArrayList<>();
         }
 
-        List<DafnyResponse> dafnyResponses = dafnyConnectionProvider.sendData(sourcecode,filename);
+        List<DafnyResponse> dafnyResponses = dafnyConnectionProvider.sendData(sourcecode, filename);
 
         Collections.sort(dafnyResponses);
 
@@ -113,6 +118,7 @@ public class Dafny {
             fileToDafnyResponse.put(filename, dafnyResponses);
         }
 
+        dafnyToolWindowFactory.setVerifiedOutput(filename);
         return dafnyResponses;
     }
 
@@ -214,4 +220,7 @@ public class Dafny {
         }
     }
 
+    public void setToolWindow(DafnyToolWindowFactory dafnyToolWindowFactory) {
+        this.dafnyToolWindowFactory = dafnyToolWindowFactory;
+    }
 }
