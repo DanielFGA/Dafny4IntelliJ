@@ -1,10 +1,12 @@
 package DafnyCommunication;
 
+import java.io.File;
+
 public class DafnyPluginStrings {
 
-    public static final String DAFNY_EXE = "\\Dafny.exe";
-    public static final String DAFNY_SERVER_EXE = "\\DafnyServer.exe";
-    public static final String MONO_EXE = "\\bin\\mono.exe";
+    public static final String DAFNY_EXE = File.separator + "Dafny.exe";
+    public static final String DAFNY_SERVER_EXE = File.separator + "DafnyServer.exe";
+    public static final String MONO_EXE = File.separator + "bin" + File.separator +  "mono.exe";
 
     public static final String DAFNY = "Dafny";
     public static final String DAFNY_FILE_ABBR = "dfy";

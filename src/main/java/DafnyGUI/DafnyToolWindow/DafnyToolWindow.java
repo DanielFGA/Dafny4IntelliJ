@@ -233,7 +233,8 @@ public class DafnyToolWindow {
      * @param file the verified file
      */
     public void updateVerifyEnd(String file) {
-        DafnyProgramState tempState = new DafnyProgramState(file, "", false);
+        DafnyProgramState tempState = new DafnyProgramState(file);
+        //Need this If-Statement, because if the User closed the file, the output should not displayed.
         if (dafnyEditorManagerListener.getStates().contains(tempState)) {
             setVerifiedOutput(file);
         }
