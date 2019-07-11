@@ -3,6 +3,7 @@ package DafnyGUI.DafnyConfiguration;
 import DafnyCommunication.Dafny;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.project.Project;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ import static DafnyCommunication.DafnyPluginStrings.*;
 /**
  * DafnyConfigurationController creates the DafnyConfigurationWindowView and DafnyConfigurationModel. It handles the
  * communication between these classes. Notifies the DafnyConfigurationWindowView, if the model has new results, so that
- * the DafnyConfigurationWindowView can update his elements. Notifies the model, if there was an action on the
+ * the DafnyConfigurationWindowView can updateVerifyEnd his elements. Notifies the model, if there was an action on the
  * DafnyConfigurationWindowView and there is new data. Add action listener to the DafnyConfigurationWindowView components.
  */
 public class DafnyConfigurationController {
@@ -62,7 +63,7 @@ public class DafnyConfigurationController {
     /**
      * Add the Action Listener to the "Set Files Path" - Button. ->
      * Opens a File Chooser (DIRECTORIES_ONLY).
-     * Update the model with the selected path and update the view.
+     * Update the model with the selected path and updateVerifyEnd the view.
      */
     private void addSetFilesButtonListener() {
         dafnyConfigurationWindowView.getSetFilesButton().addActionListener(e -> {
@@ -86,7 +87,7 @@ public class DafnyConfigurationController {
     /**
      * Add the Action Listener to the "Set Mono Path" - Button. ->
      * Opens a File Chooser (DIRECTORIES_ONLY).
-     * Update the model with the selected path and update the view.
+     * Update the model with the selected path and updateVerifyEnd the view.
      */
     private void addSetMonoButtonListener() {
         dafnyConfigurationWindowView.getSetMonoButton().addActionListener(e -> {
@@ -140,11 +141,6 @@ public class DafnyConfigurationController {
         //Save the data
         dafnyStateService.setPath(dafnyConfigurationModel.getDafnyPath());
         dafnyStateService.setMono(dafnyConfigurationModel.getMonoPath());
-        try {
-            ServiceManager.getService(Dafny.class).reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

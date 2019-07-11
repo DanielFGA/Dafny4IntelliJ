@@ -2,7 +2,7 @@ package DafnyCommunication;
 
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import DafnyGUI.DafnyConfiguration.DafnyStateService;
-import DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory;
+import DafnyGUI.DafnyToolWindow.DafnyToolWindow;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.components.ServiceManager;
@@ -47,16 +47,11 @@ public class Dafny {
     private String monoPath;
 
     /**
-     * The current project.
-     */
-    private Project project;
-
-    /**
      * The process of running dafny programs.
      */
     private Process dafnyRunProcess;
 
-    private DafnyToolWindowFactory dafnyToolWindowFactory;
+    private List<DafnyToolWindow> dafnyToolWindows = new ArrayList<>();
 
     /**
      * Constructor. Load the path for dafny and mono from DafnyStateService.
@@ -70,7 +65,7 @@ public class Dafny {
      * Shutdown the current DafnyConnectionProvider and initialize a new one.
      * @throws IOException
      */
-    public void reset() throws IOException {
+    public void reset(Project project) throws IOException {
         if (dafnyConnectionProvider != null) {
             dafnyConnectionProvider.disconnect();
         }
@@ -91,7 +86,9 @@ public class Dafny {
      * @return a list with every parsed response from the Dafny Server.
      */
     public List<DafnyResponse> getResponseList(String sourcecode, String filename) {
-        dafnyToolWindowFactory.setVerfiedStart(filename);
+        for (DafnyToolWindow window : dafnyToolWindows) {
+            window.updateVerifyStart(filename);
+        }
 
         if (dafnyConnectionProvider == null) {
             return new ArrayList<>();
@@ -118,7 +115,9 @@ public class Dafny {
             fileToDafnyResponse.put(filename, dafnyResponses);
         }
 
-        dafnyToolWindowFactory.setVerifiedOutput(filename);
+        for (DafnyToolWindow window : dafnyToolWindows) {
+            window.updateVerifyEnd(filename);
+        }
         return dafnyResponses;
     }
 
@@ -177,15 +176,7 @@ public class Dafny {
         inputStreamReader = new InputStreamReader(dafnyRunProcess.getInputStream());
         return new BufferedReader(inputStreamReader);
     }
-
-    /**
-     * Setter for project.
-     * @param project the new project.
-     */
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
+    
     /**
      * Method for properly end the dafnyRunProcess.
      */
@@ -220,7 +211,7 @@ public class Dafny {
         }
     }
 
-    public void setToolWindow(DafnyToolWindowFactory dafnyToolWindowFactory) {
-        this.dafnyToolWindowFactory = dafnyToolWindowFactory;
+    public void addToolWindow(DafnyToolWindow dafnyToolWindow) {
+        dafnyToolWindows.add(dafnyToolWindow);
     }
 }

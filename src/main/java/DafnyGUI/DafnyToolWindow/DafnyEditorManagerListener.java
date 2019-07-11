@@ -18,7 +18,7 @@ import static DafnyCommunication.DafnyPluginStrings.*;
 
 public class DafnyEditorManagerListener {
 
-    private static List<DafnyProgramState> states = new ArrayList<>();
+    private List<DafnyProgramState> states = new ArrayList<>();
 
     public DafnyEditorManagerListener(Project project, DafnyToolWindowView dafnyToolWindowView) {
 
@@ -81,5 +81,9 @@ public class DafnyEditorManagerListener {
         } else {
             states.add(updState);
         }
+    }
+
+    public List<DafnyProgramState> getStates() {
+        return states;
     }
 }
