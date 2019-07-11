@@ -3,16 +3,20 @@ package DafnyGUI.DafnyToolWindow;
 import DafnyCommunication.Dafny;
 import DafnyCommunication.DafnyResponse;
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
+import DafnyLanguage.DafnyLanguage;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import org.jetbrains.annotations.NotNull;
+
+import DafnyLanguage.DafnyIcon;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,6 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static DafnyCommunication.DafnyPluginStrings.*;
+import static DafnyLanguage.DafnyIcon.FILE;
 
 public class DafnyToolWindowFactory implements ToolWindowFactory {
 
@@ -30,7 +35,6 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
     private DafnyEditorManagerListener dafnyEditorManagerListener;
 
     public DafnyToolWindowFactory() {
-
         dafny = ServiceManager.getService(Dafny.class);
         dafny.setToolWindow(this);
 
@@ -40,6 +44,25 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
         if (!dafny.isConnected()) {
             dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
+        }
+    }
+
+    @Override
+    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        toolWindow.setIcon(FILE);
+        ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
+        Content content = contentFactory.createContent(dafnyToolWindowView.getDafnyMainPanel(), DAFNY_TOOL_WINDOW, false);
+        toolWindow.getContentManager().addContent(content);
+        this.project = project;
+        dafny.setProject(project);
+        dafnyEditorManagerListener = new DafnyEditorManagerListener(project, dafnyToolWindowView);
+
+        if (dafnyFileSelected()) {
+            String file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
+            String sourcecode = FileEditorManager.getInstance(project).getSelectedTextEditor().getDocument().getText();
+            dafny.getResponseList(sourcecode, file);
+        } else {
+            dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
         }
     }
 
@@ -79,11 +102,6 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
             file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
 
-            if (!file.endsWith(DAFNY_FILE)) {
-                dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
-                return;
-            }
-
             setVerifiedOutput(file);
         });
     }
@@ -108,11 +126,6 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
 
             file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
             sourcecode = FileEditorManager.getInstance(project).getSelectedTextEditor().getDocument().getText();
-
-            if (!file.endsWith(DAFNY_FILE)) {
-                dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
-                return;
-            }
 
             dafnyToolWindowView.getRunButton().setEnabled(false);
             dafnyToolWindowView.getVerifyButton().setEnabled(false);
@@ -164,17 +177,6 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
         });
     }
 
-    @Override
-    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
-        Content content = contentFactory.createContent(dafnyToolWindowView.getDafnyMainPanel(), DAFNY_TOOL_WINDOW, false);
-        toolWindow.getContentManager().addContent(content);
-        dafny.setProject(project);
-        this.project = project;
-
-        dafnyEditorManagerListener = new DafnyEditorManagerListener(project, dafnyToolWindowView);
-    }
-
     private void deleteFiles(String file, String[] abbr) {
         for (String abb : abbr) {
             File actualFile = new File(file.replace(DAFNY_FILE, OUTPUT_FILE_NAME + abb));
@@ -183,15 +185,20 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
     }
 
     public void setVerfiedStart(String filename) {
-        dafnyToolWindowView.writeOutput(VERIFYING);
-        dafnyEditorManagerListener.updateState(filename, VERIFYING, false);
+        String currentOpenFile = dafnyFileSelected() ?
+                FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() :
+                "";
+        if (filename.equals(currentOpenFile)) dafnyToolWindowView.writeOutput(VERIFYING);
+        if (dafnyEditorManagerListener != null) dafnyEditorManagerListener.updateState(filename, VERIFYING, false);
     }
 
     public void setVerifiedOutput(String file) {
-        dafnyToolWindowView.writeOutput(VERIFYING);
+        //dafnyToolWindowView.writeOutput(VERIFYING);
         String output = "Verifying Result for file " + file + ":\n\n";
         List<DafnyResponse> dafnyResponseList = dafny.getDafnyResponse(file);
-        String currentOpenFile = dafnyFileSelected() ? FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() : "";
+        String currentOpenFile = dafnyFileSelected() ?
+                FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() :
+                "";
 
         if (dafnyResponseList.isEmpty()) output = NOT_VERIFIED_MESSAGE;
         else {
@@ -204,7 +211,7 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
             dafnyToolWindowView.writeOutput(output);
             dafnyToolWindowView.setVerifiedState(dafny.fileIsVerified(file));
         }
-        dafnyEditorManagerListener.updateState(file, output, dafny.fileIsVerified(file));
+        if (dafnyEditorManagerListener != null) dafnyEditorManagerListener.updateState(file, output, dafny.fileIsVerified(file));
     }
 
     private void setRunOutput(String file, String output) {
@@ -214,7 +221,13 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
     }
 
     private boolean dafnyFileSelected() {
-        return !(FileEditorManager.getInstance(project).getSelectedEditor() == null || FileEditorManager.getInstance(project).getSelectedEditor().getFile() == null);
+        if (project == null || project.isDisposed()) return false;
+        if (FileEditorManager.getInstance(project).getSelectedEditor() == null) return false;
+        if (FileEditorManager.getInstance(project).getSelectedEditor().getFile() == null) return false;
+        if (!FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath().endsWith(".dfy")) return false;
+        return true;
     }
+
+
 
 }

@@ -1,9 +1,9 @@
 <idea-plugin>
     <id>DafnyPlugin4Intellij.DafnyPlugin4Intellij</id>
     <name>Dafny4Intellij</name>
-    <vendor email="daniel.figia@stud.th-luebeck.de/daniel.figia@gmx.de">Technische Hochschule Lübeck</vendor>
+    <vendor email="daniel.figia@gmx.de">Daniel Figia</vendor>
     <description>Dafny Support for Intellj with verification and execution.</description>
-    <idea-version since-build="IU-191"/>
+    <idea-version since-build="UI-191" />
 
     <application-components>
         <!--Dafny-->
@@ -14,7 +14,6 @@
 
 
     <extensions defaultExtensionNs="com.intellij">
-
         <!--DafnyLanguage -->
         <fileTypeFactory implementation="DafnyLanguage.DafnyFileTypeFactory"/>
         <lang.syntaxHighlighterFactory language="Dafny" implementationClass="DafnyLanguage.DafnySyntaxHighlighterFactory"/>

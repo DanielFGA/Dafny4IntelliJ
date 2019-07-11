@@ -19,7 +19,7 @@ public class DafnyPluginStrings {
     public static final String FILE_TYPE = "Dafny File";
     public static final String FILE_TYPE_DESCRIPTION = "Dafny language file";
 
-    public static final String ICON_PATH = "dafny.png";
+    public static final String ICON_PATH = "Dafny4IntelliJ_Icon.png";
 
     public static final String SET_PATH = "Set Path";
 

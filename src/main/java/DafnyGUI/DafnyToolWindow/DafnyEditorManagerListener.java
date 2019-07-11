@@ -31,6 +31,9 @@ public class DafnyEditorManagerListener {
                     if (!states.contains(newState)) {
                         states.add(newState);
                     }
+                } else {
+                    dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
+                    dafnyToolWindowView.setVerifiedState(false);
                 }
             }
 
@@ -60,6 +63,9 @@ public class DafnyEditorManagerListener {
                             newState.setLastOutput("");
                             states.add(newState);
                         }
+                    } else {
+                        dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
+                        dafnyToolWindowView.setVerifiedState(false);
                     }
                 }
 
