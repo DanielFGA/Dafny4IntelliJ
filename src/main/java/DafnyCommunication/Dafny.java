@@ -104,7 +104,7 @@ public class Dafny {
     public List<DafnyResponse> getResponseList(String sourcecode, String filename) {
          //Update the DafnyToolWindows
         for (DafnyToolWindow window : dafnyToolWindows) {
-            window.updateVerifyStart(filename);
+            window.updateVerificationStart(filename);
         }
 
         if (!isConnected()) {
@@ -133,7 +133,7 @@ public class Dafny {
         }
 
         for (DafnyToolWindow window : dafnyToolWindows) {
-            window.updateVerifyEnd(filename);
+            window.updateVerificationEnd(filename);
         }
         return dafnyResponses;
     }

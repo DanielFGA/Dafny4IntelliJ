@@ -62,7 +62,7 @@
               <text resource-bundle="GUI" key="RESET"/>
             </properties>
           </component>
-          <component id="41ee0" class="javax.swing.JLabel" binding="verfiedStateLabel">
+          <component id="41ee0" class="javax.swing.JLabel" binding="verificationStateLabel">
             <constraints>
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

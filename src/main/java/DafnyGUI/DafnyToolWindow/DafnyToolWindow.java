@@ -6,7 +6,9 @@ import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
+import com.intellij.util.messages.MessageBus;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -29,7 +31,7 @@ public class DafnyToolWindow {
     /**
      * Handles the actions of open, change or close of an editor tab
      */
-    private DafnyEditorManagerListener dafnyEditorManagerListener;
+    private DafnyFileEditorManagerListener dafnyFileEditorManagerListener;
 
     /**
      * Project for the tool window
@@ -42,9 +44,10 @@ public class DafnyToolWindow {
     private Boolean isRunning = false;
 
     /**
-     * Instance of Dafny (for verifying and running)
+     * Instance of Dafny (for verification and running)
      */
     private Dafny dafny;
+
 
     /**
      * Constructor. Initialize the datafields and action listener.
@@ -55,7 +58,10 @@ public class DafnyToolWindow {
         dafny.addToolWindow(this);
         this.project = project;
 
-        dafnyEditorManagerListener = new DafnyEditorManagerListener(project,dafnyToolWindowView);
+        dafnyFileEditorManagerListener = new DafnyFileEditorManagerListener(dafnyToolWindowView);
+
+        MessageBus messageBus = project.getMessageBus();
+        messageBus.connect().subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, dafnyFileEditorManagerListener);
 
         addVerifyButtonListener();
         addRunButtonListener();
@@ -76,23 +82,23 @@ public class DafnyToolWindow {
     private void addResetButtonListener() {
         dafnyToolWindowView.getResetButton().addActionListener(e -> {
 
-            dafnyToolWindowView.writeOutput(DAFNY_RESET_START);
+        dafnyToolWindowView.writeOutput(DAFNY_RESET_START);
 
-            //Set running to false, because this will stop the running process
-            if (isRunning) isRunning = false;
+        //Set running to false, because this will stop the running process
+        if (isRunning) isRunning = false;
 
-            try {
-                dafny.reset(project);
-                dafnyToolWindowView.writeOutput(DAFNY_RESET_END);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+        try {
+            dafny.reset(project);
+            dafnyToolWindowView.writeOutput(DAFNY_RESET_END);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
 
-            if (!dafny.isConnected()) {
-                dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
-            }
-        });
-    }
+        if (!dafny.isConnected()) {
+            dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
+        }
+    });
+}
 
     /**
      * Initialize the action listener for the verify button.
@@ -112,7 +118,7 @@ public class DafnyToolWindow {
 
             file = FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath();
 
-            setVerifiedOutput(file);
+            setVerificationOutput(file);
         });
     }
 
@@ -144,7 +150,7 @@ public class DafnyToolWindow {
             dafnyToolWindowView.getVerifyButton().setEnabled(false);
 
             if (!dafny.fileIsVerified(file)) {
-                setVerifiedOutput(file);
+                setVerificationOutput(file);
                 dafnyToolWindowView.getRunButton().setEnabled(true);
                 dafnyToolWindowView.getVerifyButton().setEnabled(true);
                 return;
@@ -217,7 +223,7 @@ public class DafnyToolWindow {
      * Notifies the tool window, that a verification for a certain file has started.
      * @param file the file being verfied
      */
-    public void updateVerifyStart(String file) {
+    public void updateVerificationStart(String file) {
         //Find out the current open file
         String currentOpenFile = dafnyFileSelected() ?
                 FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() :
@@ -225,27 +231,27 @@ public class DafnyToolWindow {
         //If the current open file is the same as the input file, then write the output to the console.
         if (file.equals(currentOpenFile)) dafnyToolWindowView.writeOutput(VERIFYING);
         //Update the state for the file in the DafnyEditorManagerListener
-        dafnyEditorManagerListener.updateState(file, VERIFYING, false);
+        dafnyFileEditorManagerListener.updateState(file, VERIFYING, false);
     }
 
     /**
      * Notifies the tool window, that a verification for a certain file has ended.
      * @param file the verified file
      */
-    public void updateVerifyEnd(String file) {
+    public void updateVerificationEnd(String file) {
         DafnyProgramState tempState = new DafnyProgramState(file);
         //Need this If-Statement, because if the User closed the file, the output should not displayed.
-        if (dafnyEditorManagerListener.getStates().contains(tempState)) {
-            setVerifiedOutput(file);
+        if (dafnyFileEditorManagerListener.getStates().contains(tempState)) {
+            setVerificationOutput(file);
         }
     }
 
     /**
-     * Set the verify output for a certain file in the console
+     * Set the verification output for a certain file in the console
      * @param file the file to be checked
      */
-    private void setVerifiedOutput(String file) {
-        String output = "Verifying Result for file " + file + ":\n\n";
+    private void setVerificationOutput(String file) {
+        String output = "Verification results for file " + file + ":\n\n";
         //Get the current verification result for the file
         List<DafnyResponse> dafnyResponseList = dafny.getDafnyResponse(file);
         //Get the current open file
@@ -262,13 +268,13 @@ public class DafnyToolWindow {
             }
         }
 
-        //If the current open file is the same as the input file, then write the output to the console and updateVerifyEnd the
+        //If the current open file is the same as the input file, then write the output to the console and updateVerificationEnd the
         //verification state label
         if (file.equals(currentOpenFile)) {
             dafnyToolWindowView.writeOutput(output);
-            dafnyToolWindowView.setVerifiedState(dafny.fileIsVerified(file));
+            dafnyToolWindowView.setVerificationState(dafny.fileIsVerified(file));
         }
-        dafnyEditorManagerListener.updateState(file, output, dafny.fileIsVerified(file));
+        dafnyFileEditorManagerListener.updateState(file, output, dafny.fileIsVerified(file));
     }
 
     /**
@@ -281,7 +287,7 @@ public class DafnyToolWindow {
                 FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() :
                 "";
         if (file.equals(currentOpenFile)) dafnyToolWindowView.writeOutput(output);
-        dafnyEditorManagerListener.updateState(file, output, dafny.fileIsVerified(file));
+        dafnyFileEditorManagerListener.updateState(file, output, dafny.fileIsVerified(file));
     }
 
     /**
@@ -295,6 +301,8 @@ public class DafnyToolWindow {
         if (!FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath().endsWith(".dfy")) return false;
         return true;
     }
+
+
 
     /**
      * Getter for the DafnyMainPanel

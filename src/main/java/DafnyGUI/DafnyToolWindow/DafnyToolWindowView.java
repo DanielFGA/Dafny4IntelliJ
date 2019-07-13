@@ -1,7 +1,5 @@
 package DafnyGUI.DafnyToolWindow;
 
-import DafnyCommunication.DafnyPluginStrings;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +12,7 @@ public class DafnyToolWindowView {
     private JButton verifyButton;
     private JButton runButton;
     private JButton resetButton;
-    private JLabel verfiedStateLabel;
+    private JLabel verificationStateLabel;
 
     public void writeOutput(String output) {
         dafnyConsole.setText(output);
@@ -36,14 +34,14 @@ public class DafnyToolWindowView {
         return resetButton;
     }
 
-    public void setVerifiedState(boolean state) {
+    public void setVerificationState(boolean state) {
         if (state)  {
-            verfiedStateLabel.setText(VERIFIED);
-            verfiedStateLabel.setForeground(Color.GREEN);
+            verificationStateLabel.setText(VERIFIED);
+            verificationStateLabel.setForeground(Color.GREEN);
         }
         else {
-            verfiedStateLabel.setText(NOT_VERIFIED);
-            verfiedStateLabel.setForeground(Color.RED);
+            verificationStateLabel.setText(NOT_VERIFIED);
+            verificationStateLabel.setForeground(Color.RED);
         }
     }
 
