@@ -51,6 +51,9 @@ public class Dafny {
      */
     private Process dafnyRunProcess;
 
+    /**
+     * List with all created DafnyToolWindows
+     */
     private List<DafnyToolWindow> dafnyToolWindows = new ArrayList<>();
 
     /**
@@ -62,8 +65,19 @@ public class Dafny {
     }
 
     /**
+     * Initialize the DafnyConnectionProvider
+     */
+    private void initDafnyConnectionProvider() throws IOException {
+        dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
+        monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
+
+        if (DafnyConfigurationController.pathsAreValid(dafnyPath, monoPath)) {
+            dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
+        }
+    }
+
+    /**
      * Shutdown the current DafnyConnectionProvider and initialize a new one.
-     * @throws IOException
      */
     public void reset(Project project) throws IOException {
         if (dafnyConnectionProvider != null) {
@@ -75,6 +89,8 @@ public class Dafny {
         fileToDafnyResponse.clear();
         fileToVerifiedState.clear();
         if (project != null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
+
+
     }
 
     /**
@@ -86,11 +102,12 @@ public class Dafny {
      * @return a list with every parsed response from the Dafny Server.
      */
     public List<DafnyResponse> getResponseList(String sourcecode, String filename) {
+         //Update the DafnyToolWindows
         for (DafnyToolWindow window : dafnyToolWindows) {
             window.updateVerifyStart(filename);
         }
 
-        if (dafnyConnectionProvider == null) {
+        if (!isConnected()) {
             return new ArrayList<>();
         }
 
@@ -122,16 +139,7 @@ public class Dafny {
     }
 
     /**
-     * Checks if a file is verified.
-     * @param file - the file to be checked.
-     * @return false if DafnyConnectionProvider is null or file is not verified, true if the file is verified.
-     */
-    public boolean fileIsVerified(String file) {
-        return (dafnyConnectionProvider != null) && (!fileToVerifiedState.containsKey(file) ? false : fileToVerifiedState.get(file));
-    }
-
-    /**
-     * This method creates from a sourcecode a new Dafny file and use this file as parameter for the Dafny.exe.
+     * Creates from a sourcecode a new Dafny file and use this file as parameter for the Dafny.exe.
      * Dafny.exe creates from this file a executable dafny file. This file will be executed and the output stream will
      * be connected to a BufferReader.  This BufferReader will be returned.
      * @param filepath - the path where the original Dafny file lays.
@@ -176,13 +184,22 @@ public class Dafny {
         inputStreamReader = new InputStreamReader(dafnyRunProcess.getInputStream());
         return new BufferedReader(inputStreamReader);
     }
-    
+
     /**
      * Method for properly end the dafnyRunProcess.
      */
     public void endRunProcess() {
         dafnyRunProcess.destroy();
         dafnyRunProcess.destroyForcibly();
+    }
+
+    /**
+     * Checks if a file is verified.
+     * @param file - the file to be checked.
+     * @return false if DafnyConnectionProvider is null or file is not verified, true if the file is verified.
+     */
+    public boolean fileIsVerified(String file) {
+        return (dafnyConnectionProvider != null) && (!fileToVerifiedState.containsKey(file) ? false : fileToVerifiedState.get(file));
     }
 
     /**
@@ -202,15 +219,10 @@ public class Dafny {
         return dafnyConnectionProvider != null && dafnyConnectionProvider.isConnected();
     }
 
-    private void initDafnyConnectionProvider() throws IOException {
-        dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
-        monoPath = ServiceManager.getService(DafnyStateService.class).getMono();
-
-        if (DafnyConfigurationController.pathsAreValid(dafnyPath, monoPath)) {
-            dafnyConnectionProvider = new DafnyConnectionProvider(dafnyPath, monoPath);
-        }
-    }
-
+    /**
+     * Add a new DafnyToolWindow to the List of DafnyToolWidnows
+     * @param dafnyToolWindow the new Dafny Tool Window
+     */
     public void addToolWindow(DafnyToolWindow dafnyToolWindow) {
         dafnyToolWindows.add(dafnyToolWindow);
     }

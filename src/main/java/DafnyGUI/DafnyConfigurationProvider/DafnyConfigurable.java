@@ -13,20 +13,13 @@ import javax.swing.*;
 /**
  * DafnyConfigurable creates the Configuration Window in the IntelliJ Settings. It implements the Configurable.
  */
-public class DafnyConfigurable extends ConfigurableProvider implements Configurable  {
+public class DafnyConfigurable implements Configurable  {
 
     private DafnyConfigurationController dafnyConfigurationController;
 
     public DafnyConfigurable() {
         dafnyConfigurationController = new DafnyConfigurationController();
     }
-
-    @Nullable
-    @Override
-    public Configurable createConfigurable() {
-        return this;
-    }
-
 
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override

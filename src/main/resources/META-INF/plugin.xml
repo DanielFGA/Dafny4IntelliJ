@@ -24,9 +24,8 @@
         <!--DafnyProjectWizard -->
         <moduleType id="DAFNY_MODULE" implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
         <!--DafnyConfigurableProvider -->
-        <projectConfigurable id="Dafny" groupId="language"
-                             provider="DafnyGUI.DafnyConfigurationProvider.DafnyConfigurable"
-                             dynamic="false"/>
+        <applicationConfigurable id="Dafny" groupId="language"
+                             instance="DafnyGUI.DafnyConfigurationProvider.DafnyConfigurable" />
         <!--DafnyStateService -->
         <applicationService serviceImplementation="DafnyGUI.DafnyConfiguration.DafnyStateService" />
     </extensions>

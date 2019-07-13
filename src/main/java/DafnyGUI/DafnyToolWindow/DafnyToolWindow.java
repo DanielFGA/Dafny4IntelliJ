@@ -215,17 +215,17 @@ public class DafnyToolWindow {
 
     /**
      * Notifies the tool window, that a verification for a certain file has started.
-     * @param filename the file being verfied
+     * @param file the file being verfied
      */
-    public void updateVerifyStart(String filename) {
+    public void updateVerifyStart(String file) {
         //Find out the current open file
         String currentOpenFile = dafnyFileSelected() ?
                 FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() :
                 "";
         //If the current open file is the same as the input file, then write the output to the console.
-        if (filename.equals(currentOpenFile)) dafnyToolWindowView.writeOutput(VERIFYING);
+        if (file.equals(currentOpenFile)) dafnyToolWindowView.writeOutput(VERIFYING);
         //Update the state for the file in the DafnyEditorManagerListener
-        dafnyEditorManagerListener.updateState(filename, VERIFYING, false);
+        dafnyEditorManagerListener.updateState(file, VERIFYING, false);
     }
 
     /**
@@ -244,7 +244,7 @@ public class DafnyToolWindow {
      * Set the verify output for a certain file in the console
      * @param file the file to be checked
      */
-    public void setVerifiedOutput(String file) {
+    private void setVerifiedOutput(String file) {
         String output = "Verifying Result for file " + file + ":\n\n";
         //Get the current verification result for the file
         List<DafnyResponse> dafnyResponseList = dafny.getDafnyResponse(file);
@@ -303,6 +303,5 @@ public class DafnyToolWindow {
     public JPanel getToolWindowMainPanel() {
         return dafnyToolWindowView.getDafnyMainPanel();
     }
-
 
 }
