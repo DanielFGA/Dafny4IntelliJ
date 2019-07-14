@@ -51,7 +51,7 @@ public class DafnyToolWindow {
 
     /**
      * Constructor. Initialize the datafields and action listener.
-     * @param project
+     * @param project the current project
      */
     public DafnyToolWindow(Project project) {
         dafny = ServiceManager.getService(Dafny.class);

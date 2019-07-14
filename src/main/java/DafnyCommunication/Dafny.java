@@ -162,7 +162,7 @@ public class Dafny {
 
         //run Dafny.exe and create executable Dafny file
         if(DafnyConfigurationController.isMac())
-            dafnyProcessBuilder = new ProcessBuilder(monoPath + MONO_EXE, dafnyPath + DAFNY_EXE, file.getPath());
+            dafnyProcessBuilder = new ProcessBuilder(monoPath + MONO, dafnyPath + DAFNY_EXE, file.getPath());
         else
             dafnyProcessBuilder = new ProcessBuilder(dafnyPath + DAFNY_EXE, file.getPath());
 
@@ -176,7 +176,7 @@ public class Dafny {
         //If the executable Dafny file does not exist, then there is no main method in the sourcecode.
         if (compiledExe.exists()) {
             if(DafnyConfigurationController.isMac())
-                dafnyProcessBuilder = new ProcessBuilder(monoPath + MONO_EXE, compiledExe.getPath());
+                dafnyProcessBuilder = new ProcessBuilder(monoPath + MONO, compiledExe.getPath());
             else dafnyProcessBuilder = new ProcessBuilder(compiledExe.getPath());
         } else return null;
 

@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>DafnyPlugin4Intellij.DafnyPlugin4Intellij</id>
-    <name>Dafny4Intellij</name>
+    <name>Dafny Support</name>
     <vendor email="daniel.figia@gmx.de">Daniel Figia</vendor>
     <description>Dafny Support for Intellj with verification and execution.</description>
     <idea-version since-build="UI-191" />

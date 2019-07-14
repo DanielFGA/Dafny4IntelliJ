@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.jetbrains'
-version '1.1.1'
+version '1.1.2'
 sourceCompatibility = 1.8
 
 repositories {
@@ -30,10 +30,10 @@ intellij {
     intellij.updateSinceUntilBuild false
 }
 
-/*publishPlugin {
+publishPlugin {
     username intellijPublishUsername
     password intellijPublishPassword
     token intellijPublishToken
-} */
+}
 
 

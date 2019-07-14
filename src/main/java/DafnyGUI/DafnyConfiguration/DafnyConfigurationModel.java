@@ -50,7 +50,7 @@ public class DafnyConfigurationModel {
     public boolean testMonoPath() {
         if (isWindows()) return true;
         if (monoPath == null && isMac()) return false;
-        File monoExe = new File(monoPath + MONO_EXE);
+        File monoExe = new File(monoPath + MONO);
         return monoExe.exists();
     }
 
