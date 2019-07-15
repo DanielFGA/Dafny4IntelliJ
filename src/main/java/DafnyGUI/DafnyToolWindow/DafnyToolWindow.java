@@ -50,18 +50,20 @@ public class DafnyToolWindow {
 
 
     /**
-     * Constructor. Initialize the datafields and action listener.
+     * Constructor. Initialize the data fields and action listener.
      * @param project the current project
      */
     public DafnyToolWindow(Project project) {
+        this.project = project;
+
         dafny = ServiceManager.getService(Dafny.class);
         dafny.addToolWindow(this);
-        this.project = project;
 
         dafnyFileEditorManagerListener = new DafnyFileEditorManagerListener(dafnyToolWindowView);
 
         MessageBus messageBus = project.getMessageBus();
-        messageBus.connect().subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, dafnyFileEditorManagerListener);
+        messageBus.connect().
+                subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, dafnyFileEditorManagerListener);
 
         addVerifyButtonListener();
         addRunButtonListener();
@@ -298,7 +300,7 @@ public class DafnyToolWindow {
         if (project == null || project.isDisposed()) return false;
         if (FileEditorManager.getInstance(project).getSelectedEditor() == null) return false;
         if (FileEditorManager.getInstance(project).getSelectedEditor().getFile() == null) return false;
-        if (!FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath().endsWith(".dfy")) return false;
+        if (!FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath().endsWith(DAFNY_FILE)) return false;
         return true;
     }
 

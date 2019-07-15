@@ -67,7 +67,7 @@ public class DafnyConfigurationController {
      */
     private void addSetFilesButtonListener() {
         dafnyConfigurationWindowView.getSetFilesButton().addActionListener(e -> {
-            String path = selectDirectory();
+            String path = selectDirectory(false);
             if (path != null) { //path == null, no path selected.
                 dafnyConfigurationModel.setFilesPath(path);
                 dafnyConfigurationWindowView.update();
@@ -91,7 +91,7 @@ public class DafnyConfigurationController {
      */
     private void addSetMonoButtonListener() {
         dafnyConfigurationWindowView.getSetMonoButton().addActionListener(e -> {
-            String path = selectDirectory();
+            String path = selectDirectory(true);
             if (path != null) {
                 dafnyConfigurationModel.setMonoPath(path);
                 dafnyConfigurationWindowView.update();
@@ -126,9 +126,16 @@ public class DafnyConfigurationController {
      *
      * @return the path of the choosen directory.
      */
-    private String selectDirectory() {
+    private String selectDirectory(boolean mono) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        if (mono) {
+            if (dafnyConfigurationModel.getMonoPath() != null)
+                chooser.setCurrentDirectory(new File(dafnyConfigurationModel.getMonoPath()));
+        } else {
+            if (dafnyConfigurationModel.getDafnyPath() != null)
+                chooser.setCurrentDirectory(new File(dafnyConfigurationModel.getDafnyPath()));
+        }
         chooser.showDialog(null, SET_PATH);
         File choice = chooser.getSelectedFile();
         return choice == null ? null : choice.getPath();
@@ -184,7 +191,7 @@ public class DafnyConfigurationController {
      * @return If operating systems is mac, then return false, else return false;
      */
     public static boolean isMac() {
-        return System.getProperty("os.name").startsWith(OS_MACOS);
+        return !System.getProperty("os.name").startsWith(OS_MACOS);
     }
 
     public static boolean pathsAreValid(String dafny, String mono) {

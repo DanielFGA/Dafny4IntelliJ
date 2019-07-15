@@ -6,7 +6,7 @@ public class DafnyPluginStrings {
 
     public static final String DAFNY_EXE = File.separator + "Dafny.exe";
     public static final String DAFNY_SERVER_EXE = File.separator + "DafnyServer.exe";
-    public static final String MONO = File.separator + "bin" + File.separator +  "mono";
+    public static final String MONO = File.separator +  "mono";
 
     public static final String DAFNY = "Dafny";
     public static final String DAFNY_FILE_ABBR = "dfy";
