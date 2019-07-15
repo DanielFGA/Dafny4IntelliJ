@@ -1,4 +1,5 @@
 <idea-plugin>
+
     <id>DafnyPlugin4Intellij.DafnyPlugin4Intellij</id>
     <name>Dafny Support</name>
     <vendor email="daniel.figia@gmx.de">Daniel Figia</vendor>
@@ -12,26 +13,30 @@
         </component>
     </application-components>
 
-
     <extensions defaultExtensionNs="com.intellij">
-        <!--DafnyLanguage -->
+        <!--Dafny Language -->
         <fileTypeFactory implementation="DafnyLanguage.DafnyFileTypeFactory"/>
-        <lang.syntaxHighlighterFactory language="Dafny" implementationClass="DafnyLanguage.DafnySyntaxHighlighterFactory"/>
-        <additionalTextAttributes scheme="Default" file="DafnyColorScheme.xml"/>
-        <externalAnnotator language="Dafny" implementationClass="DafnyLanguage.DafnyExternalAnnotator"></externalAnnotator>
+        <lang.syntaxHighlighterFactory language="Dafny"
+                                       implementationClass="DafnyLanguage.DafnySyntaxHighlighterFactory"/>
+        <additionalTextAttributes scheme="Default"
+                                  file="DafnyColorScheme.xml"/>
+        <externalAnnotator language="Dafny"
+                           implementationClass="DafnyLanguage.DafnyExternalAnnotator"/>
         <!--Dafny Tool Window -->
-        <toolWindow id="Dafny" anchor="bottom" factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"></toolWindow>
-        <!--DafnyProjectWizard -->
-        <moduleType id="DAFNY_MODULE" implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
-        <!--DafnyConfigurableProvider -->
+        <toolWindow id="Dafny" anchor="bottom"
+                    factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"/>
+        <!--Dafny Project Wizard -->
+        <moduleType id="DAFNY_MODULE"
+                    implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
+        <!--Dafny Configurable Provider -->
         <applicationConfigurable id="Dafny" groupId="language"
                              instance="DafnyGUI.DafnyConfigurationProvider.DafnyConfigurable" />
-        <!--DafnyStateService -->
+        <!--Dafny State Service -->
         <applicationService serviceImplementation="DafnyGUI.DafnyConfiguration.DafnyStateService" />
     </extensions>
 
     <actions>
-        <!-- DafnyCreateFileAction -->
+        <!-- Dafny Create File Action -->
         <action id="DafnyCommunication.NewDafnyFile" class="DafnyGUI.DafnyActions.DafnyCreateFileAction"
                 text="Dafny File" description="Create new Dafny file">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>

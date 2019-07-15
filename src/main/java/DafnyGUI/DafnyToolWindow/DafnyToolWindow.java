@@ -50,18 +50,20 @@ public class DafnyToolWindow {
 
 
     /**
-     * Constructor. Initialize the datafields and action listener.
+     * Constructor. Initialize the data fields and action listener.
      * @param project the current project
      */
     public DafnyToolWindow(Project project) {
+        this.project = project;
+
         dafny = ServiceManager.getService(Dafny.class);
         dafny.addToolWindow(this);
-        this.project = project;
 
         dafnyFileEditorManagerListener = new DafnyFileEditorManagerListener(dafnyToolWindowView);
 
         MessageBus messageBus = project.getMessageBus();
-        messageBus.connect().subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, dafnyFileEditorManagerListener);
+        messageBus.connect().
+                subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, dafnyFileEditorManagerListener);
 
         addVerifyButtonListener();
         addRunButtonListener();
