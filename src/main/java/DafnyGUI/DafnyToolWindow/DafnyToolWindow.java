@@ -164,7 +164,7 @@ public class DafnyToolWindow {
                     isRunning = true;
                     BufferedReader bufferedReader = dafny.run(file, sourcecode);
                     String line;
-                    String output = "Output for file " + file + ":\n\n";
+                    String output = DAFNY_RUN_OUTPUT + file + ":\n\n";
 
                     if (bufferedReader == null) {
                         //If BufferReader is null, then the sourcecode has no valid main-Method
@@ -251,7 +251,7 @@ public class DafnyToolWindow {
      * @param file the file to be checked
      */
     private void setVerificationOutput(String file) {
-        String output = "Verification results for file " + file + ":\n\n";
+        String output = DAFNY_VERIFICATION_RESULTS + file + ":\n\n";
         //Get the current verification result for the file
         List<DafnyResponse> dafnyResponseList = dafny.getDafnyResponse(file);
         //Get the current open file
@@ -298,7 +298,7 @@ public class DafnyToolWindow {
         if (project == null || project.isDisposed()) return false;
         if (FileEditorManager.getInstance(project).getSelectedEditor() == null) return false;
         if (FileEditorManager.getInstance(project).getSelectedEditor().getFile() == null) return false;
-        if (!FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath().endsWith(".dfy")) return false;
+        if (!FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath().endsWith(DAFNY_FILE)) return false;
         return true;
     }
 

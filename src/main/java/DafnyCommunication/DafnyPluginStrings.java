@@ -6,7 +6,7 @@ public class DafnyPluginStrings {
 
     public static final String DAFNY_EXE = File.separator + "Dafny.exe";
     public static final String DAFNY_SERVER_EXE = File.separator + "DafnyServer.exe";
-    public static final String MONO = File.separator + "bin" + File.separator +  "mono";
+    public static final String MONO = File.separator +  "mono";
 
     public static final String DAFNY = "Dafny";
     public static final String DAFNY_FILE_ABBR = "dfy";
@@ -46,13 +46,15 @@ public class DafnyPluginStrings {
     public static final String DAFNY_TOOL_WINDOW = "Dafny Tool Window";
     public static final String VERIFYING = "Verifying, please wait...";
     public static final String COMPILING = "Compiling, please wait...";
-    public static final String COMPILING_CANCEL = "Cancel Compiling, please wait...";
+    public static final String COMPILING_CANCEL = "Cancel compiling, please wait...";
     public static final String NO_SELECTED_FILE = "No Dafny-File selected";
     public static final String NO_MAIN_METHOD = "No Main Method";
     public static final String OUTPUT_FILE_NAME = "o_u_t_p_u_t.";
     public static final String DAFNY_OUTPUT_FILE_NAME = OUTPUT_FILE_NAME + DAFNY_FILE_ABBR;
     public static final String DAFNY_RESET_START = "Resetting, please wait...";
     public static final String DAFNY_RESET_END = "Dafny was restarted.";
+    public static final String DAFNY_VERIFICATION_RESULTS ="Verification results for file ";
+    public static final String DAFNY_RUN_OUTPUT = "Output for file ";
 
     public static final String DAFNY_SERVER_EOM = "[[DAFNY-SERVER: EOM]]";
     public static final String DAFNY_CLIENT_EOM = "[[DAFNY-CLIENT: EOM]]";
