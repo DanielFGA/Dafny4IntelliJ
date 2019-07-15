@@ -191,7 +191,7 @@ public class DafnyConfigurationController {
      * @return If operating systems is mac, then return false, else return false;
      */
     public static boolean isMac() {
-        return !System.getProperty("os.name").startsWith(OS_MACOS);
+        return System.getProperty("os.name").startsWith(OS_MACOS);
     }
 
     public static boolean pathsAreValid(String dafny, String mono) {

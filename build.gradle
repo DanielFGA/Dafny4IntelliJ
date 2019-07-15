@@ -30,10 +30,10 @@ intellij {
     intellij.updateSinceUntilBuild false
 }
 
-/*publishPlugin {
+publishPlugin {
     username intellijPublishUsername
     password intellijPublishPassword
     token intellijPublishToken
-} */
+}
 
 
