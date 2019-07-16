@@ -26,4 +26,4 @@
  - Download and install [Dafny Binaries](https://github.com/dafny-lang/dafny/releases) (Version 2.3.0) 
  - Download and install [Mono](https://www.mono-project.com/docs/getting-started/install/mac/).
  - Install [Dafny-Plugin](https://plugins.jetbrains.com/plugin/12709-dafny-support) in IntelliJ (File | Settings | Plugins and search for "Dafny Support" *or* download from JetBrains Plugins Repository and install from disc) 
- - Set Dafny Binaries path and Mono path (File | Settings | Languages & Frameworks | Dafny *or* via Project-Wizard)  
+ - Set Dafny Binaries path and Mono path (..../Library/Frameworks/Mono.framework) (File | Settings | Languages & Frameworks | Dafny *or* via Project-Wizard)
