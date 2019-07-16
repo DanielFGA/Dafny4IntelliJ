@@ -29,7 +29,7 @@ public class DafnyConnectionProvider {
 
 		//Check if operating system is macOS oder Linux, because they need mono
 		if(DafnyConfigurationController.isMac()) {
-			builder = new ProcessBuilder(mono + DafnyPluginStrings.MONO, dafny + DafnyPluginStrings.DAFNY_SERVER_EXE);
+			builder = new ProcessBuilder(mono + DafnyPluginStrings.MONO_FRAMEWORK, dafny + DafnyPluginStrings.DAFNY_SERVER_EXE);
 		}
 		else {
 			builder = new ProcessBuilder(dafny + DafnyPluginStrings.DAFNY_SERVER_EXE);

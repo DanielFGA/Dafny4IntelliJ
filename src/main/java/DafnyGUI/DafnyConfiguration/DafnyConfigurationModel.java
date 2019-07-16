@@ -50,7 +50,7 @@ public class DafnyConfigurationModel {
     public boolean testMonoPath() {
         if (isWindows()) return true;
         if (monoPath == null) return false;
-        File mono = new File(monoPath + MONO); //MONO = FileSeperator + "mono"
+        File mono = new File(monoPath + MONO_FRAMEWORK);
         return mono.exists();
     }
 

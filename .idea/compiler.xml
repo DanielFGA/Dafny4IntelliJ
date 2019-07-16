@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="com.jetbrains.DafnyPlugin4Intellij.main" target="1.8" />
+      <module name="com.jetbrains.DafnyPlugin4Intellij.test" target="1.8" />
       <module name="DafnyPlugin4Intellij.DafnyLanguageServer.main" target="1.8" />
       <module name="DafnyPlugin4Intellij.DafnyLanguageServer.test" target="1.8" />
       <module name="DafnyPlugin4Intellij.main" target="1.8" />
