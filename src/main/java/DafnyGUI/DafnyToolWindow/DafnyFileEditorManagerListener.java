@@ -79,7 +79,7 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
      */
     @Override
     public void selectionChanged(@NotNull FileEditorManagerEvent event) {
-        if (event.getNewFile() != null) { //getNewFile returns new, if no file is selected.
+        if (event.getNewFile() != null) { //event.getNewFile returns null, if no file is selected.
             if (event.getNewFile().getPath().endsWith(DAFNY_FILE)) {
                 DafnyProgramState newState = (new DafnyProgramState(event.getNewFile().getPath()));
                 if (states.contains(newState)) {
