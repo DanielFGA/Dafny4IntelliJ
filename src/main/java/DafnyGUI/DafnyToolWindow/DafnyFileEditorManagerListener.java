@@ -64,8 +64,10 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
             if (states.contains(newState)) {
                 states.remove(newState);
             }
-            dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
-            dafnyToolWindowView.setVerificationState(false);
+            if (!source.getSelectedEditor().getFile().getPath().endsWith(".dfy")) {
+                dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
+                dafnyToolWindowView.setVerificationState(false);
+            }
         }
     }
 

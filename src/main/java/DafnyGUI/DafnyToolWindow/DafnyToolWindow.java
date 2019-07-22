@@ -234,10 +234,14 @@ public class DafnyToolWindow {
         String currentOpenFile = dafnyFileSelected() ?
                 FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() :
                 "";
+
+        String output = dafny.isConnected() ? VERIFYING : UNVALID_CONFIGURATION;
+
         //If the current open file is the same as the input file, then write the output to the console.
-        if (file.equals(currentOpenFile)) dafnyToolWindowView.writeOutput(VERIFYING);
+        if (file.equals(currentOpenFile)) dafnyToolWindowView.writeOutput(output);
         //Update the state for the file in the DafnyEditorManagerListener
-        dafnyFileEditorManagerListener.updateState(file, VERIFYING, false);
+        dafnyFileEditorManagerListener.updateState(file, output, false);
+
     }
 
     /**
