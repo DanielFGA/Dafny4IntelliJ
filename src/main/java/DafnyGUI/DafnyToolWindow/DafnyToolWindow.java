@@ -87,7 +87,10 @@ public class DafnyToolWindow {
         dafnyToolWindowView.writeOutput(DAFNY_RESET_START);
 
         //Set running to false, because this will stop the running process
-        if (isRunning) isRunning = false;
+        if (isRunning) {
+            dafny.endRunProcess();
+            isRunning = false;
+        }
 
         try {
             dafny.reset(project);
@@ -170,7 +173,8 @@ public class DafnyToolWindow {
 
                     if (bufferedReader == null) {
                         //If BufferReader is null, then the sourcecode has no valid main-Method
-                        setRunOutput(file, output + NO_MAIN_METHOD);
+                        if (isRunning) setRunOutput(file, output + NO_MAIN_METHOD);
+                        else setRunOutput(file, output + COMPILING_CANCEL);
                         //Delete generated files.
                         if (DafnyConfigurationController.isMac()) {
                             deleteFiles(file, new String[]{DLL_MDB_FILE_ABBR, DAFNY_FILE_ABBR, DLL_FILE_ABBR});
