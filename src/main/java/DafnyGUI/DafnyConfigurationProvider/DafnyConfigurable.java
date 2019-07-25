@@ -3,7 +3,6 @@ package DafnyGUI.DafnyConfigurationProvider;
 import DafnyCommunication.DafnyPluginStrings;
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurableProvider;
 import com.intellij.openapi.options.ConfigurationException;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;

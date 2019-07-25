@@ -70,7 +70,7 @@ public class DafnyToolWindow {
         addResetButtonListener();
 
         if (!dafny.isConnected()) {
-            dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
+            dafnyToolWindowView.writeOutput(INVALID_CONFIGURATION);
         }
 
         if (!dafnyFileSelected()) {
@@ -100,7 +100,7 @@ public class DafnyToolWindow {
         }
 
         if (!dafny.isConnected()) {
-            dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
+            dafnyToolWindowView.writeOutput(INVALID_CONFIGURATION);
         }
     });
 }
@@ -113,7 +113,7 @@ public class DafnyToolWindow {
             String file;
 
             if (!dafny.isConnected()) {
-                dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
+                dafnyToolWindowView.writeOutput(INVALID_CONFIGURATION);
                 return;
             }
             if (!dafnyFileSelected()) {
@@ -137,7 +137,7 @@ public class DafnyToolWindow {
             String sourcecode;
 
             if (!dafny.isConnected()) {
-                dafnyToolWindowView.writeOutput(UNVALID_CONFIGURATION);
+                dafnyToolWindowView.writeOutput(INVALID_CONFIGURATION);
                 return;
             }
 
@@ -235,7 +235,7 @@ public class DafnyToolWindow {
                 FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath() :
                 "";
 
-        String output = dafny.isConnected() ? VERIFYING : UNVALID_CONFIGURATION;
+        String output = dafny.isConnected() ? VERIFYING : INVALID_CONFIGURATION;
 
         //If the current open file is the same as the input file, then write the output to the console.
         if (file.equals(currentOpenFile)) dafnyToolWindowView.writeOutput(output);

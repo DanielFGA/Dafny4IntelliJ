@@ -1,9 +1,7 @@
 package DafnyGUI.DafnyConfiguration;
 
-import DafnyCommunication.Dafny;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.project.Project;
 
 import javax.swing.*;
 import java.awt.*;
@@ -162,9 +160,9 @@ public class DafnyConfigurationController {
         //if os is windows, the mono test result is always true, to skip the second if-statement.
         boolean testMonoResult = dafnyConfigurationModel.testMonoPath();
         if (!testFilesResult) {
-            throw new ConfigurationException(UNVALID_PATH_MESSAGE, UNVALID_PATH_TITLE);
+            throw new ConfigurationException(INVALID_PATH_MESSAGE, INVALID_PATH_TITLE);
         } else if (!testMonoResult) {
-            throw new ConfigurationException(UNVALID_MONO_MESSAGE, UNVALID_MONO_TITLE);
+            throw new ConfigurationException(INVALID_MONO_MESSAGE, INVALID_MONO_TITLE);
         } else {
             save();
         }

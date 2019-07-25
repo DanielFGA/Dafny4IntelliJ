@@ -13,10 +13,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import static DafnyCommunication.DafnyPluginStrings.*;
+import static DafnyCommunication.DafnyPluginStrings.DAFNY_MODULE_SRC_DIR_NAME;
 
 public class DafnyModuleBuilder extends ModuleBuilder {
 

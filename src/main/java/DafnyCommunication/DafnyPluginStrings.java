@@ -33,11 +33,11 @@ public class DafnyPluginStrings {
     public static final String OS_MACOS = "Mac";
     public static final String OS_WINDOWS = "Windows";
 
-    public static final String UNVALID_PATH_TITLE = "Unvalid Dafny files path";
-    public static final String UNVALID_PATH_MESSAGE = "The path to the Dafny files is not valid. Please check it again.";
-    public static final String UNVALID_MONO_TITLE = "Unvalid Mono Path";
-    public static final String UNVALID_MONO_MESSAGE = "The path to Mono is not valid. Please check it again.";
-    public static final String UNVALID_CONFIGURATION = "Dafny is not connected. Maybe the Dafny configuration is incomplete.\n Please check the configuration (Settings/Language and Frameworks/Dafny) and/or restart Dafny.";
+    public static final String INVALID_PATH_TITLE = "Invalid Dafny files path";
+    public static final String INVALID_PATH_MESSAGE = "The path to the Dafny files is invalid. Please check it again.";
+    public static final String INVALID_MONO_TITLE = "Invalid Mono Path";
+    public static final String INVALID_MONO_MESSAGE = "The path to Mono is invalid. Please check it again.";
+    public static final String INVALID_CONFIGURATION = "Dafny is not connected. Maybe the Dafny configuration is incomplete.\n Please check the configuration (Settings/Language and Frameworks/Dafny) and/or restart Dafny.";
 
     public static final String DAFNY_MODULE = "DAFNY_MODULE";
     public static final String DAFNY_MODULE_DESCRIPTION = "Add support for Dafny";
