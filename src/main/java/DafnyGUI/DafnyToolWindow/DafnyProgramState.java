@@ -1,7 +1,5 @@
 package DafnyGUI.DafnyToolWindow;
 
-import java.util.Objects;
-
 /**
  * Represent the state of a Dafny program.
  */

@@ -84,26 +84,26 @@ public class DafnyToolWindow {
     private void addResetButtonListener() {
         dafnyToolWindowView.getResetButton().addActionListener(e -> {
 
-        dafnyToolWindowView.writeOutput(DAFNY_RESET_START);
+            dafnyToolWindowView.writeOutput(DAFNY_RESET_START);
 
-        //Set running to false, because this will stop the running process
-        if (isRunning) {
-            dafny.endRunProcess();
-            isRunning = false;
-        }
+            //Set running to false, because this will stop the running process
+            if (isRunning) {
+                dafny.endRunProcess();
+                isRunning = false;
+            }
 
-        try {
-            dafny.reset(project);
-            dafnyToolWindowView.writeOutput(DAFNY_RESET_END);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+            try {
+                dafny.reset();
+                dafnyToolWindowView.writeOutput(DAFNY_RESET_END);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
 
-        if (!dafny.isConnected()) {
-            dafnyToolWindowView.writeOutput(INVALID_CONFIGURATION);
-        }
-    });
-}
+            if (!dafny.isConnected()) {
+                dafnyToolWindowView.writeOutput(INVALID_CONFIGURATION);
+            }
+        });
+    }
 
     /**
      * Initialize the action listener for the verify button.
@@ -191,7 +191,7 @@ public class DafnyToolWindow {
                         }
                         //If running is still true, write the output
                         if (isRunning) setRunOutput(file, output);
-                        //Else inform the user, that the compiling was canceled
+                            //Else inform the user, that the compiling was canceled
                         else setRunOutput(file, output + COMPILING_CANCEL);
                         //Clean close of run process in Dafny and BufferReader.
                         bufferedReader.close();
@@ -202,7 +202,6 @@ public class DafnyToolWindow {
                         } else {
                             deleteFiles(file, new String[]{PDB_FILE_ABBR, DAFNY_FILE_ABBR, EXE_FILE_ABBR});
                         }
-
                         dafnyToolWindowView.getRunButton().setEnabled(true);
                         dafnyToolWindowView.getVerifyButton().setEnabled(true);
                     }
@@ -308,11 +307,10 @@ public class DafnyToolWindow {
         if (project == null || project.isDisposed()) return false;
         if (FileEditorManager.getInstance(project).getSelectedEditor() == null) return false;
         if (FileEditorManager.getInstance(project).getSelectedEditor().getFile() == null) return false;
-        if (!FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath().endsWith(DAFNY_FILE)) return false;
+        if (!FileEditorManager.getInstance(project).getSelectedEditor().getFile().getPath().endsWith(DAFNY_FILE))
+            return false;
         return true;
     }
-
-
 
     /**
      * Getter for the DafnyMainPanel
@@ -320,6 +318,15 @@ public class DafnyToolWindow {
      */
     public JPanel getToolWindowMainPanel() {
         return dafnyToolWindowView.getDafnyMainPanel();
+    }
+
+    /**
+     * Getter for the Project.
+     *
+     * @return
+     */
+    public Project getProject() {
+        return project;
     }
 
 }

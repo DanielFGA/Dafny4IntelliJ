@@ -79,7 +79,7 @@ public class Dafny {
     /**
      * Shutdown the current DafnyConnectionProvider and initialize a new one.
      */
-    public void reset(Project project) throws IOException {
+    public void reset() throws IOException {
         if (dafnyConnectionProvider != null) {
             dafnyConnectionProvider.disconnect();
         }
@@ -88,9 +88,12 @@ public class Dafny {
 
         fileToDafnyResponse.clear();
         fileToVerifiedState.clear();
-        if (project != null) DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
 
-
+        for (DafnyToolWindow toolWindow : dafnyToolWindows) {
+            Project project = toolWindow.getProject();
+            if (project != null && !project.isDisposed())
+                DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
+        }
     }
 
     /**
@@ -102,16 +105,25 @@ public class Dafny {
      * @return a list with every parsed response from the Dafny Server.
      */
     public List<DafnyResponse> getResponseList(String sourcecode, String filename) {
+
+        List<DafnyResponse> dafnyResponses;
+        List<DafnyToolWindow> windowsToRemove = new ArrayList<>();
+
          //Update the DafnyToolWindows
         for (DafnyToolWindow window : dafnyToolWindows) {
-            window.updateVerificationStart(filename);
+            if (window.getProject() == null || window.getProject().isDisposed())
+                windowsToRemove.add(window);
+            else
+                window.updateVerificationStart(filename);
         }
+
+        dafnyToolWindows.removeAll(windowsToRemove);
 
         if (!isConnected()) {
             return new ArrayList<>();
         }
 
-        List<DafnyResponse> dafnyResponses = dafnyConnectionProvider.sendData(sourcecode, filename);
+        dafnyResponses = dafnyConnectionProvider.sendData(sourcecode, filename);
 
         Collections.sort(dafnyResponses);
 
@@ -226,4 +238,5 @@ public class Dafny {
     public void addToolWindow(DafnyToolWindow dafnyToolWindow) {
         dafnyToolWindows.add(dafnyToolWindow);
     }
+
 }

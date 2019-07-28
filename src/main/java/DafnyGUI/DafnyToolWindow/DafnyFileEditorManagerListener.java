@@ -9,7 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static DafnyCommunication.DafnyPluginStrings.*;
+import static DafnyCommunication.DafnyPluginStrings.DAFNY_FILE;
+import static DafnyCommunication.DafnyPluginStrings.NO_SELECTED_FILE;
 
 /**
  * Handles the editor events fileOpen, fileClosed, fileChanged and updates the DafnyToolWindows console.
@@ -64,7 +65,7 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
             if (states.contains(newState)) {
                 states.remove(newState);
             }
-            if (!source.getSelectedEditor().getFile().getPath().endsWith(".dfy")) {
+            if (source.getSelectedEditor() == null || !source.getSelectedEditor().getFile().getPath().endsWith(".dfy")) {
                 dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
                 dafnyToolWindowView.setVerificationState(false);
             }
@@ -123,6 +124,4 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
     public List<DafnyProgramState> getStates() {
         return states;
     }
-
-
 }
