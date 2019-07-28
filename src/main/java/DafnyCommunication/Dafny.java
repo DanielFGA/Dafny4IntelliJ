@@ -79,7 +79,7 @@ public class Dafny {
     /**
      * Shutdown the current DafnyConnectionProvider and initialize a new one.
      */
-    public void reset() throws IOException {
+    public void reset(Project project) throws IOException {
         if (dafnyConnectionProvider != null) {
             dafnyConnectionProvider.disconnect();
         }
@@ -89,11 +89,7 @@ public class Dafny {
         fileToDafnyResponse.clear();
         fileToVerifiedState.clear();
 
-        for (DafnyToolWindow toolWindow : dafnyToolWindows) {
-            Project project = toolWindow.getProject();
-            if (project != null && !project.isDisposed())
-                DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
-        }
+        DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
     }
 
     /**
@@ -116,7 +112,6 @@ public class Dafny {
             else
                 window.updateVerificationStart(filename);
         }
-
         dafnyToolWindows.removeAll(windowsToRemove);
 
         if (!isConnected()) {

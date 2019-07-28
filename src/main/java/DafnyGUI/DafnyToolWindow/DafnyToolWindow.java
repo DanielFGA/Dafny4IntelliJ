@@ -93,7 +93,7 @@ public class DafnyToolWindow {
             }
 
             try {
-                dafny.reset();
+                dafny.reset(project);
                 dafnyToolWindowView.writeOutput(DAFNY_RESET_END);
             } catch (IOException e1) {
                 e1.printStackTrace();
