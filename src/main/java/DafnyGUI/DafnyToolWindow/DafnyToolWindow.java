@@ -4,7 +4,6 @@ import DafnyCommunication.Dafny;
 import DafnyCommunication.DafnyResponse;
 import DafnyGUI.DafnyConfiguration.DafnyConfigurationController;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
@@ -56,8 +55,8 @@ public class DafnyToolWindow {
     public DafnyToolWindow(Project project) {
         this.project = project;
 
-        dafny = ServiceManager.getService(Dafny.class);
-        dafny.addToolWindow(this);
+        dafny = project.getComponent(Dafny.class);
+        dafny.setToolWindow(this);
 
         dafnyFileEditorManagerListener = new DafnyFileEditorManagerListener(dafnyToolWindowView);
 
@@ -318,15 +317,6 @@ public class DafnyToolWindow {
      */
     public JPanel getToolWindowMainPanel() {
         return dafnyToolWindowView.getDafnyMainPanel();
-    }
-
-    /**
-     * Getter for the Project.
-     *
-     * @return
-     */
-    public Project getProject() {
-        return project;
     }
 
 }

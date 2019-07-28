@@ -4,7 +4,6 @@ import DafnyCommunication.Dafny;
 import DafnyCommunication.DafnyResponse;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.ExternalAnnotator;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
@@ -20,15 +19,15 @@ public class DafnyExternalAnnotator extends ExternalAnnotator<String[], List<Daf
     /**
      * The annotator need the instance of dafny for the verification.
      */
-    private Dafny dafny = ServiceManager.getService(Dafny.class);
+    private Dafny dafny;
 
     /**
      * Collects infos about the file for the verification. The sourcecode and the path to the file are needed.
-     *
      * @return the sourcecode and the path to the file as a string.
      */
     @Override
     public String[] collectInformation(@NotNull PsiFile file, @NotNull Editor editor, boolean hasErrors) {
+        dafny = file.getProject().getComponent(Dafny.class);
         return new String[]{editor.getDocument().getText(), file.getVirtualFile().getPath()};
     }
 

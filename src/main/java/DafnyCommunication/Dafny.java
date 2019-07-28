@@ -54,7 +54,7 @@ public class Dafny {
     /**
      * List with all created DafnyToolWindows
      */
-    private List<DafnyToolWindow> dafnyToolWindows = new ArrayList<>();
+    private DafnyToolWindow dafnyToolWindow;
 
     /**
      * Constructor. Load the path for dafny and mono from DafnyStateService.
@@ -103,17 +103,9 @@ public class Dafny {
     public List<DafnyResponse> getResponseList(String sourcecode, String filename) {
 
         List<DafnyResponse> dafnyResponses;
-        List<DafnyToolWindow> windowsToRemove = new ArrayList<>();
 
-         //Update the DafnyToolWindows
-        for (DafnyToolWindow window : dafnyToolWindows) {
-            if (window.getProject() == null || window.getProject().isDisposed())
-                windowsToRemove.add(window);
-            else
-                window.updateVerificationStart(filename);
-        }
-        //Removed closed projects.
-        dafnyToolWindows.removeAll(windowsToRemove);
+        //Update the DafnyToolWindow
+        dafnyToolWindow.updateVerificationStart(filename);
 
         if (!isConnected()) {
             return new ArrayList<>();
@@ -140,9 +132,8 @@ public class Dafny {
             fileToDafnyResponse.put(filename, dafnyResponses);
         }
 
-        for (DafnyToolWindow window : dafnyToolWindows) {
-            window.updateVerificationEnd(filename);
-        }
+        dafnyToolWindow.updateVerificationEnd(filename);
+
         return dafnyResponses;
     }
 
@@ -231,8 +222,8 @@ public class Dafny {
      * Add a new DafnyToolWindow to the List of DafnyToolWidnows
      * @param dafnyToolWindow the new Dafny Tool Window
      */
-    public void addToolWindow(DafnyToolWindow dafnyToolWindow) {
-        dafnyToolWindows.add(dafnyToolWindow);
+    public void setToolWindow(DafnyToolWindow dafnyToolWindow) {
+        this.dafnyToolWindow = dafnyToolWindow;
     }
 
 }

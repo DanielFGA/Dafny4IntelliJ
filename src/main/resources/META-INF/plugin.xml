@@ -6,31 +6,38 @@
     <description>Dafny Support for IntelliJ with verification and execution.</description>
     <idea-version since-build="UI-191" />
 
-    <application-components>
+    <project-components>
         <!--Dafny-->
         <component>
             <implementation-class>DafnyCommunication.Dafny</implementation-class>
         </component>
-    </application-components>
+    </project-components>
 
     <extensions defaultExtensionNs="com.intellij">
         <!--Dafny Language -->
-        <fileTypeFactory implementation="DafnyLanguage.DafnyFileTypeFactory"/>
-        <lang.syntaxHighlighterFactory language="Dafny"
-                                       implementationClass="DafnyLanguage.DafnySyntaxHighlighterFactory"/>
-        <additionalTextAttributes scheme="Default"
-                                  file="DafnyColorScheme.xml"/>
-        <externalAnnotator language="Dafny"
-                           implementationClass="DafnyLanguage.DafnyExternalAnnotator"/>
+        <fileTypeFactory
+                implementation="DafnyLanguage.DafnyFileTypeFactory"/>
+        <lang.syntaxHighlighterFactory
+                language="Dafny"
+                implementationClass="DafnyLanguage.DafnySyntaxHighlighterFactory"/>
+        <additionalTextAttributes
+                scheme="Default"
+                file="DafnyColorScheme.xml"/>
+        <externalAnnotator
+                language="Dafny"
+                implementationClass="DafnyLanguage.DafnyExternalAnnotator"/>
         <!--Dafny Tool Window -->
-        <toolWindow id="Dafny" anchor="bottom"
-                    factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"/>
+        <toolWindow
+                id="Dafny" anchor="bottom"
+                factoryClass="DafnyGUI.DafnyToolWindow.DafnyToolWindowFactory"/>
         <!--Dafny Project Wizard -->
-        <moduleType id="DAFNY_MODULE"
-                    implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
+        <moduleType
+                id="DAFNY_MODULE"
+                implementationClass="DafnyGUI.DafnyProjectWizard.DafnyModuleType"/>
         <!--Dafny Configurable Provider -->
-        <applicationConfigurable id="Dafny" groupId="language"
-                             instance="DafnyGUI.DafnyConfigurationProvider.DafnyConfigurable" />
+        <applicationConfigurable
+                id="Dafny" groupId="language"
+                instance="DafnyGUI.DafnyConfigurationProvider.DafnyConfigurable"/>
         <!--Dafny State Service -->
         <applicationService serviceImplementation="DafnyGUI.DafnyConfiguration.DafnyStateService" />
     </extensions>
