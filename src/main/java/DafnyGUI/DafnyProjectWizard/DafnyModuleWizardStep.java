@@ -6,14 +6,28 @@ import com.intellij.openapi.options.ConfigurationException;
 
 import javax.swing.*;
 
+/**
+ * Represent a wizard step in the project wizard.
+ */
 public class DafnyModuleWizardStep extends ModuleWizardStep {
 
+    /**
+     * The DafnyConfigurationController represent the wizard step.
+     */
     private DafnyConfigurationController dafnyConfigurationController;
 
+    /**
+     * Constructor
+     */
     public DafnyModuleWizardStep() {
         dafnyConfigurationController = new DafnyConfigurationController();
     }
 
+    /**
+     * Create visual UI for the wizard step.
+     *
+     * @return the UI (Swing) for the wizard step.
+     */
     @Override
     public JComponent getComponent() {
         return dafnyConfigurationController.getConfigurationPanel();
@@ -31,6 +45,6 @@ public class DafnyModuleWizardStep extends ModuleWizardStep {
      */
     @Override
     public boolean validate()  throws ConfigurationException {
-       return dafnyConfigurationController.validate();
+        return dafnyConfigurationController.validate();
     }
 }

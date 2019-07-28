@@ -21,12 +21,12 @@ import static DafnyCommunication.DafnyPluginStrings.*;
 public class DafnyConfigurationController {
 
     /**
-     * TODO erklärung
+     * The view of the DafnyConfiguration.
      */
     private DafnyConfigurationWindowView dafnyConfigurationWindowView;
 
     /**
-     * TODO erklärung
+     * The model of the DafnyConfiguration.
      */
     private DafnyConfigurationModel dafnyConfigurationModel;
 

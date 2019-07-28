@@ -112,6 +112,7 @@ public class Dafny {
             else
                 window.updateVerificationStart(filename);
         }
+        //Removed closed projects.
         dafnyToolWindows.removeAll(windowsToRemove);
 
         if (!isConnected()) {

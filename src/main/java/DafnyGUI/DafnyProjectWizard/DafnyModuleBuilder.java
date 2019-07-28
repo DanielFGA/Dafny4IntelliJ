@@ -16,8 +16,14 @@ import java.io.File;
 
 import static DafnyCommunication.DafnyPluginStrings.DAFNY_MODULE_SRC_DIR_NAME;
 
+/**
+ * The Module Builder for Dafny.
+ */
 public class DafnyModuleBuilder extends ModuleBuilder {
 
+    /**
+     * Create root model. The root of a Dafny module contains a source directory.
+     */
     @Override
     public void setupRootModel(@NotNull ModifiableRootModel modifiableRootModel) {
         //Create root folder for new module
@@ -38,13 +44,20 @@ public class DafnyModuleBuilder extends ModuleBuilder {
         }
     }
 
+    /**
+     * Getter for the DafnyModuleType.
+     *
+     * @return the instance of the DafnyModuleType.
+     */
     @NotNull
     @Override
     public ModuleType getModuleType() {
         return DafnyModuleType.getInstance();
     }
 
-
+    /**
+     * Creates wizard steps for the module builder. There is only one wizard step.
+     */
     @Override
     public ModuleWizardStep[] createWizardSteps(@NotNull WizardContext wizardContext, @NotNull ModulesProvider modulesProvider) {
         return new ModuleWizardStep[]{new DafnyModuleWizardStep()};

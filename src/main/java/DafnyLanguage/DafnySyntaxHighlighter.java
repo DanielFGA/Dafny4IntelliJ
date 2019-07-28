@@ -13,23 +13,51 @@ import java.util.Set;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
+/**
+ * The Dafny Syntax Highlighter.
+ */
 public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
 
+    /**
+     * Define the name of the keyword group "Dafny Keywords" and the the corresponding color.
+     */
     public static final TextAttributesKey DAFNY_KEY =
             createTextAttributesKey("DAFNY_KEY", DefaultLanguageHighlighterColors.KEYWORD);
+    /**
+     * Define the name of the keyword group "Variable Keywords" and the the corresponding color.
+     */
     public static final TextAttributesKey VAR_KEY =
             createTextAttributesKey("VAR_KEY", DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
+    /**
+     * Define the name of the keyword group "Verification Keywords" and the the corresponding color.
+     */
     public static final TextAttributesKey VERIFY_KEY =
             createTextAttributesKey("VERIFY_KEY", DefaultLanguageHighlighterColors.CLASS_REFERENCE);
+    /**
+     * Define the name of the keyword group "Strings" and the the corresponding color.
+     */
     public static final TextAttributesKey STRING_CHAR_KEY =
             createTextAttributesKey("STRING_CHAR_KEY", DefaultLanguageHighlighterColors.STRING);
+    /**
+     * Define the name of the keyword group "Digits" and the the corresponding color.
+     */
     public static final TextAttributesKey DIGIT_KEY =
             createTextAttributesKey("DIGIT_KEY", DefaultLanguageHighlighterColors.NUMBER);
+    /**
+     * Define the name of the keyword group "Symbols" and the the corresponding color.
+     */
     public static final TextAttributesKey SYMBOL_KEY =
             createTextAttributesKey("SYMBOL_KEY", DefaultLanguageHighlighterColors.MARKUP_TAG);
+    /**
+     * Define the name of the keyword group "Comments" and the the corresponding color.
+     */
     public static final TextAttributesKey COMMENT_KEY =
             createTextAttributesKey("COMMENT_KEY", DefaultLanguageHighlighterColors.LINE_COMMENT);
 
+    /*
+    getTokenHighlights expected a array of TextAttributesKey.
+    So for every keyword group, there will be an TextAttributesKey array
+    */
     private static final TextAttributesKey[] DAFNY_KEYS = new TextAttributesKey[]{DAFNY_KEY};
     private static final TextAttributesKey[] VAR_KEYS = new TextAttributesKey[]{VAR_KEY};
     private static final TextAttributesKey[] VERIFY_KEYS = new TextAttributesKey[]{VERIFY_KEY};
@@ -38,6 +66,9 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] SYMBOL_KEYS = new TextAttributesKey[]{SYMBOL_KEY};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT_KEY};
 
+    /*
+    For every keyword group there is a set of tokens.
+     */
     private Set<IElementType> DAFNY_KEY_SET = new HashSet<>();
     private Set<IElementType> VAR_KEY_SET = new HashSet<>();
     private Set<IElementType> VERIFY_KEY_SET = new HashSet<>();
@@ -45,6 +76,9 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
     private Set<IElementType> DIGIT_KEY_SET = new HashSet<>();
     private Set<IElementType> SYMBOL_KEY_SET = new HashSet<>();
 
+    /**
+     * Create dafny lexer
+     */
     @NotNull
     @Override
     public Lexer getHighlightingLexer() {
@@ -65,6 +99,9 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
         return new TextAttributesKey[0];
     }
 
+    /**
+     * Fill the keyword group sets.
+     */
     void registerKeyWords() {
 
         VAR_KEY_SET.add(DafnyTypeImpl.BOOL);
