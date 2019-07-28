@@ -37,7 +37,7 @@ public class DafnyConfigurationController {
 
     /**
      * Constructor. Add all necessary action Listener, initialize DafnyConfigurationWindowView and DafnyConfigurationModel
-     * and load the configuration. If os is Mac, then four extra listener are added.
+     * and load the configuration. If os is Mac, then two extra listener are added.
      */
     public DafnyConfigurationController() {
         dafnyStateService = ServiceManager.getService(DafnyStateService.class);
@@ -45,6 +45,7 @@ public class DafnyConfigurationController {
             dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(), dafnyStateService.getMono(), OS_MACOS);
         else
             dafnyConfigurationModel = new DafnyConfigurationModel(dafnyStateService.getPath(),null, OS_WINDOWS);
+
         dafnyConfigurationWindowView = new DafnyConfigurationWindowView(dafnyConfigurationModel);
 
         addSetFilesButtonListener();
@@ -121,7 +122,6 @@ public class DafnyConfigurationController {
 
     /**
      * Opens a File Chooser (DIRECTORIES_ONLY).
-     *
      * @return the path of the choosen directory.
      */
     private String selectDirectory(boolean mono) {

@@ -10,9 +10,8 @@ import java.util.regex.Pattern;
 
 /**
  * This class parses a answer from the DafnyServer into a List of DafnyRespones.
- * Translated and adjust by Daniel Figia
+ * Comments translated and code adaptation by Daniel Figia
  * @author Jannik Kühnemundt
- * @author Daniel Figia
  */
 public class DafnyParser {
 

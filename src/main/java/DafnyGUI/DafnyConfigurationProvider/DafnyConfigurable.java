@@ -20,27 +20,18 @@ public class DafnyConfigurable implements Configurable  {
     private DafnyConfigurationController dafnyConfigurationController;
 
     /**
-     * Constructor.
+     * Constructor. Initializes DafnyConfigurationController.
      */
     public DafnyConfigurable() {
         dafnyConfigurationController = new DafnyConfigurationController();
     }
 
-    /**
-     * Getter for the name that is displayed.
-     *
-     * @return the name that is displayed.
-     */
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
         return DafnyPluginStrings.DAFNY;
     }
 
-    /**
-     * Create visual UI for the configuration window.
-     * @return the UI (Swing) for the configuration window.
-     */
     @Nullable
     @Override
     public JComponent createComponent() {
@@ -58,8 +49,8 @@ public class DafnyConfigurable implements Configurable  {
     }
 
     /**
-     * Check the settings and save.
-     * @throws ConfigurationException if settings aren't valid.
+     * Check the configuration and save.
+     * @throws ConfigurationException if configuration is invalid.
      */
     @Override
     public void apply() throws ConfigurationException {

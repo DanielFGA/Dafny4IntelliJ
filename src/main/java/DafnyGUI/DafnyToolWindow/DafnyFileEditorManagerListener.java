@@ -28,7 +28,7 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
     private DafnyToolWindowView dafnyToolWindowView;
 
     /**
-     * Constructor
+     * Constructor.
      * @param dafnyToolWindowView the current DafnyToolWindow
      */
     public DafnyFileEditorManagerListener(DafnyToolWindowView dafnyToolWindowView) {
@@ -55,7 +55,7 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
 
     /**
      * If a file is closed, then check if file is a Dafny file.
-     * If file is a Dafny file, remove it from the DafnyProgrmmStates.
+     * If file is a Dafny file, remove it from the DafnyProgramStates.
      * Otherwise update the DafnyToolWindow.
      */
     @Override
@@ -75,9 +75,9 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
     /**
      * If a file is changed, then check if file is a Dafny file.
      * If file is a Dafny file and it is already in the DafnyProgramStates:
-     * Update the DafnyToolWindow with its last output.
+     *      Update the DafnyToolWindow with its last output.
      * If file is a Dafny file and its no in the DafnyProgramStates:
-     * Add the file to the DafnyProgramStates.
+     *      Add the file to the DafnyProgramStates.
      * If file is not a Dafny file, update the DafnyToolWindow.
      */
     @Override
@@ -101,9 +101,9 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
 
     /**
      * Updates a state.
-     * @param filename the filename
-     * @param output the new output
-     * @param verfied the new verified state
+     * @param filename the filename.
+     * @param output the new output.
+     * @param verfied the new verified state.
      */
     public void updateState(String filename, String output, boolean verfied) {
         DafnyProgramState updState = new DafnyProgramState(filename);
@@ -118,8 +118,8 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
     }
 
     /**
-     * Getter for the DafnyProgramStates
-     * @return the DafnyProgramStates
+     * Getter for the DafnyProgramStates.
+     * @return the DafnyProgramStates.
      */
     public List<DafnyProgramState> getStates() {
         return states;

@@ -23,17 +23,17 @@ import static DafnyCommunication.DafnyPluginStrings.*;
 public class DafnyToolWindow {
 
     /**
-     * Visual UI for the tool window
+     * Visual UI for the tool window.
      */
     private DafnyToolWindowView dafnyToolWindowView = new DafnyToolWindowView();
 
     /**
-     * Handles the actions of open, change or close of an editor tab
+     * Handles the actions of file opened, file changed and file closed.
      */
     private DafnyFileEditorManagerListener dafnyFileEditorManagerListener;
 
     /**
-     * Project for the tool window
+     * Project for the tool window.
      */
     private Project project;
 
@@ -43,14 +43,13 @@ public class DafnyToolWindow {
     private Boolean isRunning = false;
 
     /**
-     * Instance of Dafny (for verification and running)
+     * Instance of Dafny (for verification and running).
      */
     private Dafny dafny;
 
-
     /**
      * Constructor. Initialize the data fields and action listener.
-     * @param project the current project
+     * @param project the current project.
      */
     public DafnyToolWindow(Project project) {
         this.project = project;
@@ -213,8 +212,8 @@ public class DafnyToolWindow {
 
     /**
      * Deletes all files that are named like file and ended with the given abbreviations.
-     * @param file the file
-     * @param abbr - the abbreviations
+     * @param file the file.
+     * @param abbr the abbreviations.
      */
     private void deleteFiles(String file, String[] abbr) {
         for (String abb : abbr) {
@@ -225,7 +224,7 @@ public class DafnyToolWindow {
 
     /**
      * Notifies the tool window, that a verification for a certain file has started.
-     * @param file the file being verfied
+     * @param file the file being verified.
      */
     public void updateVerificationStart(String file) {
         //Find out the current open file
@@ -244,7 +243,7 @@ public class DafnyToolWindow {
 
     /**
      * Notifies the tool window, that a verification for a certain file has ended.
-     * @param file the verified file
+     * @param file the verified file.
      */
     public void updateVerificationEnd(String file) {
         DafnyProgramState tempState = new DafnyProgramState(file);
@@ -276,8 +275,8 @@ public class DafnyToolWindow {
             }
         }
 
-        //If the current open file is the same as the input file, then write the output to the console and updateVerificationEnd the
-        //verification state label
+        //If the current open file is the same as the input file,
+        //then write the output to the console and updateVerificationEnd the verification state label.
         if (file.equals(currentOpenFile)) {
             dafnyToolWindowView.writeOutput(output);
             dafnyToolWindowView.setVerificationState(dafny.fileIsVerified(file));
@@ -286,9 +285,9 @@ public class DafnyToolWindow {
     }
 
     /**
-     * Update the state for a certain file in the DafnyEditorManagerListener and write the output to the console
-     * @param file the executed file
-     * @param output the result of the execution
+     * Update the state for a certain file in the DafnyEditorManagerListener and write the output to the console.
+     * @param file the executed file.
+     * @param output the result of the execution.
      */
     private void setRunOutput(String file, String output) {
         String currentOpenFile = dafnyFileSelected() ?
@@ -300,7 +299,7 @@ public class DafnyToolWindow {
 
     /**
      * Checks if the a Dafny file is selected.
-     * @return true if dafny file is selected, otherwise false
+     * @return true if dafny file is selected, otherwise false.
      */
     private boolean dafnyFileSelected() {
         if (project == null || project.isDisposed()) return false;
@@ -312,8 +311,8 @@ public class DafnyToolWindow {
     }
 
     /**
-     * Getter for the DafnyMainPanel
-     * @return DafnyMainPanel
+     * Getter for the DafnyMainPanel.
+     * @return the DafnyMainPanel.
      */
     public JPanel getToolWindowMainPanel() {
         return dafnyToolWindowView.getDafnyMainPanel();

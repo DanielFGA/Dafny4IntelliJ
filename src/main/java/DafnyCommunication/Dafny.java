@@ -65,7 +65,7 @@ public class Dafny {
     }
 
     /**
-     * Initialize the DafnyConnectionProvider
+     * Initialize the DafnyConnectionProvider.
      */
     private void initDafnyConnectionProvider() throws IOException {
         dafnyPath = ServiceManager.getService(DafnyStateService.class).getPath();
@@ -89,7 +89,7 @@ public class Dafny {
         fileToDafnyResponse.clear();
         fileToVerifiedState.clear();
 
-        DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the Annotation.
+        DaemonCodeAnalyzer.getInstance(project).restart(); //Restart the inspection.
     }
 
     /**
@@ -117,6 +117,7 @@ public class Dafny {
 
         //Update fileToVerifiedState
         fileToVerifiedState.put(filename, true);
+        //Search for an error.
         for (DafnyResponse d : dafnyResponses) {
             if (d.getHighlightSeverity().equals(HighlightSeverity.ERROR)) {
                 fileToVerifiedState.put(filename, false);
@@ -125,6 +126,7 @@ public class Dafny {
 
         }
 
+        //Update fileToDafnyResponse
         if (fileToDafnyResponse.containsKey(filename)) {
             fileToDafnyResponse.get(filename).clear();
             fileToDafnyResponse.get(filename).addAll(dafnyResponses);
@@ -140,9 +142,9 @@ public class Dafny {
     /**
      * Creates from a sourcecode a new Dafny file and use this file as parameter for the Dafny.exe.
      * Dafny.exe creates from this file a executable dafny file. This file will be executed and the output stream will
-     * be connected to a BufferReader.  This BufferReader will be returned.
-     * @param filepath - the path where the original Dafny file lays.
-     * @param sourcecode - the sourcecode for the new Dafny file
+     * be connected to a BufferReader. This BufferReader will be returned.
+     * @param filepath the path where the original Dafny file lays.
+     * @param sourcecode the sourcecode for the new Dafny file.
      * @return the BufferReader, which is connected to the executable dafny file.
      * @throws IOException
      */
@@ -203,7 +205,7 @@ public class Dafny {
 
     /**
      * Checks if a file is verified.
-     * @param file the file to be checked
+     * @param file the file to be checked.
      * @return if the file is verified true, else false.
      */
     public List<DafnyResponse> getDafnyResponse(String file) {
@@ -219,8 +221,8 @@ public class Dafny {
     }
 
     /**
-     * Add a new DafnyToolWindow to the List of DafnyToolWidnows
-     * @param dafnyToolWindow the new Dafny Tool Window
+     * Setter for the DafnyToolWindow.
+     * @param dafnyToolWindow the new Dafny Tool Window.
      */
     public void setToolWindow(DafnyToolWindow dafnyToolWindow) {
         this.dafnyToolWindow = dafnyToolWindow;

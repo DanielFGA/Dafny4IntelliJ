@@ -17,7 +17,7 @@ public class DafnyModuleWizardStep extends ModuleWizardStep {
     private DafnyConfigurationController dafnyConfigurationController;
 
     /**
-     * Constructor
+     * Constructor. Initializes DafnyConfigurationController.
      */
     public DafnyModuleWizardStep() {
         dafnyConfigurationController = new DafnyConfigurationController();

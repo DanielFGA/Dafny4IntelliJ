@@ -30,11 +30,11 @@ public class DafnyResponse implements Comparable<DafnyResponse> {
     private Integer line;
 
     /**
-     * Constructor
-     * @param highlightSeverity type of answer
-     * @param message content of answer
-     * @param textRange code section for answer
-     * @param line line for answer
+     * Constructor.
+     * @param highlightSeverity type of answer.
+     * @param message content of answer.
+     * @param textRange code section for answer.
+     * @param line line for answer.
      */
     public DafnyResponse(HighlightSeverity highlightSeverity, String message, TextRange textRange, Integer line) {
         this.highlightSeverity = highlightSeverity;
@@ -44,32 +44,32 @@ public class DafnyResponse implements Comparable<DafnyResponse> {
     }
 
     /**
-     * Getter for highlightSeverity
-     * @return highlightSeverity
+     * Getter for highlightSeverity.
+     * @return highlightSeverity.
      */
     public HighlightSeverity getHighlightSeverity() {
         return highlightSeverity;
     }
 
     /**
-     * Getter for message
-     * @return message
+     * Getter for message.
+     * @return message.
      */
     public String getMessage() {
         return message;
     }
 
     /**
-     * Getter for textRange
-     * @return textRange
+     * Getter for textRange.
+     * @return textRange.
      */
     public TextRange getTextRange() {
         return textRange;
     }
 
     /**
-     * String representation
-     * @return Object as a String
+     * String representation.
+     * @return Object as a String.
      */
     @Override
     public String toString() {
@@ -78,9 +78,9 @@ public class DafnyResponse implements Comparable<DafnyResponse> {
     }
 
     /**
-     * Compares this to another DafnyResponse Object
-     * @param dafnyResponse the other DafnyResponse Object
-     * @return value > 0 if this is "bigger", value = 0 if equals, welse value < 0
+     * Compares this to another DafnyResponse Object.
+     * @param dafnyResponse the other DafnyResponse Object.
+     * @return value > 0 if this is "bigger", value = 0 if equals, welse value < 0.
      */
     @Override
     public int compareTo(@NotNull DafnyResponse dafnyResponse) {

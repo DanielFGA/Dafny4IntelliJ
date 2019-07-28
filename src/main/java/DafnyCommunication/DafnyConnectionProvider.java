@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Provides components for the communication with the Dafny Server
- * Comments translated and Code-Adaptation by Daniel Figia
+ * Comments translated and code adaptation by Daniel Figia
  * @author Jannik Kühnemundt
  *
  */

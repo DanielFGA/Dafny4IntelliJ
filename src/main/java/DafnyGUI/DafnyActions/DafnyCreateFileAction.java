@@ -6,12 +6,12 @@ import com.intellij.ide.actions.CreateFileAction;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Action for creating a new fil.
+ * Action for creating a new file.
  */
 public class DafnyCreateFileAction extends CreateFileAction {
 
     /**
-     * Constructor
+     * Constructor.
      */
     public DafnyCreateFileAction() {
         super(DafnyPluginStrings.DAFNY, "", DafnyIcon.FILE);
@@ -19,7 +19,6 @@ public class DafnyCreateFileAction extends CreateFileAction {
 
     /**
      * Get the default extension.
-     *
      * @return the default extension.
      */
     @Nullable

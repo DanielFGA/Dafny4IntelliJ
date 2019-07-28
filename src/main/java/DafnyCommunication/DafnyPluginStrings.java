@@ -2,6 +2,9 @@ package DafnyCommunication;
 
 import java.io.File;
 
+/**
+ * Represent all Strings.
+ */
 public class DafnyPluginStrings {
 
     public static final String DAFNY_EXE = File.separator + "Dafny.exe";

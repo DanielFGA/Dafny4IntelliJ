@@ -15,6 +15,9 @@ import static DafnyCommunication.DafnyPluginStrings.DAFNY_CONFIGURATION_XML;
         storages = @Storage(DAFNY_CONFIGURATION_XML)
 )
 
+/**
+ * Saves the configuration data as a persistent state.
+ */
 public class DafnyStateService implements PersistentStateComponent<DafnyStateService> {
 
     /**

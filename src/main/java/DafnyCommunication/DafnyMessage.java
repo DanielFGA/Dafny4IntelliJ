@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 /**
  * Represents a message to the DafnyServer
- * Translated by Daniel Figia
+ * Comments translated by Daniel Figia
  * @author Jannik Kühnemundt
  *
  */
