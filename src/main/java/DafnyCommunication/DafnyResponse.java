@@ -80,7 +80,7 @@ public class DafnyResponse implements Comparable<DafnyResponse> {
     /**
      * Compares this to another DafnyResponse Object.
      * @param dafnyResponse the other DafnyResponse Object.
-     * @return value > 0 if this is "bigger", value = 0 if equals, welse value < 0.
+     * @return a value > 0 if this is "bigger", value = 0 if equals, else a value < 0.
      */
     @Override
     public int compareTo(@NotNull DafnyResponse dafnyResponse) {

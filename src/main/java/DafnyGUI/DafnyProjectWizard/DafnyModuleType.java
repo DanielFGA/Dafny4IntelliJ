@@ -27,7 +27,7 @@ public class DafnyModuleType extends ModuleType<DafnyModuleBuilder> {
     /**
      * Creates the module builder for Dafny.
      *
-     * @return
+     * @return A new DafnyModuleBuilder.
      */
     @NotNull
     @Override

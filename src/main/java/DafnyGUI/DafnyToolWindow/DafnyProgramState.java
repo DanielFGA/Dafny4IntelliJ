@@ -21,7 +21,7 @@ public class DafnyProgramState {
     private boolean verified;
 
     /**
-     * Constuctor
+     * Constructor.
      * @param file the file for the Dafny program
      */
     public DafnyProgramState(String file) {

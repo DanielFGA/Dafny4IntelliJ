@@ -19,7 +19,7 @@ public class DafnyTokenType extends IElementType {
     /**
      * String representation of the Dafny token.
      *
-     * @return
+     * @return DafnyTokenType as a string.
      */
     @Override
     public String toString() {

@@ -25,7 +25,7 @@ public class DafnyToolWindow {
     /**
      * Visual UI for the tool window.
      */
-    private DafnyToolWindowView dafnyToolWindowView = new DafnyToolWindowView();
+    private DafnyToolWindowView dafnyToolWindowView;
 
     /**
      * Handles the actions of file opened, file changed and file closed.
@@ -53,6 +53,8 @@ public class DafnyToolWindow {
      */
     public DafnyToolWindow(Project project) {
         this.project = project;
+
+        dafnyToolWindowView = new DafnyToolWindowView();
 
         dafny = project.getComponent(Dafny.class);
         dafny.setToolWindow(this);
@@ -159,8 +161,8 @@ public class DafnyToolWindow {
                 return;
             }
 
-            /**
-             * The compiling and output run on a seperate thread to avoid UI freezes.
+            /*
+              The compiling and output run on a seperate thread to avoid UI freezes.
              */
             ApplicationManager.getApplication().executeOnPooledThread(() -> {
                 try {

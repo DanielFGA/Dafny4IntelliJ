@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This class parses a answer from the DafnyServer into a List of DafnyRespones.
+ * This class parses a answer from the DafnyServer into a List of DafnyResponses.
  * Comments translated and code adaptation by Daniel Figia
  * @author Jannik Kühnemundt
  */
@@ -41,10 +41,10 @@ public class DafnyParser {
 		parseObligations(response);
 		//Message if the verification run through
 		if (response.contains(DafnyPluginStrings.VERIFIED_MESSAGE)) {
-			HighlightSeverity verfiedSeverity = new HighlightSeverity("INFORMATION", 1);
+			HighlightSeverity verifiedSeverity = new HighlightSeverity("INFORMATION", 1);
 			String message = DafnyPluginStrings.VERIFIED_MESSAGE;
 			TextRange textRange = new TextRange(0,0);
-			dafnyResponseList.add(new DafnyResponse(verfiedSeverity, message, textRange, 0));
+			dafnyResponseList.add(new DafnyResponse(verifiedSeverity, message, textRange, 0));
 		} else {
 			HighlightSeverity highlightSeverity = HighlightSeverity.ERROR;
 			String message = DafnyPluginStrings.VERIFIED_MESSAGE;
@@ -107,10 +107,10 @@ public class DafnyParser {
 	 * If end is false: Finds out at which position the first non-space char is located in the specified sourcecode in the specified  line is.
 	 * If end is true: Finds out at which position in the specified sourcecode the specified line ends.
 	 * @param line The specified line
-	 * @param sorucecode The specified sourcecode
+	 * @param sourcecode The specified sourcecode
 	 * @return The position.
 	 */
-	private TextRange lineToTextRange(int line, String sorucecode) {
+	private TextRange lineToTextRange(int line, String sourcecode) {
 
 		if (line < 1) return new TextRange(0,0);
 
@@ -120,7 +120,7 @@ public class DafnyParser {
 		int start = -1;
 		int end = -1;
 
-		for (Character c : sorucecode.toCharArray()) {
+		for (Character c : sourcecode.toCharArray()) {
 			if (currentLine == line) {
 				if (!c.equals(' ') && start == -1) start = currentCharIndex;
 				if (c.equals('\n') && end == -1) end = currentCharIndex;
@@ -130,7 +130,7 @@ public class DafnyParser {
 		}
 
 		return (start == -1 || end == -1) ?
-				new TextRange(sorucecode.length()-1, sorucecode.length()-1) :
+				new TextRange(sourcecode.length() - 1, sourcecode.length() - 1) :
 				new TextRange(start, end);
 	}
 }

@@ -146,7 +146,6 @@ public class Dafny {
      * @param filepath the path where the original Dafny file lays.
      * @param sourcecode the sourcecode for the new Dafny file.
      * @return the BufferReader, which is connected to the executable dafny file.
-     * @throws IOException
      */
     public BufferedReader run(String filepath, String sourcecode) throws IOException, InterruptedException {
 

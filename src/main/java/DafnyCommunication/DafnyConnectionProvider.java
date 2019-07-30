@@ -93,7 +93,7 @@ public class DafnyConnectionProvider {
 
 	/**
 	 * Checks if the process is alive.
-	 * @return
+	 * @return true if process is not null and alive.
 	 */
 	public boolean isConnected() {
 		return dafnyProcess != null && dafnyProcess.isAlive();

@@ -7,7 +7,7 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import org.jetbrains.annotations.NotNull;
 
-import static DafnyCommunication.DafnyPluginStrings.*;
+import static DafnyCommunication.DafnyPluginStrings.DAFNY_TOOL_WINDOW;
 import static DafnyLanguage.DafnyIcon.FILE;
 
 /**
@@ -18,7 +18,7 @@ public class DafnyToolWindowFactory implements ToolWindowFactory {
     /**
      * Creates the DafnyToolWindow.
      * @param project current project
-     * @param toolWindow new toolwindow
+     * @param toolWindow new tool window
      */
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {

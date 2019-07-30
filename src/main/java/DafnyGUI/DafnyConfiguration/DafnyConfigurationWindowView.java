@@ -68,7 +68,7 @@ public class DafnyConfigurationWindowView {
     public DafnyConfigurationWindowView(DafnyConfigurationModel dafnyConfigurationModel) {
         this.dafnyConfigurationModel = dafnyConfigurationModel;
 
-        //If os is Windows, the monospecific elements are removed.
+        //If os is Windows, the mono specific elements are removed.
         if (dafnyConfigurationModel.isWindows()) {
             pathPane.remove(monoLabel);
             pathPane.remove(monoPathTextField);
@@ -152,7 +152,7 @@ public class DafnyConfigurationWindowView {
 
     /**
      * Getter for the Dafny path text field.
-     * @return the Dafyn poth text field.
+     * @return the Dafny path text field.
      */
     public JTextField getPathTextField() {
         return pathTextField;

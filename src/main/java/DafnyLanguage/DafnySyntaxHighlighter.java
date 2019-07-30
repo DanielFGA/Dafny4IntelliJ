@@ -202,7 +202,6 @@ public class DafnySyntaxHighlighter extends SyntaxHighlighterBase {
         DAFNY_KEY_SET.add(DafnyTypeImpl.MATCH);
         DAFNY_KEY_SET.add(DafnyTypeImpl.PRINT);
         DAFNY_KEY_SET.add(DafnyTypeImpl.OPENED);
-        DAFNY_KEY_SET.add(DafnyTypeImpl.GHOST);
         DAFNY_KEY_SET.add(DafnyTypeImpl.YIELD);
         DAFNY_KEY_SET.add(DafnyTypeImpl.WHERE);
         DAFNY_KEY_SET.add(DafnyTypeImpl.RETURN);

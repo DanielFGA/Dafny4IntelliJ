@@ -21,7 +21,7 @@ public class DafnyMessage {
 	
 	/**
 	 * Constructor
-	 * @param source Sourecode from a dafny prorgram or a path to a dafny program sourcecode file
+     * @param source sourcecode from a dafny prorgram or a path to a dafny program sourcecode file
 	 * @param sourceisfile A boolean, that indicate, if the source is just sourcecode or a path to a dafny program sourcecode file
 	 * @param filename The name of the file
 	 */

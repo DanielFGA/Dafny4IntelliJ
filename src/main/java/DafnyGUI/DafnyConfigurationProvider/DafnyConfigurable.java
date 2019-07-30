@@ -40,11 +40,11 @@ public class DafnyConfigurable implements Configurable  {
 
     /**
      * Checks if the settings have been changed.
-     * @return always true, because the user could click on "Apply" everytime, even there are no modifications.
+     * @return always true, because the user could click on "Apply" at any time, even there are no modifications.
      */
     @Override
     public boolean isModified() {
-        //It is always true, so the user could click on "Apply" everytime, even there are no modifications.
+        //It is always true, so the user could click on "Apply" at any time, even there are no modifications.
         return true;
     }
 

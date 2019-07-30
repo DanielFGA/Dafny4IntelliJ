@@ -122,7 +122,7 @@ public class DafnyConfigurationController {
 
     /**
      * Opens a File Chooser (DIRECTORIES_ONLY).
-     * @return the path of the choosen directory.
+     * @return the path of the selected directory.
      */
     private String selectDirectory(boolean mono) {
         JFileChooser chooser = new JFileChooser();

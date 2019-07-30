@@ -68,7 +68,7 @@
             </constraints>
             <properties>
               <foreground color="-65530"/>
-              <text value="Not Verified"/>
+              <text resource-bundle="GUI" key="NOT_VERIFY"/>
             </properties>
           </component>
           <hspacer id="2fce9">

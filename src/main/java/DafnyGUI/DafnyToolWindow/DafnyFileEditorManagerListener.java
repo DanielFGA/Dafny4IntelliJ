@@ -37,7 +37,7 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
 
     /**
      * If a new file is opened, then check if file is a Dafny file.
-     * If file is a Dafny file, add it to the DafnyProgrmmStates.
+     * If file is a Dafny file, add it to the DafnyProgramStates.
      * Otherwise update the DafnyToolWindow.
      */
     @Override
@@ -62,9 +62,7 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
     public void fileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) {
         if (file.getPath().endsWith(DAFNY_FILE)) {
             DafnyProgramState newState = new DafnyProgramState(file.getPath());
-            if (states.contains(newState)) {
-                states.remove(newState);
-            }
+            states.remove(newState);
             if (source.getSelectedEditor() == null || !source.getSelectedEditor().getFile().getPath().endsWith(".dfy")) {
                 dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
                 dafnyToolWindowView.setVerificationState(false);
@@ -103,12 +101,12 @@ public class DafnyFileEditorManagerListener implements FileEditorManagerListener
      * Updates a state.
      * @param filename the filename.
      * @param output the new output.
-     * @param verfied the new verified state.
+     * @param verified the new verified state.
      */
-    public void updateState(String filename, String output, boolean verfied) {
+    public void updateState(String filename, String output, boolean verified) {
         DafnyProgramState updState = new DafnyProgramState(filename);
         updState.setLastOutput(output);
-        updState.setVerified(verfied);
+        updState.setVerified(verified);
         if (states.contains(updState)) {
             states.remove(updState);
             states.add(updState);
