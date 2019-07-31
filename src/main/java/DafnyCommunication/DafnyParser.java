@@ -130,7 +130,7 @@ public class DafnyParser {
 		}
 
 		return (start == -1 || end == -1) ?
-				new TextRange(sourcecode.length() - 1, sourcecode.length() - 1) :
+				new TextRange(sourcecode.length(), sourcecode.length()) :
 				new TextRange(start, end);
 	}
 }

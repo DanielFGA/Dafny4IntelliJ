@@ -101,11 +101,10 @@ public class Dafny {
      * @return a list with every parsed response from the Dafny Server.
      */
     public List<DafnyResponse> getResponseList(String sourcecode, String filename) {
-
         List<DafnyResponse> dafnyResponses;
 
         //Update the DafnyToolWindow
-        dafnyToolWindow.updateVerificationStart(filename);
+        if (dafnyToolWindow != null) dafnyToolWindow.updateVerificationStart(filename);
 
         if (!isConnected()) {
             return new ArrayList<>();
@@ -134,7 +133,7 @@ public class Dafny {
             fileToDafnyResponse.put(filename, dafnyResponses);
         }
 
-        dafnyToolWindow.updateVerificationEnd(filename);
+        if (dafnyToolWindow != null) dafnyToolWindow.updateVerificationEnd(filename);
 
         return dafnyResponses;
     }

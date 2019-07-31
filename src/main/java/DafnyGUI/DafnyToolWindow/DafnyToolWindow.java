@@ -76,6 +76,13 @@ public class DafnyToolWindow {
         if (!dafnyFileSelected()) {
             dafnyToolWindowView.writeOutput(NO_SELECTED_FILE);
         }
+
+        try {
+            dafny.reset(project);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
