@@ -14,32 +14,29 @@ import java.util.List;
 /**
  * The annotator for the error highlighting.
  */
-public class DafnyExternalAnnotator extends ExternalAnnotator<String[], List<DafnyResponse>> {
+public class DafnyExternalAnnotator extends ExternalAnnotator<DafnyVerificationInfo, List<DafnyResponse>> {
 
     /**
-     * The annotator need the instance of dafny for the verification.
-     */
-    private Dafny dafny;
-
-    /**
-     * Collects infos about the file for the verification. The sourcecode and the path to the file are needed.
-     * @return the sourcecode and the path to the file as a string.
+     * Collects infos about the file for the verification. The Dafny instance, the sourcecode and the path to the file are needed.
+     * @return the Dafny instance, the sourcecode and the path to the file as a DafnyVerificationInfo-object.
      */
     @Override
-    public String[] collectInformation(@NotNull PsiFile file, @NotNull Editor editor, boolean hasErrors) {
-        dafny = file.getProject().getComponent(Dafny.class);
-        return new String[]{editor.getDocument().getText(), file.getVirtualFile().getPath()};
+    public DafnyVerificationInfo collectInformation(@NotNull PsiFile file, @NotNull Editor editor, boolean hasErrors) {
+        String filename = file.getVirtualFile().getPath();
+        String sourcecode = editor.getDocument().getText();
+        Dafny dafny = file.getProject().getComponent(Dafny.class);
+        return new DafnyVerificationInfo(filename, sourcecode, dafny);
     }
 
     /**
      * Request a verification with Dafny.
-     * @param collectedInfo - the sourcecode and the path to the file as a string.
+     * @param collectedInfo - the Dafny instance, the sourcecode and the path to the file as a DafnyVerificationInfo-object.
      * @return the responses from Dafny as a list.
      */
     @Nullable
     @Override
-    public List<DafnyResponse> doAnnotate(String[] collectedInfo) {
-        return dafny.getResponseList(collectedInfo[0], collectedInfo[1]);
+    public List<DafnyResponse> doAnnotate(DafnyVerificationInfo collectedInfo) {
+        return collectedInfo.getDafny().getResponseList(collectedInfo.getSourcecode(), collectedInfo.getFile());
     }
 
     /**
